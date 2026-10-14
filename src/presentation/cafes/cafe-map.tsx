@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Map as LeafletMap, Marker } from "leaflet";
 import type { CafeSummary } from "@/application/cafes/list-cafes";
+import { getBuildingDetails, groupCafesByBuilding } from "./building-groups";
 
 const labels = { concept: "コンカフェ", maid: "メイドカフェ", unknown: "種別未確認" };
 type Area = CafeSummary["area"];
@@ -43,6 +44,15 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);
+  const [query, setQuery] = useState("");
+  const listedCafes = cafes.filter((cafe) => `${cafe.name} ${cafe.address}`.normalize("NFKC").toLowerCase().includes(query.normalize("NFKC").trim().toLowerCase()));
+  const buildingGroups = groupCafesByBuilding(listedCafes);
+  const [buildingKey, setBuildingKey] = useState<string | null>(null);
+  const activeBuilding = buildingGroups.find((building) => building.key === buildingKey) ?? buildingGroups[0];
+  const activeBuildingIndex = activeBuilding ? buildingGroups.indexOf(activeBuilding) : 0;
+  const floors = activeBuilding ? [...new Set(activeBuilding.stores.map((store) => store.floor))].map((floor) => ({
+    name: floor || "階数未確認", stores: activeBuilding.stores.filter((store) => store.floor === floor),
+  })) : [];
   const selected = cafes.find((cafe) => cafe.id === selectedId);
 
   useEffect(() => {
@@ -104,12 +114,12 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
             const heading = document.createElement("button");
             heading.className = "popup-cafe-button";
             heading.textContent = item.name;
-            heading.onclick = () => setSelectedId(item.id);
+            heading.onclick = () => { setSelectedId(item.id); setBuildingKey(getBuildingDetails(item.address).key); };
             const details = document.createElement("p");
             details.textContent = `${labels[item.category]} · ${item.address}`;
             popup.append(heading, details);
           }
-          marker.bindPopup(popup).on("click", () => setSelectedId(cafe.id)).addTo(instance);
+          marker.bindPopup(popup).on("click", () => { setSelectedId(cafe.id); setBuildingKey(getBuildingDetails(cafe.address).key); }).addTo(instance);
           for (const item of group) markerStore.set(item.id, marker);
         }
         }
@@ -137,6 +147,15 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
     markers.current.get(cafe.id)?.openPopup();
   }
 
+  function selectBuilding(building: (typeof buildingGroups)[number]) {
+    setBuildingKey(building.key);
+    setSelectedId(null);
+    mapRef.current?.closePopup();
+    if (building.key === "unknown") return;
+    const location = building.stores.find(({ cafe }) => cafe.location)?.cafe.location;
+    if (location) mapRef.current?.setView([location.latitude, location.longitude], 17, { animate: false });
+  }
+
   return (
     <div className="explorer">
       <div className="map-panel">
@@ -151,28 +170,53 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
         </div>
         <div className="legend" aria-label="ピンの凡例"><span><b className="legend-dot concept">C</b> コンカフェ</span><span><b className="legend-dot maid">M</b> メイドカフェ</span><span><b className="legend-dot shared">数</b> 近くにある候補数</span></div>
       </div>
-      <aside className="cafe-sidebar" aria-label="店舗一覧">
-        <div className="sidebar-heading"><h2>気になるお店を探す</h2><span>{cafes.length}件</span></div>
-        <p className="muted">ピンや店舗名を選ぶと詳細を確認できます。</p>
-        <p className="muted">最新バッチの取得候補です。営業未確認の情報を含みます。閉店・休業・移転と判定した候補は除外しています。</p>
-        {cafes.some((cafe) => cafe.fetchedAt) && <p className="muted">取得日時：{new Date(cafes.map((cafe) => cafe.fetchedAt ?? "").sort().at(-1)!).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })}</p>}
-        {cafes.length === 0 && <p>店舗情報は準備中です。</p>}
-        <ul className="cafe-cards">{cafes.map((cafe) => <li key={cafe.id}>
-          <button className={`cafe-card ${selectedId === cafe.id ? "selected" : ""}`} aria-pressed={selectedId === cafe.id} onClick={() => selectCafe(cafe)}>
-            <span className={`category ${cafe.category}`}>{labels[cafe.category]}</span>
-            <strong>{cafe.name}</strong><span>{cafe.address}</span>
-            <span className="status-badge">{cafe.businessStatus === "operating" ? "営業情報あり" : "営業未確認"}</span>
-            <span className="card-action">{cafe.location ? "地図で見る ↗" : "店舗情報を見る（座標未取得）"}</span>
-          </button>
-        </li>)}</ul>
         {selected && <section className="selected-cafe" aria-label="選択した店舗" aria-live="polite">
-          <h3>{selected.name}</h3><p>{labels[selected.category]}</p><p>{selected.address}</p>
-          <a href={selected.sourceUrl} target="_blank" rel="noreferrer">情報元で確認 ↗</a>
-          <p className="muted">{selected.businessStatus === "operating" ? "営業情報あり" : "営業状態は未確認です。来店前に店舗へご確認ください。"}</p>
-          <p className="muted">取得日時：{selected.fetchedAt ? new Date(selected.fetchedAt).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }) : selected.verifiedOn}</p>
-          <p className="muted">位置の確認元：{selected.coordinateSource}</p>
+          <button className="detail-close" aria-label="店舗詳細を閉じる" onClick={() => { setSelectedId(null); mapRef.current?.closePopup(); }}>×</button>
+          <span className={`category ${selected.category}`}>{labels[selected.category]}</span>
+          <h3>{selected.name}</h3><p className="detail-address">{selected.address}</p>
+          <a className="source-link" href={selected.sourceUrl} target="_blank" rel="noreferrer">情報元で確認 ↗</a>
+          <p className="detail-status">{selected.businessStatus === "operating" ? "営業情報あり" : "営業状態は未確認です。来店前に店舗へご確認ください。"}</p>
+          <details className="detail-metadata"><summary>情報の取得・位置について</summary>
+            <p>取得日時：{selected.fetchedAt ? new Date(selected.fetchedAt).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }) : selected.verifiedOn}</p>
+            <p>位置の確認元：{selected.coordinateSource}</p>
+          </details>
         </section>}
-      </aside>
+      <section className="cafe-sidebar" aria-label="店舗一覧">
+        <div className="sidebar-heading"><h2>ビルからお店を探す</h2><span>{listedCafes.length}件</span></div>
+        <label className="search-field"><span aria-hidden="true">⌕</span><input type="search" aria-label="店舗名・住所で検索" placeholder="店舗名・住所で検索" value={query} onChange={(event) => setQuery(event.target.value)} /></label>
+        <p className="list-hint">お店を選ぶと、詳しい情報が表示されます。</p>
+        {buildingGroups.length > 0 && <div className="building-tabs" role="tablist" aria-label="ビルを選択">
+          {buildingGroups.map((building, index) => <button key={building.key} role="tab"
+            id={`building-tab-${area}-${index}`} aria-controls={`building-panel-${area}`}
+            aria-selected={activeBuilding?.key === building.key} tabIndex={activeBuilding?.key === building.key ? 0 : -1}
+            onClick={() => selectBuilding(building)}
+            onKeyDown={(event) => {
+              if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+              event.preventDefault();
+              const next = event.key === "Home" ? 0 : event.key === "End" ? buildingGroups.length - 1 : (index + (event.key === "ArrowRight" ? 1 : -1) + buildingGroups.length) % buildingGroups.length;
+              selectBuilding(buildingGroups[next]);
+              document.getElementById(`building-tab-${area}-${next}`)?.focus();
+            }}
+          >{building.name}<span>{building.stores.length}</span></button>)}
+        </div>}
+        {activeBuilding && <section className="building-panel" role="tabpanel" id={`building-panel-${area}`} aria-labelledby={`building-tab-${area}-${activeBuildingIndex}`}>
+          <header className="building-heading"><div><h3>{activeBuilding.name}</h3>{activeBuilding.street && <p>{activeBuilding.street}</p>}</div><span>{activeBuilding.stores.length}件</span></header>
+          <div className="floor-grid">{floors.map((floor) => <section className="floor-group" key={floor.name} aria-label={floor.name}>
+          <h4 className="floor-heading">{floor.name}<span>{floor.stores.length}件</span></h4>
+          <ul className="cafe-cards">{floor.stores.map(({ cafe }) => <li key={cafe.id}>
+          <button className={`cafe-card ${selectedId === cafe.id ? "selected" : ""}`} aria-pressed={selectedId === cafe.id} onClick={() => selectCafe(cafe)}>
+            <span className={`row-icon ${cafe.category}`} aria-hidden="true">{cafe.category === "maid" ? "M" : cafe.category === "concept" ? "C" : "•"}</span>
+            <span className="row-content"><strong>{cafe.name}</strong>{activeBuilding.key === "unknown" && <span>{cafe.address.replace(/^北海道(?:北海道)?札幌市中央区|^札幌市中央区/, "")}</span>}
+              <span className="row-meta">{cafe.category !== "unknown" && `${labels[cafe.category]} · `}{cafe.location ? "地図で確認" : "位置未確認"}</span></span>
+            <span className="row-arrow" aria-hidden="true">›</span>
+          </button>
+        </li>)}</ul></section>)}</div></section>}
+        {listedCafes.length === 0 && <p className="empty-list">{cafes.length ? "一致するお店が見つかりませんでした。" : "店舗情報は準備中です。"}</p>}
+        <details className="data-note"><summary>掲載情報について</summary>
+          <p>営業未確認の候補を含みます。閉店・休業・移転と判定した候補は除外しています。全店舗を網羅するものではありません。</p>
+          {cafes.some((cafe) => cafe.fetchedAt) && <p>取得日時：{new Date(cafes.map((cafe) => cafe.fetchedAt ?? "").sort().at(-1)!).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })}</p>}
+        </details>
+      </section>
     </div>
   );
 }
