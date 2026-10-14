@@ -1,0 +1,3766 @@
+[
+  {
+    "id": "062ec9d6f6222d44",
+    "name": "あおはるでいず",
+    "address": "北海道北海道札幌市中央区南5条西2丁目1-5 中銀すすきのソシアルビル 2F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": {
+      "latitude": 43.05447239999999,
+      "longitude": 141.3564697
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop24767/",
+        "fetchedAt": "2026-10-14T22:14:45.267Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "あおはるでいず",
+        "address": "北海道北海道札幌市中央区南5条西2丁目1-5 中銀すすきのソシアルビル 2F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": {
+          "latitude": 43.05447239999999,
+          "longitude": 141.3564697
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop24767/",
+          "fetchedAt": "2026-10-14T22:14:45.267Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://aoharudays.jp/",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/aoharu_days_sapporo/",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://aoharudays.jp/",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/aoharu_days_sapporo/",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "0986e221fdae57ba",
+    "name": "メイドinしゃんぐりら",
+    "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 6F",
+    "area": "susukino",
+    "category": "maid",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/940/",
+        "fetchedAt": "2026-10-14T22:14:59.969Z",
+        "updatedAt": "2026-10-06T16:08:29+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "メイドinしゃんぐりら",
+        "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 6F",
+        "area": "susukino",
+        "category": "maid",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/940/",
+          "fetchedAt": "2026-10-14T22:14:59.969Z",
+          "updatedAt": "2026-10-06T16:08:29+09:00"
+        },
+        "links": [
+          {
+            "url": "https://maidcafe.monster/",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/maid_in_shangrila/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/madeinshangrila",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://maidcafe.monster/",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/maid_in_shangrila/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/madeinshangrila",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "0bc321316fac3d9e",
+    "name": "花宵-HANAYOI-",
+    "address": "北海道札幌市中央区南4条西3ー1-1 第3グリーンビル 7F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/13068/",
+        "fetchedAt": "2026-10-14T22:15:27.262Z",
+        "updatedAt": "2026-08-27T16:24:56+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "花宵-HANAYOI-",
+        "address": "北海道札幌市中央区南4条西3ー1-1 第3グリーンビル 7F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/13068/",
+          "fetchedAt": "2026-10-14T22:15:27.262Z",
+          "updatedAt": "2026-08-27T16:24:56+09:00"
+        },
+        "links": [
+          {
+            "url": "https://hanayoi.jp/",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/hanayoi_8741/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/HANAYOI_8741/",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@hana_yoi",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hanayoi.jp/",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/hanayoi_8741/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/HANAYOI_8741/",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@hana_yoi",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "0bef4d176808469e",
+    "name": "ボカロアニソンバーメルト",
+    "address": "北海道札幌市中央区南5条西3丁目3番地 中銀三番館ビル3F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": {
+      "latitude": 43.05410916871482,
+      "longitude": 141.3544176263766
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop19390/",
+        "fetchedAt": "2026-10-14T22:14:36.302Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "ボカロアニソンバーメルト",
+        "address": "北海道札幌市中央区南5条西3丁目3番地 中銀三番館ビル3F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": {
+          "latitude": 43.05410916871482,
+          "longitude": 141.3544176263766
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop19390/",
+          "fetchedAt": "2026-10-14T22:14:36.302Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://twitter.com/vocaloidbarmelt",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://twitter.com/vocaloidbarmelt",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "0d66115a1240333b",
+    "name": "トゥインクル・ノワール",
+    "address": "北海道札幌市中央区南4条西3 No3グリーンビル 4F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/14375/",
+        "fetchedAt": "2026-10-14T22:15:20.161Z",
+        "updatedAt": "2026-08-27T13:33:17+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "トゥインクル・ノワール",
+        "address": "北海道札幌市中央区南4条西3 No3グリーンビル 4F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/14375/",
+          "fetchedAt": "2026-10-14T22:15:20.161Z",
+          "updatedAt": "2026-08-27T13:33:17+09:00"
+        },
+        "links": [
+          {
+            "url": "https://lit.link/twinklenoir",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/twinkle.noir/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/Twinkle_Noir",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@twinkle_noir",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://lit.link/twinklenoir",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/twinkle.noir/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/Twinkle_Noir",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@twinkle_noir",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "11b22877a41dcd50",
+    "name": "charmyMoon(ちゃむ)すすきの店",
+    "address": "北海道札幌市中央区南6条西3-1 ニューオリンピアビル B1F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/21846/",
+        "fetchedAt": "2026-10-14T22:15:35.806Z",
+        "updatedAt": "2026-09-07T18:36:34+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "charmyMoon(ちゃむ)すすきの店",
+        "address": "北海道札幌市中央区南6条西3-1 ニューオリンピアビル B1F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/21846/",
+          "fetchedAt": "2026-10-14T22:15:35.806Z",
+          "updatedAt": "2026-09-07T18:36:34+09:00"
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/charmymoon.susukino/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/charmymoonsskn",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@cham_susukino",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/charmymoon.susukino/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/charmymoonsskn",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@cham_susukino",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "15cfdc060171f257",
+    "name": "ろまんてぃあ",
+    "address": "北海道札幌市中央区南4条西3-3 第2グリーンビル 7F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/9793/",
+        "fetchedAt": "2026-10-14T22:15:16.086Z",
+        "updatedAt": "2026-08-27T13:35:44+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "ろまんてぃあ",
+        "address": "北海道札幌市中央区南4条西3-3 第2グリーンビル 7F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/9793/",
+          "fetchedAt": "2026-10-14T22:15:16.086Z",
+          "updatedAt": "2026-08-27T13:35:44+09:00"
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/romantiacafe/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/romantiacafe",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/romantiacafe/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/romantiacafe",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "18efcd5dc0bdab30",
+    "name": "華月",
+    "address": "北海道札幌市中央区南4条西3丁目1番地1 第3グリーンビル5F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": {
+      "latitude": 43.0554178,
+      "longitude": 141.3544573
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop23485/",
+        "fetchedAt": "2026-10-14T22:14:31.264Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "華月",
+        "address": "北海道札幌市中央区南4条西3丁目1番地1 第3グリーンビル5F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": {
+          "latitude": 43.0554178,
+          "longitude": 141.3544573
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop23485/",
+          "fetchedAt": "2026-10-14T22:14:31.264Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://kagetsu-wasoubar.jimdofree.com/",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/kagetsu_1017",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://kagetsu-wasoubar.jimdofree.com/",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/kagetsu_1017",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "1dcfe4ac21fbdfb0",
+    "name": "Ado♡Lé(アドラブル)",
+    "address": "北海道札幌市中央区南5条西5-8-1 TMビル 5F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/20862/",
+        "fetchedAt": "2026-10-14T22:15:34.889Z",
+        "updatedAt": "2026-09-29T11:15:49+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "Ado♡Lé(アドラブル)",
+        "address": "北海道札幌市中央区南5条西5-8-1 TMビル 5F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/20862/",
+          "fetchedAt": "2026-10-14T22:15:34.889Z",
+          "updatedAt": "2026-09-29T11:15:49+09:00"
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/adorable_wanwan/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/adorablewanwan",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@adorable_wanwan",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/adorable_wanwan/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/adorablewanwan",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@adorable_wanwan",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "21362be773cdcab0",
+    "name": "猫耳メイドカフェバーにゃーとぴあ",
+    "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 5F",
+    "area": "susukino",
+    "category": "maid",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/1467/",
+        "fetchedAt": "2026-10-14T22:15:01.221Z",
+        "updatedAt": "2026-10-06T12:44:58+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "猫耳メイドカフェバーにゃーとぴあ",
+        "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 5F",
+        "area": "susukino",
+        "category": "maid",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/1467/",
+          "fetchedAt": "2026-10-14T22:15:01.221Z",
+          "updatedAt": "2026-10-06T12:44:58+09:00"
+        },
+        "links": [
+          {
+            "url": "https://maidbar.info/",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/niyatopia/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/nekomimimaidbar",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@saikawa_susukino",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://maidbar.info/",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/niyatopia/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/nekomimimaidbar",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@saikawa_susukino",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "23d634a44d351b67",
+    "name": "ビビッとくるかも!",
+    "address": "北海道札幌市中央区南5条西6丁目9番地3 ニュー桂和ビル8F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": {
+      "latitude": 43.0541808,
+      "longitude": 141.3501759
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop18785/",
+        "fetchedAt": "2026-10-14T22:14:37.278Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "ビビッとくるかも!",
+        "address": "北海道札幌市中央区南5条西6丁目9番地3 ニュー桂和ビル8F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": {
+          "latitude": 43.0541808,
+          "longitude": 141.3501759
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop18785/",
+          "fetchedAt": "2026-10-14T22:14:37.278Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://twitter.com/vivitkrkm",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://twitter.com/vivitkrkm",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "25818d5b6422ceec",
+    "name": "アニソンバーX",
+    "address": "北海道札幌市中央区南6条西4-5-33 G4ビル 3F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/10467/",
+        "fetchedAt": "2026-10-14T22:15:17.074Z",
+        "updatedAt": "2026-06-29T19:36:03+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "アニソンバーX",
+        "address": "北海道札幌市中央区南6条西4-5-33 G4ビル 3F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/10467/",
+          "fetchedAt": "2026-10-14T22:15:17.074Z",
+          "updatedAt": "2026-06-29T19:36:03+09:00"
+        },
+        "links": [
+          {
+            "url": "https://anisonbar-x.com/",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/anisonbarx/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/anisonbarX",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@anisonbarx",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://anisonbar-x.com/",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/anisonbarx/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/anisonbarX",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@anisonbarx",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "266ce85562776b0c",
+    "name": "メイドカフェあみゅーる",
+    "address": "北海道札幌市中央区南5条西2-2 サイバーシティビル 10F",
+    "area": "susukino",
+    "category": "maid",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/5248/",
+        "fetchedAt": "2026-10-14T22:15:10.998Z",
+        "updatedAt": "2026-10-06T11:48:48+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "メイドカフェあみゅーる",
+        "address": "北海道札幌市中央区南5条西2-2 サイバーシティビル 10F",
+        "area": "susukino",
+        "category": "maid",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/5248/",
+          "fetchedAt": "2026-10-14T22:15:10.998Z",
+          "updatedAt": "2026-10-06T11:48:48+09:00"
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/maid_cafe_amyur/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/amyur_sapporo",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@amyur_jacm",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/maid_cafe_amyur/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/amyur_sapporo",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@amyur_jacm",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "2bc1b144251f82f0",
+    "name": "Rosen Nacht",
+    "address": "北海道札幌市中央区南5条西2丁目2-2 サイバーシティビル4F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": {
+      "latitude": 43.054564288511244,
+      "longitude": 141.35595986661593
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop24051/",
+        "fetchedAt": "2026-10-14T22:14:42.286Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "Rosen Nacht",
+        "address": "北海道札幌市中央区南5条西2丁目2-2 サイバーシティビル4F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": {
+          "latitude": 43.054564288511244,
+          "longitude": 141.35595986661593
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop24051/",
+          "fetchedAt": "2026-10-14T22:14:42.286Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://lit.link/Rosen-Nacht",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/rosen.nacht/",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://lit.link/Rosen-Nacht",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/rosen.nacht/",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "2e9b0756a293512b",
+    "name": "Shangri-La 2nd(シャングリラセカンド)",
+    "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 6F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/964/",
+        "fetchedAt": "2026-10-14T22:15:10.141Z",
+        "updatedAt": "2026-10-06T14:18:09+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "Shangri-La 2nd(シャングリラセカンド)",
+        "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 6F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/964/",
+          "fetchedAt": "2026-10-14T22:15:10.141Z",
+          "updatedAt": "2026-10-06T14:18:09+09:00"
+        },
+        "links": [
+          {
+            "url": "https://conceptbar.info/shangri-la/",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/shangri_la_second/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/Shangri_La_2nd",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@2nd2025",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://conceptbar.info/shangri-la/",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/shangri_la_second/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/Shangri_La_2nd",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@2nd2025",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "30b45e7b1ebcb803",
+    "name": "メイドinしゃんぐりら",
+    "address": "北海道札幌市中央区南4条西3丁目1-1 第3グリーンビル6F",
+    "area": "susukino",
+    "category": "maid",
+    "location": {
+      "latitude": 43.055461537262005,
+      "longitude": 141.3544639914049
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop16054/",
+        "fetchedAt": "2026-10-14T22:14:35.425Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "メイドinしゃんぐりら",
+        "address": "北海道札幌市中央区南4条西3丁目1-1 第3グリーンビル6F",
+        "area": "susukino",
+        "category": "maid",
+        "location": {
+          "latitude": 43.055461537262005,
+          "longitude": 141.3544639914049
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop16054/",
+          "fetchedAt": "2026-10-14T22:14:35.425Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://maidcafe.monster/",
+            "kind": "website"
+          },
+          {
+            "url": "https://twitter.com/madeinshangrila",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://maidcafe.monster/",
+        "kind": "website"
+      },
+      {
+        "url": "https://twitter.com/madeinshangrila",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "33d49fb81845538e",
+    "name": "リボンメイドカフェ ロゼリータ",
+    "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 5F",
+    "area": "susukino",
+    "category": "maid",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/1402/",
+        "fetchedAt": "2026-10-14T22:14:55.848Z",
+        "updatedAt": "2026-10-06T11:10:31+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "リボンメイドカフェ ロゼリータ",
+        "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 5F",
+        "area": "susukino",
+        "category": "maid",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/1402/",
+          "fetchedAt": "2026-10-14T22:14:55.848Z",
+          "updatedAt": "2026-10-06T11:10:31+09:00"
+        },
+        "links": [
+          {
+            "url": "https://x.com/ribbon_cafe_",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.instagram.com/rose_2020801/",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@saikawa_susukino",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://x.com/ribbon_cafe_",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.instagram.com/rose_2020801/",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@saikawa_susukino",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "348e7cdf874bff34",
+    "name": "推しが天使な件",
+    "address": "北海道札幌市中央区南5条西6-9-4 第五桂和ビル 4F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/10008/",
+        "fetchedAt": "2026-10-14T22:15:14.076Z",
+        "updatedAt": "2026-08-06T11:14:59+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "推しが天使な件",
+        "address": "北海道札幌市中央区南5条西6-9-4 第五桂和ビル 4F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/10008/",
+          "fetchedAt": "2026-10-14T22:15:14.076Z",
+          "updatedAt": "2026-08-06T11:14:59+09:00"
+        },
+        "links": [
+          {
+            "url": "https://x.com/oshiten_keiwa",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://x.com/oshiten_keiwa",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "34e07c86044e557a",
+    "name": "あにぽり すすきの店",
+    "address": "北海道札幌市中央区南6条西3丁目6-23 USEN.X すすきの2nd 5F(旧 第2桂和ビル)",
+    "area": "susukino",
+    "category": "unknown",
+    "location": {
+      "latitude": 43.05367942538572,
+      "longitude": 141.3550364607462
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop17736/",
+        "fetchedAt": "2026-10-14T22:14:25.223Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "あにぽり すすきの店",
+        "address": "北海道札幌市中央区南6条西3丁目6-23 USEN.X すすきの2nd 5F(旧 第2桂和ビル)",
+        "area": "susukino",
+        "category": "unknown",
+        "location": {
+          "latitude": 43.05367942538572,
+          "longitude": 141.3550364607462
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop17736/",
+          "fetchedAt": "2026-10-14T22:14:25.223Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/anipori.sapporo/",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/anipori.sapporo/",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "372d66ab190f30cd",
+    "name": "1LDK-NecroNurse-",
+    "address": "北海道札幌市中央区南5条西2丁目2 サイバーシティビル4F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": {
+      "latitude": 43.054386,
+      "longitude": 141.3560707
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop21927/",
+        "fetchedAt": "2026-10-14T22:14:32.370Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "1LDK-NecroNurse-",
+        "address": "北海道札幌市中央区南5条西2丁目2 サイバーシティビル4F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": {
+          "latitude": 43.054386,
+          "longitude": 141.3560707
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop21927/",
+          "fetchedAt": "2026-10-14T22:14:32.370Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/1ldk.necronurse/",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/1ldk.necronurse/",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "46c7c8c90d0e4e99",
+    "name": "メイド喫茶ゆいまーる",
+    "address": "北海道札幌市中央区南5条西2-2-2 サイバーシティビル 12F",
+    "area": "susukino",
+    "category": "maid",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/10073/",
+        "fetchedAt": "2026-10-14T22:14:58.896Z",
+        "updatedAt": "2026-08-04T16:25:52+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "メイド喫茶ゆいまーる",
+        "address": "北海道札幌市中央区南5条西2-2-2 サイバーシティビル 12F",
+        "area": "susukino",
+        "category": "maid",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/10073/",
+          "fetchedAt": "2026-10-14T22:14:58.896Z",
+          "updatedAt": "2026-08-04T16:25:52+09:00"
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/yuimar_maid/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/tentyou_yuimar",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/yuimar_maid/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/tentyou_yuimar",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "4db54fd5c86a9f40",
+    "name": "1LDK -Darkness-(イチエルディーケー ダークネス)",
+    "address": "北海道札幌市中央区南5条西2-2 サイバーシティビル 4F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/19667/",
+        "fetchedAt": "2026-10-14T22:15:33.275Z",
+        "updatedAt": "2026-09-25T18:21:43+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "1LDK -Darkness-(イチエルディーケー ダークネス)",
+        "address": "北海道札幌市中央区南5条西2-2 サイバーシティビル 4F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/19667/",
+          "fetchedAt": "2026-10-14T22:15:33.275Z",
+          "updatedAt": "2026-09-25T18:21:43+09:00"
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/1ldk.darkness/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/1ldk_darkness",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@1ldkdarkness",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/1ldk.darkness/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/1ldk_darkness",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@1ldkdarkness",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "4e4d558b4abc2fe5",
+    "name": "あにぽり 札幌店",
+    "address": "北海道札幌市中央区南6条西3-6-24 第2桂和ビル 5F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/8384/",
+        "fetchedAt": "2026-10-14T22:15:18.101Z",
+        "updatedAt": "2026-08-26T19:17:47+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "あにぽり 札幌店",
+        "address": "北海道札幌市中央区南6条西3-6-24 第2桂和ビル 5F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/8384/",
+          "fetchedAt": "2026-10-14T22:15:18.101Z",
+          "updatedAt": "2026-08-26T19:17:47+09:00"
+        },
+        "links": [
+          {
+            "url": "https://lit.link/aniporisusukino",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/anipori.sapporo/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/anipori_sapporo",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://lit.link/aniporisusukino",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/anipori.sapporo/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/anipori_sapporo",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "5476d778c5164e5d",
+    "name": "アニメコンカフェ リルカリーナ",
+    "address": "北海道札幌市中央区南5条西3-8-8 N・グランデビル 5F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/1317/",
+        "fetchedAt": "2026-10-14T22:15:07.012Z",
+        "updatedAt": "2026-10-06T18:09:48+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "アニメコンカフェ リルカリーナ",
+        "address": "北海道札幌市中央区南5条西3-8-8 N・グランデビル 5F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/1317/",
+          "fetchedAt": "2026-10-14T22:15:07.012Z",
+          "updatedAt": "2026-10-06T18:09:48+09:00"
+        },
+        "links": [
+          {
+            "url": "https://conceptbar.info/lircari-na/",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/lircarina",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/lircarina",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@lircarina",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://conceptbar.info/lircari-na/",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/lircarina",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/lircarina",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@lircarina",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "5ac4958c45f5aefa",
+    "name": "チョコっとメイド",
+    "address": "北海道札幌市中央区南5条西2-2 サイバーシティビル 12F",
+    "area": "susukino",
+    "category": "maid",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/2729/",
+        "fetchedAt": "2026-10-14T22:15:05.929Z",
+        "updatedAt": "2026-10-05T18:07:45+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "チョコっとメイド",
+        "address": "北海道札幌市中央区南5条西2-2 サイバーシティビル 12F",
+        "area": "susukino",
+        "category": "maid",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/2729/",
+          "fetchedAt": "2026-10-14T22:15:05.929Z",
+          "updatedAt": "2026-10-05T18:07:45+09:00"
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/chocotomaid/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/chocotomaid",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/chocotomaid/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/chocotomaid",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "62562a743f2628f5",
+    "name": "和装こんせぷとばー 華月",
+    "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 5F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/9765/",
+        "fetchedAt": "2026-10-14T22:15:15.061Z",
+        "updatedAt": "2026-08-27T13:36:31+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "和装こんせぷとばー 華月",
+        "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 5F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/9765/",
+          "fetchedAt": "2026-10-14T22:15:15.061Z",
+          "updatedAt": "2026-08-27T13:36:31+09:00"
+        },
+        "links": [
+          {
+            "url": "https://kagetsu-wasoubar.jimdofree.com/",
+            "kind": "website"
+          },
+          {
+            "url": "https://x.com/kagetsu0911",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://kagetsu-wasoubar.jimdofree.com/",
+        "kind": "website"
+      },
+      {
+        "url": "https://x.com/kagetsu0911",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "67409461d5bd31fc",
+    "name": "チョコっとメイド",
+    "address": "北海道札幌市中央区南五条西2丁目2-2 サイバーシティビル12F",
+    "area": "susukino",
+    "category": "maid",
+    "location": {
+      "latitude": 43.054569605160296,
+      "longitude": 141.35596072162625
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop20024/",
+        "fetchedAt": "2026-10-14T22:14:39.260Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "チョコっとメイド",
+        "address": "北海道札幌市中央区南五条西2丁目2-2 サイバーシティビル12F",
+        "area": "susukino",
+        "category": "maid",
+        "location": {
+          "latitude": 43.054569605160296,
+          "longitude": 141.35596072162625
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop20024/",
+          "fetchedAt": "2026-10-14T22:14:39.260Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/chocotomaid",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/chocotomaid",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "6868c8c4b47ed25d",
+    "name": "Shangri-La 2nd",
+    "address": "北海道札幌市中央区南4条西3丁目1-1第3グリーンビル6F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop16001/",
+        "fetchedAt": "2026-10-14T22:14:47.254Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "Shangri-La 2nd",
+        "address": "北海道札幌市中央区南4条西3丁目1-1第3グリーンビル6F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop16001/",
+          "fetchedAt": "2026-10-14T22:14:47.254Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://conceptbar.info/shangri-la/",
+            "kind": "website"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://conceptbar.info/shangri-la/",
+        "kind": "website"
+      }
+    ]
+  },
+  {
+    "id": "68874666ccabfeb8",
+    "name": "コスプレ酒場 コスミックスランド",
+    "address": "北海道札幌市中央区南5条西4 Nスタービル 6F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/16506/",
+        "fetchedAt": "2026-10-14T22:15:29.317Z",
+        "updatedAt": "2026-08-04T19:30:09+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "コスプレ酒場 コスミックスランド",
+        "address": "北海道札幌市中央区南5条西4 Nスタービル 6F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/16506/",
+          "fetchedAt": "2026-10-14T22:15:29.317Z",
+          "updatedAt": "2026-08-04T19:30:09+09:00"
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/cosmixland_sapporo_official/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/cosmixland/media",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@cosmixland_sapporo",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/cosmixland_sapporo_official/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/cosmixland/media",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@cosmixland_sapporo",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "68d5fda35ff1f158",
+    "name": "キミの彼女になりたい!札幌すすきの店",
+    "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 4F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/15243/",
+        "fetchedAt": "2026-10-14T22:15:26.307Z",
+        "updatedAt": "2026-08-27T13:28:08+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "キミの彼女になりたい!札幌すすきの店",
+        "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 4F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/15243/",
+          "fetchedAt": "2026-10-14T22:15:26.307Z",
+          "updatedAt": "2026-08-27T13:28:08+09:00"
+        },
+        "links": [
+          {
+            "url": "https://kimikano.tokyo/sapporo/",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/kimikano_spr/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/kimikano_spr",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@kimikano_spr",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://kimikano.tokyo/sapporo/",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/kimikano_spr/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/kimikano_spr",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@kimikano_spr",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "6dea71eb0999b583",
+    "name": "Love Rabbits(ラブラビッツ)",
+    "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 4F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/1533/",
+        "fetchedAt": "2026-10-14T22:15:05.002Z",
+        "updatedAt": "2026-10-05T17:01:50+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "Love Rabbits(ラブラビッツ)",
+        "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 4F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/1533/",
+          "fetchedAt": "2026-10-14T22:15:05.002Z",
+          "updatedAt": "2026-10-05T17:01:50+09:00"
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/love_rabbits82",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/loverabbits82",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@loverabbits82",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/love_rabbits82",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/loverabbits82",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@loverabbits82",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "6e70b3610dc97c13",
+    "name": "Roselri-Ta",
+    "address": "北海道札幌市中央区南4条西3丁目1-1第3グリーンビル5F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop16024/",
+        "fetchedAt": "2026-10-14T22:14:50.268Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "Roselri-Ta",
+        "address": "北海道札幌市中央区南4条西3丁目1-1第3グリーンビル5F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop16024/",
+          "fetchedAt": "2026-10-14T22:14:50.268Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://maidbar.info/category/blog_roselita/",
+            "kind": "website"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://maidbar.info/category/blog_roselita/",
+        "kind": "website"
+      }
+    ]
+  },
+  {
+    "id": "774d3c0db057f455",
+    "name": "アニソンバーX",
+    "address": "北海道札幌市中央区南6条西4丁目5 G4ビル 3階",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "official",
+        "url": "https://anisonbar-x.com/",
+        "fetchedAt": "2026-10-14T22:15:52.252Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "アニソンバーX",
+        "address": "北海道札幌市中央区南6条西4丁目5 G4ビル 3階",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "official",
+          "url": "https://anisonbar-x.com/",
+          "fetchedAt": "2026-10-14T22:15:52.252Z",
+          "updatedAt": null
+        },
+        "links": []
+      }
+    ],
+    "links": []
+  },
+  {
+    "id": "7d287a6a7180cfc8",
+    "name": "1LDK -NecroNurse-(イチエルディーケー ネクロナース)",
+    "address": "北海道札幌市中央区南5条西2-2 サイバーシティビル 4F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/19684/",
+        "fetchedAt": "2026-10-14T22:15:02.959Z",
+        "updatedAt": "2026-09-25T18:21:12+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "1LDK -NecroNurse-(イチエルディーケー ネクロナース)",
+        "address": "北海道札幌市中央区南5条西2-2 サイバーシティビル 4F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/19684/",
+          "fetchedAt": "2026-10-14T22:15:02.959Z",
+          "updatedAt": "2026-09-25T18:21:12+09:00"
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/1ldk.necronurse/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/1ldk_NecroNurse",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@1ldk_necronurse",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/1ldk.necronurse/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/1ldk_NecroNurse",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@1ldk_necronurse",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "7efee66a737bf7ac",
+    "name": "Shangri-La Violet",
+    "address": "北海道札幌市中央区南4条西3丁目1番地1 第3グリーンビル7F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": {
+      "latitude": 43.0554178,
+      "longitude": 141.3544573
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop23468/",
+        "fetchedAt": "2026-10-14T22:14:44.276Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "Shangri-La Violet",
+        "address": "北海道札幌市中央区南4条西3丁目1番地1 第3グリーンビル7F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": {
+          "latitude": 43.0554178,
+          "longitude": 141.3544573
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop23468/",
+          "fetchedAt": "2026-10-14T22:14:44.276Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/shangrila_violet",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/shangrila_violet",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "7fdc3a04b7b48976",
+    "name": "Dolly♡Princess(ドーリープリンセス)",
+    "address": "北海道札幌市中央区南5条西5-21-3 第3旭観光ビル 4F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/3740/",
+        "fetchedAt": "2026-10-14T22:14:57.948Z",
+        "updatedAt": "2026-10-06T19:38:13+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "Dolly♡Princess(ドーリープリンセス)",
+        "address": "北海道札幌市中央区南5条西5-21-3 第3旭観光ビル 4F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/3740/",
+          "fetchedAt": "2026-10-14T22:14:57.948Z",
+          "updatedAt": "2026-10-06T19:38:13+09:00"
+        },
+        "links": [
+          {
+            "url": "https://doripuri.com/",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/dolly_hime__",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/dolly_hime__",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@dolly_hime__",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://doripuri.com/",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/dolly_hime__",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/dolly_hime__",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@dolly_hime__",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "8481ff21fbfef287",
+    "name": "1LDK-Prisania-",
+    "address": "北海道札幌市中央区南4条西3丁目1番地1 第3グリーンビル7F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": {
+      "latitude": 43.0554178,
+      "longitude": 141.3544573
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop24085/",
+        "fetchedAt": "2026-10-14T22:14:26.248Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "1LDK-Prisania-",
+        "address": "北海道札幌市中央区南4条西3丁目1番地1 第3グリーンビル7F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": {
+          "latitude": 43.0554178,
+          "longitude": 141.3544573
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop24085/",
+          "fetchedAt": "2026-10-14T22:14:26.248Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/1ldk.prisania/",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/1ldk.prisania/",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "920b1ba8c38c484a",
+    "name": "猫耳メイドカフェにゃーとぴあ♡はぴねす♡",
+    "address": "北海道札幌市中央区南4条西3丁目1-1 第3グリーンビル5F",
+    "area": "susukino",
+    "category": "maid",
+    "location": {
+      "latitude": 43.05542905196931,
+      "longitude": 141.3544551331318
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop16023/",
+        "fetchedAt": "2026-10-14T22:14:27.288Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "猫耳メイドカフェにゃーとぴあ♡はぴねす♡",
+        "address": "北海道札幌市中央区南4条西3丁目1-1 第3グリーンビル5F",
+        "area": "susukino",
+        "category": "maid",
+        "location": {
+          "latitude": 43.05542905196931,
+          "longitude": 141.3544551331318
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop16023/",
+          "fetchedAt": "2026-10-14T22:14:27.288Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://maidbar.info/",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/niyatopia/",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://maidbar.info/",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/niyatopia/",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "93f71c540dac27bd",
+    "name": "Lircari-Na",
+    "address": "北海道札幌市中央区南5条西3丁目8-8 N・グランデビル 5F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": {
+      "latitude": 43.05479625933258,
+      "longitude": 141.3545000950108
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop16026/",
+        "fetchedAt": "2026-10-14T22:14:34.257Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "Lircari-Na",
+        "address": "北海道札幌市中央区南5条西3丁目8-8 N・グランデビル 5F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": {
+          "latitude": 43.05479625933258,
+          "longitude": 141.3545000950108
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop16026/",
+          "fetchedAt": "2026-10-14T22:14:34.257Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://conceptbar.info/lircari-na/",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/lircarina/",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://conceptbar.info/lircari-na/",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/lircarina/",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "99c65122d855154b",
+    "name": "めるれっと",
+    "address": "北海道札幌市中央区南4条西3 No1グリーンビル 2F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/10056/",
+        "fetchedAt": "2026-10-14T22:14:56.736Z",
+        "updatedAt": "2026-08-27T13:32:36+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "めるれっと",
+        "address": "北海道札幌市中央区南4条西3 No1グリーンビル 2F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/10056/",
+          "fetchedAt": "2026-10-14T22:14:56.736Z",
+          "updatedAt": "2026-08-27T13:32:36+09:00"
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/merletto_doll/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/merletto_doll/media",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@merletto_doll",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/merletto_doll/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/merletto_doll/media",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@merletto_doll",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "9a32e11d6085e1ed",
+    "name": "コスミックスランド",
+    "address": "北海道札幌市中央区南5条西4丁目1-7 エヌ スタービル 6F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": {
+      "latitude": 43.05402772821724,
+      "longitude": 141.35346425469913
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop23650/",
+        "fetchedAt": "2026-10-14T22:14:28.277Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "コスミックスランド",
+        "address": "北海道札幌市中央区南5条西4丁目1-7 エヌ スタービル 6F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": {
+          "latitude": 43.05402772821724,
+          "longitude": 141.35346425469913
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop23650/",
+          "fetchedAt": "2026-10-14T22:14:28.277Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/cosmixland_sapporo_official/",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/cosmixland_sapporo_official/",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "a074fb02ff56d7df",
+    "name": "トー横inすすきの",
+    "address": "北海道札幌市中央区南5条西4丁目1-9-1 札幌観光会館ビル3F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": {
+      "latitude": 43.05472801663063,
+      "longitude": 141.35274394606444
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop21114/",
+        "fetchedAt": "2026-10-14T22:14:41.328Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "トー横inすすきの",
+        "address": "北海道札幌市中央区南5条西4丁目1-9-1 札幌観光会館ビル3F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": {
+          "latitude": 43.05472801663063,
+          "longitude": 141.35274394606444
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop21114/",
+          "fetchedAt": "2026-10-14T22:14:41.328Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/tykssk.123/",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/tykssk.123/",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "a1c0e2844e4a52b5",
+    "name": "SUBCULTURE CAFE ばぐ恋",
+    "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 3F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/19470/",
+        "fetchedAt": "2026-10-14T22:14:54.752Z",
+        "updatedAt": "2026-09-25T18:23:06+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "SUBCULTURE CAFE ばぐ恋",
+        "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 3F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/19470/",
+          "fetchedAt": "2026-10-14T22:14:54.752Z",
+          "updatedAt": "2026-09-25T18:23:06+09:00"
+        },
+        "links": [
+          {
+            "url": "https://www.bugkoi.jp/",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/bugkoi_official/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/bugkoi_official",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@bugkoi01",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.bugkoi.jp/",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/bugkoi_official/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/bugkoi_official",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@bugkoi01",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "a224c2ab56c2187d",
+    "name": "MissNote(ミスノート)",
+    "address": "北海道札幌市中央区南5条西2-2-2 サイバーシティビル 11F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/14688/",
+        "fetchedAt": "2026-10-14T22:15:19.063Z",
+        "updatedAt": "2026-08-04T18:09:01+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "MissNote(ミスノート)",
+        "address": "北海道札幌市中央区南5条西2-2-2 サイバーシティビル 11F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/14688/",
+          "fetchedAt": "2026-10-14T22:15:19.063Z",
+          "updatedAt": "2026-08-04T18:09:01+09:00"
+        },
+        "links": [
+          {
+            "url": "https://lit.link/missnote",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/missnote_susukino/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/missnote_",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@missnote_susukino",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://lit.link/missnote",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/missnote_susukino/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/missnote_",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@missnote_susukino",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "a48088e7b5182e5f",
+    "name": "メイドinしゃんぐりら",
+    "address": "北海道札幌市中央区南4条西3丁目1-1 第3グリーンビル 6階",
+    "area": "susukino",
+    "category": "maid",
+    "location": {
+      "latitude": 43.0554178,
+      "longitude": 141.3544574
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "official",
+        "url": "https://maidcafe.monster/",
+        "fetchedAt": "2026-10-14T22:15:45.577Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "メイドinしゃんぐりら",
+        "address": "北海道札幌市中央区南4条西3丁目1-1 第3グリーンビル 6階",
+        "area": "susukino",
+        "category": "maid",
+        "location": {
+          "latitude": 43.0554178,
+          "longitude": 141.3544574
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "official",
+          "url": "https://maidcafe.monster/",
+          "fetchedAt": "2026-10-14T22:15:45.577Z",
+          "updatedAt": null
+        },
+        "links": []
+      }
+    ],
+    "links": []
+  },
+  {
+    "id": "a5410939fba878aa",
+    "name": "キミの彼女になりたい! 札幌すすきの店",
+    "address": "北海道札幌市中央区南4条西3丁目1番地1 第3グリーンビル4F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": {
+      "latitude": 43.0554178,
+      "longitude": 141.3544573
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop23331/",
+        "fetchedAt": "2026-10-14T22:14:23.226Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "キミの彼女になりたい! 札幌すすきの店",
+        "address": "北海道札幌市中央区南4条西3丁目1番地1 第3グリーンビル4F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": {
+          "latitude": 43.0554178,
+          "longitude": 141.3544573
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop23331/",
+          "fetchedAt": "2026-10-14T22:14:23.226Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://kimikano.tokyo/sapporo/",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/kimikano_spr",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://kimikano.tokyo/sapporo/",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/kimikano_spr",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "a6129cb384cf69fe",
+    "name": "アニソンコンカフェ マジョリカ",
+    "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 4F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/1489/",
+        "fetchedAt": "2026-10-14T22:15:08.047Z",
+        "updatedAt": "2026-10-06T13:38:03+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "アニソンコンカフェ マジョリカ",
+        "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 4F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/1489/",
+          "fetchedAt": "2026-10-14T22:15:08.047Z",
+          "updatedAt": "2026-10-06T13:38:03+09:00"
+        },
+        "links": [
+          {
+            "url": "https://conceptbar.info/majori-ca/",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/majori_ca_2013/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/majori_ca",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://conceptbar.info/majori-ca/",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/majori_ca_2013/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/majori_ca",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "b4f02fdad5576b79",
+    "name": "majori-ca",
+    "address": "北海道札幌市中央区南4条西3丁目1-1第3グリーンビル4F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop16004/",
+        "fetchedAt": "2026-10-14T22:14:46.246Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "majori-ca",
+        "address": "北海道札幌市中央区南4条西3丁目1-1第3グリーンビル4F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop16004/",
+          "fetchedAt": "2026-10-14T22:14:46.246Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://conceptbar.info/majori-ca/",
+            "kind": "website"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://conceptbar.info/majori-ca/",
+        "kind": "website"
+      }
+    ]
+  },
+  {
+    "id": "bb4c98ad7fede03b",
+    "name": "charmy Moon~Queen of Pirates~",
+    "address": "北海道札幌市中央区南6条西3丁目1 ニューオリンピアビル B1",
+    "area": "susukino",
+    "category": "unknown",
+    "location": {
+      "latitude": 43.05301168235543,
+      "longitude": 141.3542497351888
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop22943/",
+        "fetchedAt": "2026-10-14T22:14:24.231Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "charmy Moon~Queen of Pirates~",
+        "address": "北海道札幌市中央区南6条西3丁目1 ニューオリンピアビル B1",
+        "area": "susukino",
+        "category": "unknown",
+        "location": {
+          "latitude": 43.05301168235543,
+          "longitude": 141.3542497351888
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop22943/",
+          "fetchedAt": "2026-10-14T22:14:24.231Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/charmymoon.susukino/",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/charmymoon.susukino/",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "c33db0013270f09b",
+    "name": "DOLcE",
+    "address": "北海道札幌市中央区南5条西2丁目1-5中銀すすきのソシアルビル1F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop23224/",
+        "fetchedAt": "2026-10-14T22:14:48.283Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "DOLcE",
+        "address": "北海道札幌市中央区南5条西2丁目1-5中銀すすきのソシアルビル1F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop23224/",
+          "fetchedAt": "2026-10-14T22:14:48.283Z",
+          "updatedAt": null
+        },
+        "links": []
+      }
+    ],
+    "links": []
+  },
+  {
+    "id": "c34780e520898305",
+    "name": "アイドルメイドCafeま~めいど",
+    "address": "北海道札幌市中央区南6条西4丁目2-1ススキノ野口ビル6F",
+    "area": "susukino",
+    "category": "maid",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop19905/",
+        "fetchedAt": "2026-10-14T22:14:49.243Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "アイドルメイドCafeま~めいど",
+        "address": "北海道札幌市中央区南6条西4丁目2-1ススキノ野口ビル6F",
+        "area": "susukino",
+        "category": "maid",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop19905/",
+          "fetchedAt": "2026-10-14T22:14:49.243Z",
+          "updatedAt": null
+        },
+        "links": []
+      }
+    ],
+    "links": []
+  },
+  {
+    "id": "c609cc5d8adc7e2a",
+    "name": "1LDK-Darkness-",
+    "address": "北海道札幌市中央区南5条西2丁目2 サイバーシティビル4F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": {
+      "latitude": 43.05457213193354,
+      "longitude": 141.35596418528735
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop19262/",
+        "fetchedAt": "2026-10-14T22:14:33.276Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "1LDK-Darkness-",
+        "address": "北海道札幌市中央区南5条西2丁目2 サイバーシティビル4F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": {
+          "latitude": 43.05457213193354,
+          "longitude": 141.35596418528735
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop19262/",
+          "fetchedAt": "2026-10-14T22:14:33.276Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/1ldk.darkness/",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/1ldk.darkness/",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "cc33d7d218f1e1bd",
+    "name": "Leaf change(リーフチェンジ)",
+    "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 4F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/12953/",
+        "fetchedAt": "2026-10-14T22:15:24.266Z",
+        "updatedAt": "2026-08-04T17:59:16+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "Leaf change(リーフチェンジ)",
+        "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 4F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/12953/",
+          "fetchedAt": "2026-10-14T22:15:24.266Z",
+          "updatedAt": "2026-08-04T17:59:16+09:00"
+        },
+        "links": [
+          {
+            "url": "https://x.com/Leaf_change1224",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@leaf_change1224",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://x.com/Leaf_change1224",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@leaf_change1224",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "cc5734a3a3c23d7c",
+    "name": "マカロンパレット",
+    "address": "北海道札幌市中央区南5条西6-9 第5桂和ビル 3F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/12434/",
+        "fetchedAt": "2026-10-14T22:15:13.053Z",
+        "updatedAt": "2026-07-07T19:25:14+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "マカロンパレット",
+        "address": "北海道札幌市中央区南5条西6-9 第5桂和ビル 3F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/12434/",
+          "fetchedAt": "2026-10-14T22:15:13.053Z",
+          "updatedAt": "2026-07-07T19:25:14+09:00"
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/macaron.palette/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/macaron_palette",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@macaron_palette",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/macaron.palette/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/macaron_palette",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@macaron_palette",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "cc5ed6bf8b420c06",
+    "name": "SUBCULTURE CAFE ばぐ恋",
+    "address": "北海道札幌市中央区南4条西3丁目 第3Gビル3F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "official",
+        "url": "https://www.bugkoi.jp/",
+        "fetchedAt": "2026-10-14T22:15:49.472Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "SUBCULTURE CAFE ばぐ恋",
+        "address": "北海道札幌市中央区南4条西3丁目 第3Gビル3F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "official",
+          "url": "https://www.bugkoi.jp/",
+          "fetchedAt": "2026-10-14T22:15:49.472Z",
+          "updatedAt": null
+        },
+        "links": []
+      }
+    ],
+    "links": []
+  },
+  {
+    "id": "d99dd635e2840846",
+    "name": "ビビッとくるかも!",
+    "address": "北海道札幌市中央区南5条西6-9-3 ニュー桂和ビル 8F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/16623/",
+        "fetchedAt": "2026-10-14T22:15:30.243Z",
+        "updatedAt": "2026-09-01T17:36:43+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "ビビッとくるかも!",
+        "address": "北海道札幌市中央区南5条西6-9-3 ニュー桂和ビル 8F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/16623/",
+          "fetchedAt": "2026-10-14T22:15:30.243Z",
+          "updatedAt": "2026-09-01T17:36:43+09:00"
+        },
+        "links": [
+          {
+            "url": "https://lit.link/bibitokurukamo",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/vivitkrkm",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/vivitkrkm",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@vivitkrkm",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://lit.link/bibitokurukamo",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/vivitkrkm",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/vivitkrkm",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@vivitkrkm",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "ea502adf2b495285",
+    "name": "ヴォラビス魔法学校",
+    "address": "北海道札幌市中央区南5条西2丁目2番地サイバーシティビル9F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop23220/",
+        "fetchedAt": "2026-10-14T22:14:51.253Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "ヴォラビス魔法学校",
+        "address": "北海道札幌市中央区南5条西2丁目2番地サイバーシティビル9F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop23220/",
+          "fetchedAt": "2026-10-14T22:14:51.253Z",
+          "updatedAt": null
+        },
+        "links": []
+      }
+    ],
+    "links": []
+  },
+  {
+    "id": "f3615b2bf5cdbb99",
+    "name": "はぴサタっ!",
+    "address": "北海道札幌市中央区南4条西3丁目1 幸寿司ビル5F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": {
+      "latitude": 43.05515394044235,
+      "longitude": 141.35447166012065
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop19207/",
+        "fetchedAt": "2026-10-14T22:14:40.265Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "はぴサタっ!",
+        "address": "北海道札幌市中央区南4条西3丁目1 幸寿司ビル5F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": {
+          "latitude": 43.05515394044235,
+          "longitude": 141.35447166012065
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop19207/",
+          "fetchedAt": "2026-10-14T22:14:40.265Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://hapi-sata.love/",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/hapi_sata/",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hapi-sata.love/",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/hapi_sata/",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "fc7340ffdaeef1b5",
+    "name": "Shangri-La Violet(シャングリラバイオレット)",
+    "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 7F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/13334/",
+        "fetchedAt": "2026-10-14T22:15:21.118Z",
+        "updatedAt": "2026-08-26T11:58:59+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "Shangri-La Violet(シャングリラバイオレット)",
+        "address": "北海道札幌市中央区南4条西3-1-1 第3グリーンビル 7F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/13334/",
+          "fetchedAt": "2026-10-14T22:15:21.118Z",
+          "updatedAt": "2026-08-26T11:58:59+09:00"
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/shangrila_violet/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/shangrilaviolet/",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/shangrila_violet/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/shangrilaviolet/",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "fe5501bfe49f5e0f",
+    "name": "花宵",
+    "address": "北海道札幌市中央区南4条西3丁目1-1 第3グリーンビル7F",
+    "area": "susukino",
+    "category": "unknown",
+    "location": {
+      "latitude": 43.0553837666775,
+      "longitude": 141.35454114182093
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop15960/",
+        "fetchedAt": "2026-10-14T22:14:38.247Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "花宵",
+        "address": "北海道札幌市中央区南4条西3丁目1-1 第3グリーンビル7F",
+        "area": "susukino",
+        "category": "unknown",
+        "location": {
+          "latitude": 43.0553837666775,
+          "longitude": 141.35454114182093
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop15960/",
+          "fetchedAt": "2026-10-14T22:14:38.247Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://hanayoi.jp/",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/hanayoi_8741/",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hanayoi.jp/",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/hanayoi_8741/",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "ff044d2a505ce610",
+    "name": "札幌メイド喫茶アンククレスト",
+    "address": "北海道札幌市中央区南4条西2-10-1 南4西2ビル 7F",
+    "area": "susukino",
+    "category": "maid",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/13630/",
+        "fetchedAt": "2026-10-14T22:15:25.160Z",
+        "updatedAt": "2026-09-28T12:25:17+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "札幌メイド喫茶アンククレスト",
+        "address": "北海道札幌市中央区南4条西2-10-1 南4西2ビル 7F",
+        "area": "susukino",
+        "category": "maid",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/13630/",
+          "fetchedAt": "2026-10-14T22:15:25.160Z",
+          "updatedAt": "2026-09-28T12:25:17+09:00"
+        },
+        "links": [
+          {
+            "url": "https://ankcrest.com/",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/ankcrest1989/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/ankcrest1989/",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://ankcrest.com/",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/ankcrest1989/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/ankcrest1989/",
+        "kind": "social"
+      }
+    ]
+  }
+]

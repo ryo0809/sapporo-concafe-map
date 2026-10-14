@@ -1,0 +1,62 @@
+[
+  {
+    "id": "stars-susukino",
+    "name": "アニソンカフェ すた〜ず＠札幌すすきの",
+    "category": "concept",
+    "area": "susukino",
+    "address": "札幌市中央区南4条西2丁目8-7 わたなべビル5F",
+    "location": {
+      "latitude": 43.055658,
+      "longitude": 141.3551312
+    },
+    "sourceUrl": "https://anison-stars.com/sapporo-susukino/",
+    "verifiedOn": "2026-10-15",
+    "locationGroup": "watanabe",
+    "coordinateSource": "公式アクセス地図に指定された住所の建物位置"
+  },
+  {
+    "id": "maid-in-shangrila",
+    "name": "メイドinしゃんぐりら",
+    "category": "maid",
+    "area": "susukino",
+    "address": "札幌市中央区南4条西3丁目1-1 第3グリーンビル6F",
+    "location": {
+      "latitude": 43.0554178,
+      "longitude": 141.3544574
+    },
+    "sourceUrl": "https://maidcafe.monster/",
+    "verifiedOn": "2026-10-15",
+    "locationGroup": "green3",
+    "coordinateSource": "公式サイトのLocalBusiness JSON-LD geo"
+  },
+  {
+    "id": "bugkoi",
+    "name": "SUBCULTURE CAFE ばぐ恋",
+    "category": "concept",
+    "area": "susukino",
+    "address": "札幌市中央区南4条西3丁目 第3Gビル3F",
+    "location": {
+      "latitude": 43.0556191,
+      "longitude": 141.3542918
+    },
+    "sourceUrl": "https://www.bugkoi.jp/",
+    "verifiedOn": "2026-10-15",
+    "locationGroup": "bugkoi-green3",
+    "coordinateSource": "公式サイトのbusinessLocationCoordinates。業態・住所は公式会社概要でも確認"
+  },
+  {
+    "id": "anisonbar-x",
+    "name": "アニソンバーX",
+    "category": "concept",
+    "area": "susukino",
+    "address": "札幌市中央区南6条西4丁目5 G4ビル3F",
+    "location": {
+      "latitude": 43.0549941,
+      "longitude": 141.354654
+    },
+    "sourceUrl": "https://anisonbar-x.com/",
+    "verifiedOn": "2026-10-15",
+    "locationGroup": "g4",
+    "coordinateSource": "公式サイトの同じG4ビルにあるアニカラスナックXのJSON-LD geo。建物位置"
+  }
+]
