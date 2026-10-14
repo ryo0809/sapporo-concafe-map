@@ -1,0 +1,62 @@
+[
+  {
+    "id": "maidreamin-tanukikoji",
+    "name": "めいどりーみん 札幌狸小路店",
+    "category": "maid",
+    "area": "tanukikoji",
+    "address": "札幌市中央区南2条西4丁目10-2 清水ビル6F",
+    "location": {
+      "latitude": 43.0571815,
+      "longitude": 141.3515229
+    },
+    "sourceUrl": "https://maidreamin.com/shop/detail.html?id=27",
+    "verifiedOn": "2026-10-15",
+    "locationGroup": "shimizu",
+    "coordinateSource": "公式店舗ページのアクセス地図（店舗位置）"
+  },
+  {
+    "id": "make-u-cute-tanukikoji",
+    "name": "Make U Cute 狸小路店",
+    "category": "maid",
+    "area": "tanukikoji",
+    "address": "札幌市中央区南3条西6丁目3-3 ジャラン狸小路2F",
+    "location": {
+      "latitude": 43.0565661,
+      "longitude": 141.3488406
+    },
+    "sourceUrl": "https://ring-o.co.jp/business/cafe/make-u-cute-%e7%8b%b8%e5%b0%8f%e8%b7%af%e5%ba%97",
+    "verifiedOn": "2026-10-15",
+    "locationGroup": "jalan",
+    "coordinateSource": "公式アクセス地図のジャラン狸小路の建物位置。入口・区画位置ではありません"
+  },
+  {
+    "id": "pumpkin-tanukikoji",
+    "name": "&Pumpkin 狸小路店",
+    "category": "concept",
+    "area": "tanukikoji",
+    "address": "札幌市中央区南3条西6丁目3-3 ジャラン狸小路2F",
+    "location": {
+      "latitude": 43.0565661,
+      "longitude": 141.3488406
+    },
+    "sourceUrl": "https://ring-o.co.jp/business/cafe/halloween-cafe%e3%80%8epumpkin%e3%80%8f-%e7%8b%b8%e5%b0%8f%e8%b7%af%e5%ba%97",
+    "verifiedOn": "2026-10-15",
+    "locationGroup": "jalan",
+    "coordinateSource": "公式掲載住所が同一のジャラン狸小路の建物位置。入口・区画位置ではありません"
+  },
+  {
+    "id": "akibatei-tanukikoji",
+    "name": "巫女喫茶 秋葉亭 狸小路店",
+    "category": "concept",
+    "area": "tanukikoji",
+    "address": "札幌市中央区南3条西6丁目3-3 ジャラン狸小路2F",
+    "location": {
+      "latitude": 43.0565661,
+      "longitude": 141.3488406
+    },
+    "sourceUrl": "https://ring-o.co.jp/business/cafe/%e5%b7%ab%e5%a5%b3%e5%96%ab%e8%8c%b6%e3%80%8e%e7%a7%8b%e8%91%89%e4%ba%ad%e3%80%8f-%e7%8b%b8%e5%b0%8f%e8%b7%af%e5%ba%97",
+    "verifiedOn": "2026-10-15",
+    "locationGroup": "jalan",
+    "coordinateSource": "公式アクセス地図のジャラン狸小路の建物位置。入口・区画位置ではありません"
+  }
+]

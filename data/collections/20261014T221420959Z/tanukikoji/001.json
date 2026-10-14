@@ -1,0 +1,597 @@
+[
+  {
+    "id": "1beedb6dec15ba57",
+    "name": "めいどりーみん 札幌狸小路店",
+    "address": "北海道札幌市中央区南2条西4-10-2 清水ビル 6F",
+    "area": "tanukikoji",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/5400/",
+        "fetchedAt": "2026-10-14T22:15:22.357Z",
+        "updatedAt": "2026-08-26T14:41:40+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "めいどりーみん 札幌狸小路店",
+        "address": "北海道札幌市中央区南2条西4-10-2 清水ビル 6F",
+        "area": "tanukikoji",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/5400/",
+          "fetchedAt": "2026-10-14T22:15:22.357Z",
+          "updatedAt": "2026-08-26T14:41:40+09:00"
+        },
+        "links": [
+          {
+            "url": "https://maidreamin.com/shop/detail.html?id=27",
+            "kind": "website"
+          },
+          {
+            "url": "https://www.instagram.com/spr_maidreamin2/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/spr_maidreamin",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@sapporo_maidreamin",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://maidreamin.com/shop/detail.html?id=27",
+        "kind": "website"
+      },
+      {
+        "url": "https://www.instagram.com/spr_maidreamin2/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/spr_maidreamin",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@sapporo_maidreamin",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "555ce38c421664ba",
+    "name": "にゃんこメイドカフェにゃんさんぶる",
+    "address": "北海道札幌市中央区南3条西2-15-1 N・ヴィコロビル B1F",
+    "area": "tanukikoji",
+    "category": "maid",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/9832/",
+        "fetchedAt": "2026-10-14T22:15:08.936Z",
+        "updatedAt": "2026-08-27T13:34:11+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "にゃんこメイドカフェにゃんさんぶる",
+        "address": "北海道札幌市中央区南3条西2-15-1 N・ヴィコロビル B1F",
+        "area": "tanukikoji",
+        "category": "maid",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/9832/",
+          "fetchedAt": "2026-10-14T22:15:08.936Z",
+          "updatedAt": "2026-08-27T13:34:11+09:00"
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/nyankomaidcafe/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/nyankomaidcafe",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@nyankomaidcafe",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/nyankomaidcafe/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/nyankomaidcafe",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@nyankomaidcafe",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "946f4d95882c35ee",
+    "name": "コスプレ酒場 スクールランド(こすぷれさかば すくーるらんど)",
+    "address": "北海道札幌市中央区南3条西2-15-1 N・VICOLOビル 2F",
+    "area": "tanukikoji",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/16557/",
+        "fetchedAt": "2026-10-14T22:15:32.266Z",
+        "updatedAt": "2026-06-10T14:47:24+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "コスプレ酒場 スクールランド(こすぷれさかば すくーるらんど)",
+        "address": "北海道札幌市中央区南3条西2-15-1 N・VICOLOビル 2F",
+        "area": "tanukikoji",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/16557/",
+          "fetchedAt": "2026-10-14T22:15:32.266Z",
+          "updatedAt": "2026-06-10T14:47:24+09:00"
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/schoolland_sapporo_official/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/schoolland_",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@schoolland_sapporo",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/schoolland_sapporo_official/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/schoolland_",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@schoolland_sapporo",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "9877474a733dbcca",
+    "name": "コスプレ酒場 アニランド",
+    "address": "北海道札幌市中央区南3条西6-9 うみ野 1F",
+    "area": "tanukikoji",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/16411/",
+        "fetchedAt": "2026-10-14T22:15:31.271Z",
+        "updatedAt": "2026-10-05T17:54:47+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "コスプレ酒場 アニランド",
+        "address": "北海道札幌市中央区南3条西6-9 うみ野 1F",
+        "area": "tanukikoji",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/16411/",
+          "fetchedAt": "2026-10-14T22:15:31.271Z",
+          "updatedAt": "2026-10-05T17:54:47+09:00"
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/aniland_sapporo_official/",
+            "kind": "social"
+          },
+          {
+            "url": "https://x.com/aniland_sapporo",
+            "kind": "social"
+          },
+          {
+            "url": "https://www.tiktok.com/@aniland_sapporo",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/aniland_sapporo_official/",
+        "kind": "social"
+      },
+      {
+        "url": "https://x.com/aniland_sapporo",
+        "kind": "social"
+      },
+      {
+        "url": "https://www.tiktok.com/@aniland_sapporo",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "a2320cef0256b738",
+    "name": "りぼんてーる",
+    "address": "北海道札幌市中央区南3条西2-15-1 N・ヴィコロビル 4F",
+    "area": "tanukikoji",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/9804/",
+        "fetchedAt": "2026-10-14T22:15:23.306Z",
+        "updatedAt": "2026-08-27T13:34:58+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "りぼんてーる",
+        "address": "北海道札幌市中央区南3条西2-15-1 N・ヴィコロビル 4F",
+        "area": "tanukikoji",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/9804/",
+          "fetchedAt": "2026-10-14T22:15:23.306Z",
+          "updatedAt": "2026-08-27T13:34:58+09:00"
+        },
+        "links": [
+          {
+            "url": "https://x.com/ribbon_tailcafe",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://x.com/ribbon_tailcafe",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "c018726fe4a202d7",
+    "name": "札幌メイド喫茶AntiqueCafe(アンティークカフェ)",
+    "address": "北海道札幌市中央区南3条西2-15-1 N・VICOLOビル 4F",
+    "area": "tanukikoji",
+    "category": "maid",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "cafecon",
+        "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/9669/",
+        "fetchedAt": "2026-10-14T22:15:12.138Z",
+        "updatedAt": "2026-08-27T13:37:09+09:00"
+      }
+    ],
+    "observations": [
+      {
+        "name": "札幌メイド喫茶AntiqueCafe(アンティークカフェ)",
+        "address": "北海道札幌市中央区南3条西2-15-1 N・VICOLOビル 4F",
+        "area": "tanukikoji",
+        "category": "maid",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "cafecon",
+          "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/9669/",
+          "fetchedAt": "2026-10-14T22:15:12.138Z",
+          "updatedAt": "2026-08-27T13:37:09+09:00"
+        },
+        "links": [
+          {
+            "url": "https://antiquecafe.jimdosite.com/",
+            "kind": "website"
+          },
+          {
+            "url": "https://x.com/antiquecafe0810",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://antiquecafe.jimdosite.com/",
+        "kind": "website"
+      },
+      {
+        "url": "https://x.com/antiquecafe0810",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "c768165747bd1f61",
+    "name": "めいどりーみん 札幌狸小路店",
+    "address": "北海道札幌市中央区南二条西四丁目10-2 清水ビル6F",
+    "area": "tanukikoji",
+    "category": "unknown",
+    "location": null,
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認",
+      "座標未取得"
+    ],
+    "sources": [
+      {
+        "provider": "official",
+        "url": "https://maidreamin.com/shop/detail.html?id=27",
+        "fetchedAt": "2026-10-14T22:15:37.174Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "めいどりーみん 札幌狸小路店",
+        "address": "北海道札幌市中央区南二条西四丁目10-2 清水ビル6F",
+        "area": "tanukikoji",
+        "category": "unknown",
+        "location": null,
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "official",
+          "url": "https://maidreamin.com/shop/detail.html?id=27",
+          "fetchedAt": "2026-10-14T22:15:37.174Z",
+          "updatedAt": null
+        },
+        "links": []
+      }
+    ],
+    "links": []
+  },
+  {
+    "id": "dc197b5608b9df1b",
+    "name": "アニランド",
+    "address": "北海道札幌市中央区南3条西6丁目9",
+    "area": "tanukikoji",
+    "category": "unknown",
+    "location": {
+      "latitude": 43.056742565212694,
+      "longitude": 141.34949109333203
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop23037/",
+        "fetchedAt": "2026-10-14T22:14:29.285Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "アニランド",
+        "address": "北海道札幌市中央区南3条西6丁目9",
+        "area": "tanukikoji",
+        "category": "unknown",
+        "location": {
+          "latitude": 43.056742565212694,
+          "longitude": 141.34949109333203
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop23037/",
+          "fetchedAt": "2026-10-14T22:14:29.285Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/aniland_sapporo_official/",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/aniland_sapporo_official/",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "dcd2532112d54509",
+    "name": "りぼんてーる",
+    "address": "北海道札幌市中央区南3条西2丁目15-1 N.VICOROビル 4F",
+    "area": "tanukikoji",
+    "category": "unknown",
+    "location": {
+      "latitude": 43.05737930000001,
+      "longitude": 141.3552854
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop24585/",
+        "fetchedAt": "2026-10-14T22:14:43.276Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "りぼんてーる",
+        "address": "北海道札幌市中央区南3条西2丁目15-1 N.VICOROビル 4F",
+        "area": "tanukikoji",
+        "category": "unknown",
+        "location": {
+          "latitude": 43.05737930000001,
+          "longitude": 141.3552854
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop24585/",
+          "fetchedAt": "2026-10-14T22:14:43.276Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/ribbon_tailcafe",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/ribbon_tailcafe",
+        "kind": "social"
+      }
+    ]
+  },
+  {
+    "id": "ee0f68dd1ebbc20b",
+    "name": "スクールランド",
+    "address": "北海道札幌市中央区南3条西2丁目15−1 N・Vicoroビル 2F",
+    "area": "tanukikoji",
+    "category": "unknown",
+    "location": {
+      "latitude": 43.05737930000001,
+      "longitude": 141.3552854
+    },
+    "businessStatus": "unknown",
+    "publishable": false,
+    "reviewReasons": [
+      "営業継続の根拠を未確認"
+    ],
+    "sources": [
+      {
+        "provider": "pokepara",
+        "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop22610/",
+        "fetchedAt": "2026-10-14T22:14:30.470Z",
+        "updatedAt": null
+      }
+    ],
+    "observations": [
+      {
+        "name": "スクールランド",
+        "address": "北海道札幌市中央区南3条西2丁目15−1 N・Vicoroビル 2F",
+        "area": "tanukikoji",
+        "category": "unknown",
+        "location": {
+          "latitude": 43.05737930000001,
+          "longitude": 141.3552854
+        },
+        "businessStatus": "unknown",
+        "statusEvidence": null,
+        "source": {
+          "provider": "pokepara",
+          "url": "https://www.pokepara.jp/_hokkaido/m801/a1801/shop22610/",
+          "fetchedAt": "2026-10-14T22:14:30.470Z",
+          "updatedAt": null
+        },
+        "links": [
+          {
+            "url": "https://www.instagram.com/schoolland_sapporo_official/",
+            "kind": "social"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.instagram.com/schoolland_sapporo_official/",
+        "kind": "social"
+      }
+    ]
+  }
+]

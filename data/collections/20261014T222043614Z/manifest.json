@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "runId": "20261014T222043614Z",
+  "startedAt": "2026-10-14T22:20:43.614Z",
+  "completedAt": "2026-10-14T22:22:19.416Z",
+  "complete": true,
+  "chunkSize": 100,
+  "count": 63,
+  "observationCount": 75,
+  "areas": {
+    "tanukikoji": {
+      "count": 10,
+      "closed": 0,
+      "unknown": 10,
+      "files": [
+        "tanukikoji/001.json"
+      ]
+    },
+    "susukino": {
+      "count": 53,
+      "closed": 0,
+      "unknown": 53,
+      "files": [
+        "susukino/001.json"
+      ]
+    }
+  },
+  "discovery": [
+    {
+      "provider": "pokepara",
+      "listPages": 1,
+      "detailPages": 29
+    },
+    {
+      "provider": "cafecon",
+      "listPages": 1,
+      "detailPages": 40
+    }
+  ],
+  "errors": [],
+  "excluded": [
+    {
+      "provider": "cafecon",
+      "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/10822/",
+      "name": "Milk pop(ミルクポップ)",
+      "address": "北海道札幌市中央区4四条西3-3-1 第2グリーンビル 4F",
+      "reason": "住所未取得または対象エリア外"
+    },
+    {
+      "provider": "cafecon",
+      "url": "https://cafecon.jp/a01/a0101/a010101/a01010101/13130/",
+      "name": "はぴサタ札幌店 HAPPY HONEY SATAN(ハッピーハニーサタン)",
+      "address": "北海道幌市中央区南4条西3-1-3 幸寿司ビル 5F",
+      "reason": "住所未取得または対象エリア外"
+    }
+  ],
+  "limitations": [
+    "収集対象サイトの検索結果であり地域の全店舗保証ではない",
+    "掲載ページだけでは営業継続を確認できない",
+    "SNSは店舗ページからリンクを収集。投稿API未接続",
+    "雑誌の紙面・電子書籍本文は未取得",
+    "取得結果を地図用の公開台帳へ自動反映しない"
+  ]
+}
