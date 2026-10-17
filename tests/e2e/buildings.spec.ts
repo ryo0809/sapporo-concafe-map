@@ -48,8 +48,8 @@ test("ビル管理と店舗編集をSPAで切り替え、住所引継ぎ・SNS�
   await expect(form.getByLabel("住所",{exact:true})).toHaveValue("札幌市中央区南5条西4丁目3-3");
   await expect(form.getByLabel("住所",{exact:true})).toHaveAttribute("readonly","");
   await form.getByLabel("階数",{exact:true}).fill("3F");
-  await form.getByLabel("X URL",{exact:true}).fill("https://x.com/first\nhttps://twitter.com/second");
-  await form.getByLabel("Instagram URL",{exact:true}).fill("https://instagram.com/example");
+  await form.getByRole("textbox",{name:"X URL",exact:true}).fill("https://x.com/first\nhttps://twitter.com/second");
+  await form.getByRole("textbox",{name:"Instagram URL",exact:true}).fill("https://instagram.com/example");
   await form.getByLabel("その他のSNS URL",{exact:true}).fill("https://unknown.example/profile");
   await navigation.getByRole("tab",{name:"ビル管理",exact:true}).click();
   await expect(page).toHaveURL(/\/admin$/);
@@ -60,7 +60,7 @@ test("ビル管理と店舗編集をSPAで切り替え、住所引継ぎ・SNS�
   const group=page.locator(".admin-building-group").filter({has:page.getByRole("heading",{name:"UI共通住所ビル",exact:true})});
   await expect(group.getByRole("button",{name:/UIビル所属店舗/})).toBeVisible();
   await group.getByRole("button",{name:/UIビル所属店舗/}).click();
-  await expect(form.getByLabel("X URL",{exact:true})).toHaveValue("https://x.com/first\nhttps://twitter.com/second");
+  await expect(form.getByRole("textbox",{name:"X URL",exact:true})).toHaveValue("https://x.com/first\nhttps://twitter.com/second");
   await expect(form.getByLabel("その他のSNS URL",{exact:true})).toHaveValue("https://unknown.example/profile");
   await page.setViewportSize({width:375,height:812});
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
