@@ -1,7 +1,6 @@
 "use client";
 import { useEffect,useRef,useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { AdminNavigation } from "@/presentation/admin/navigation";
 import type { CafeInput,ManagedCafe } from "@/domain/admin/managed-cafe";
 import type { StoreCandidate } from "@/domain/admin/candidates";
 
@@ -22,7 +21,6 @@ async function request(url:string,options?:RequestInit){
   const result=await response.json();if(!response.ok)throw new Error(result.error??"処理に失敗しました");return result;
 }
 export function AdminDashboard({username}:{username:string}){
-  const router=useRouter();
   const [cafes,setCafes]=useState<ManagedCafe[]>([]),[query,setQuery]=useState("");
   const [group,setGroup]=useState<PublicationGroup>("hidden");
   const [storeArea,setStoreArea]=useState<CafeInput["area"]>("susukino");
@@ -79,9 +77,8 @@ export function AdminDashboard({username}:{username:string}){
     finally{setBusy(false);}
   }
   async function find(event:React.FormEvent){event.preventDefault();if(searching)return;setSubmittedSearch(search.trim());setSearching(true);setError("");setSearched(false);setCandidates([]);setWarnings([]);try{const result=await request(`/api/admin/candidates?q=${encodeURIComponent(search)}&area=${area}&live=${live}`);setCandidates(result.candidates);setWarnings(result.warnings);setSearched(true);}catch(error){setError(error instanceof Error?error.message:"検索に失敗しました");setWarnings([error instanceof Error?error.message:"検索に失敗しました"]);setSearched(true);}finally{setSearching(false);}}
-  async function signOut(){try{await request("/api/admin/logout",{method:"POST"});router.replace("/admin/login");router.refresh();}catch(error){setError(error instanceof Error?error.message:"ログアウトに失敗しました");}}
   return <main className="admin-shell">
-    <header className="admin-header"><div><p className="admin-eyebrow">さっぽろ コンカフェマップ</p><h1>掲載情報の管理</h1></div><nav><Link href="/admin/contacts">お問い合わせ</Link><Link href="/" target="_blank">公開マップ ↗</Link><span>{username}</span><button onClick={signOut}>ログアウト</button></nav></header>
+    <AdminNavigation username={username} current="stores"/>
     <div className="admin-stats"><span>登録店舗 <strong>{cafes.length}</strong></span><span>公開設定 <strong>{cafes.filter((cafe)=>publicationLabel(cafe)==="公開").length}</strong></span><span>予約公開 <strong>{cafes.filter((cafe)=>publicationLabel(cafe)==="予約公開").length}</strong></span><span>営業未確認 <strong>{cafes.filter((cafe)=>cafe.businessStatus==="unknown").length}</strong></span></div>
     <dialog ref={saveDialog} className="admin-save-dialog" aria-labelledby="admin-save-title" aria-describedby="admin-save-description" aria-busy={busy} onCancel={(event)=>{if(busy)event.preventDefault();else setMessage("");}}>
       {busy?<span className="admin-save-spinner" aria-hidden="true"/>:<span className="admin-save-check" aria-hidden="true">✓</span>}

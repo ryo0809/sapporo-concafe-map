@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import { AdminNavigation } from "@/presentation/admin/navigation";
 import { useEffect, useRef, useState } from "react";
 import { contactCategories, contactDetailFields, contactUrlFields, isStoreContact, type ContactMessage } from "@/domain/contact";
 function MessageDetails({ message }: { message: ContactMessage }) {
@@ -7,7 +7,7 @@ function MessageDetails({ message }: { message: ContactMessage }) {
   const fields = [...contactDetailFields[message.category], ...(isStoreContact(message.category) ? contactUrlFields : [])];
   return <dl className="contact-details">{fields.filter(field => details[field.key]).map(field => <div key={field.key}><dt>{field.label}</dt><dd>{field.type === "url" ? <a href={details[field.key]} target="_blank" rel="noopener noreferrer">{details[field.key]}</a> : details[field.key]}</dd></div>)}</dl>;
 }
-export function ContactInbox() {
+export function ContactInbox({ username }: { username: string }) {
   const [status, setStatus] = useState<"new" | "done">("new");
   const [messages, setMessages] = useState<ContactMessage[]>([]), [loading, setLoading] = useState(true), [busy, setBusy] = useState(false), [error, setError] = useState("");
   const [revision, setRevision] = useState(0), [target, setTarget] = useState<ContactMessage | null>(null);
@@ -26,7 +26,7 @@ export function ContactInbox() {
     } catch (error) { setError(error instanceof Error ? error.message : "更新に失敗しました。"); }
     finally { setBusy(false); }
   }
-  return <main className="information-page contact-inbox"><Link href="/admin">店舗管理へ戻る</Link><h1>お問い合わせ</h1>
+  return <main className="admin-shell contact-inbox"><AdminNavigation username={username} current="contacts"/>
     <div className="contact-tabs" aria-label="対応状況">{(["new", "done"] as const).map(value => <button key={value} type="button" aria-pressed={status === value} disabled={busy} onClick={() => { if (status === value) return; setStatus(value); setMessages([]); setLoading(true); setError(""); }}>{value === "new" ? "未対応" : "対応済み"}</button>)}</div>
     <p>新しい順に最大100件を表示します。返信はメールアドレスのリンクから行ってください。不要になった内容は削除してください。</p>
     {error && <p role="alert" className="contact-error">{error}</p>}

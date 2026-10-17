@@ -6,6 +6,7 @@ import { ContactInbox } from "@/presentation/admin/contact-inbox";
 export default function ContactsPage() { return <Suspense fallback={<p>読み込んでいます…</p>}><AuthenticatedInbox/></Suspense>; }
 async function AuthenticatedInbox() {
   await connection();
-  if (!await administrator()) redirect("/admin/login");
-  return <ContactInbox/>;
+  const admin = await administrator();
+  if (!admin) redirect("/admin/login");
+  return <ContactInbox username={admin.username}/>;
 }

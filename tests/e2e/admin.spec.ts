@@ -4,6 +4,22 @@ import { spawnSync } from "node:child_process";
 const cafeInput={name:"管理機能検証店舗",address:"札幌市中央区南3条西6丁目3-3",area:"tanukikoji",category:"maid",buildingName:"管理機能検証ビル",floor:"2F",location:{latitude:43.05656,longitude:141.34884},
   businessStatus:"unknown",publicationStatus:"draft",sourceUrl:"https://example.com/",socialUrls:[],verifiedOn:"",coordinateSource:"テスト座標"};
 
+test("設定画面を店舗設定・お問い合わせのタブで切り替える",async({page})=>{
+  expect((await page.request.post("/api/admin/login",{data:{username:"admin",password:"admin"}})).status()).toBe(200);
+  await page.goto("/admin");
+  const navigation=page.getByRole("navigation",{name:"設定画面",exact:true});
+  await expect(navigation.getByRole("link",{name:"店舗設定",exact:true})).toHaveAttribute("aria-current","page");
+  await navigation.getByRole("link",{name:"お問い合わせ",exact:true}).click();
+  await expect(page).toHaveURL(/\/admin\/contacts$/);
+  await expect(navigation.getByRole("link",{name:"お問い合わせ",exact:true})).toHaveAttribute("aria-current","page");
+  await navigation.getByRole("link",{name:"店舗設定",exact:true}).click();
+  await expect(page).toHaveURL(/\/admin$/);
+  await page.goBack();
+  await expect(navigation.getByRole("link",{name:"お問い合わせ",exact:true})).toHaveAttribute("aria-current","page");
+  await page.getByRole("button",{name:"ログアウト",exact:true}).click();
+  await expect(page).toHaveURL(/\/admin\/login$/);
+});
+
 test("削除APIは認証・送信元・バージョンを検証し、同名の別店舗を残す",async({request})=>{
   expect((await request.delete("/api/admin/cafes/missing",{data:{version:1}})).status()).toBe(401);
   await request.post("/api/admin/login",{data:{username:"admin",password:"admin"}});
