@@ -1,3 +1,4 @@
+import {addressFloor,buildingAddress} from "../../domain/cafes/building-address";
 import { createHash, randomUUID } from "node:crypto";
 import {InputError,type CafeInput,type ManagedCafe} from "../../domain/admin/managed-cafe";
 
@@ -17,9 +18,9 @@ const selectCafe = `SELECT c.*, b.name AS building_name, b.address AS building_a
 
 function fromRow(row: CafeRow): ManagedCafe {
   return {
-    id: row.id, name: row.name, area: row.area, category: row.category, address: row.building_address || row.address,
+    id: row.id, name: row.name, area: row.area, category: row.category, address: row.building_id ? buildingAddress(row.building_address || row.address,row.building_name??"") : row.address,
     buildingId:row.building_id??"",
-    buildingName: row.building_name ?? "", floor: row.floor_name ?? row.floor_label,
+    buildingName: row.building_name ?? "", floor: row.floor_name || row.floor_label || addressFloor(row.address),
     location: (row.building_latitude??row.latitude) === null || (row.building_longitude??row.longitude) === null ? null : { latitude: (row.building_latitude??row.latitude)!, longitude: (row.building_longitude??row.longitude)! },
     businessStatus: row.business_status, publicationStatus: row.publication_status === "published" && row.publish_at ? "scheduled" : row.publication_status,
     publishAt: row.publish_at ?? undefined, officialUrl: row.official_url,
@@ -82,7 +83,7 @@ export class D1CafeStore {
       if(!building)throw new InputError("選択したビルが見つかりません。ビルを選択し直してください。");
       if(building.area!==input.area)throw new InputError("ビルと店舗のエリアを一致させてください。");
       buildingId=building.id;
-      input={...input,buildingName:building.name,address:building.address||input.address,location:building.latitude===null||building.longitude===null?input.location:{latitude:building.latitude,longitude:building.longitude}};
+      input={...input,buildingName:building.name,address:buildingAddress(building.address||input.address,building.name),location:building.latitude===null||building.longitude===null?input.location:{latitude:building.latitude,longitude:building.longitude}};
     }else if (input.buildingName.trim()) {
       const street = input.address.normalize("NFKC").replace(/[一二三四五六七八九]/g, value => String("一二三四五六七八九".indexOf(value) + 1)).match(/南\d+条[東西]\d+/)?.[0] ?? "";
       const building = await db.prepare("SELECT id FROM buildings WHERE area=? AND name=? AND street=?").bind(input.area, input.buildingName.trim(), street).first<{ id: string }>();

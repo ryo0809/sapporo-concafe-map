@@ -1,10 +1,11 @@
 "use client";
 import {useState} from "react";
+import {buildingAddress} from "@/domain/cafes/building-address";
 import type {ManagedBuilding} from "@/domain/admin/building";
 import {readAdminResponse} from "./api-response";
 
 export function BuildingForm({initial,area="susukino",suggestion,onSaved,onCancel}:{initial?:ManagedBuilding;area?:ManagedBuilding["area"];suggestion?:{name:string;address:string};onSaved:(building:ManagedBuilding)=>void;onCancel:()=>void}){
-  const [name,setName]=useState(initial?.name??suggestion?.name??""),[address,setAddress]=useState(initial?.address??suggestion?.address??""),[selectedArea,setArea]=useState(initial?.area??area);
+  const [name,setName]=useState(initial?.name??suggestion?.name??""),[address,setAddress]=useState(buildingAddress(initial?.address??suggestion?.address??"",initial?.name??suggestion?.name??"")),[selectedArea,setArea]=useState(initial?.area??area);
   const [latitude,setLatitude]=useState(initial?.location?String(initial.location.latitude):""),[longitude,setLongitude]=useState(initial?.location?String(initial.location.longitude):"");
   const [busy,setBusy]=useState(false),[error,setError]=useState("");
   async function save(event:React.FormEvent){
@@ -19,7 +20,7 @@ export function BuildingForm({initial,area="susukino",suggestion,onSaved,onCance
     <label>ビル名<input value={name} onChange={event=>setName(event.target.value)} required maxLength={200}/></label>
     <label>エリア<select value={selectedArea} onChange={event=>setArea(event.target.value as ManagedBuilding["area"])} disabled={!!initial?.storeCount}><option value="susukino">すすきの</option><option value="tanukikoji">狸小路</option></select></label>
     <label>住所<input value={address} onChange={event=>setAddress(event.target.value)} required maxLength={500}/></label>
-    <p className="admin-field-help">ビル共通の住所を登録します。店舗ごとの階数は店舗設定で入力してください。住所を変更すると所属店舗にも反映されます。</p>
+    <p className="admin-field-help">階数・ビル名を除いた共通住所を登録します。ビル名は上の欄に入力してください。店舗ごとの階数は店舗設定で入力してください。住所を変更すると所属店舗にも反映されます。</p>
     <details><summary>地図の座標を設定する（任意）</summary><p className="admin-field-help">設定すると所属店舗に共通の座標を使用します。未設定の場合は店舗の座標を使用します。</p><div className="admin-form-row">
       <label>緯度<input type="number" step="any" min={-90} max={90} value={latitude} onChange={event=>setLatitude(event.target.value)}/></label>
       <label>経度<input type="number" step="any" min={-180} max={180} value={longitude} onChange={event=>setLongitude(event.target.value)}/></label>
