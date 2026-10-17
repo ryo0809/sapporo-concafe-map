@@ -12,7 +12,10 @@ const nextConfig: NextConfig = {
   // Pages read D1 dynamically through connection() and use normal streaming SSR.
   cacheComponents: false,
   poweredByHeader: false,
-  async redirects(){return [{source:"/:path*",has:[{type:"host" as const,value:"www.sapporo-concafe-map.com"}],destination:"https://sapporo-concafe-map.com/:path*",permanent:true}];},
+  async redirects(){return [
+    {source:"/:path*",has:[{type:"host" as const,value:"sapporo-concafe-map.com"},{type:"header" as const,key:"x-forwarded-proto",value:"http"}],destination:"https://sapporo-concafe-map.com/:path*",permanent:true},
+    {source:"/:path*",has:[{type:"host" as const,value:"www.sapporo-concafe-map.com"}],destination:"https://sapporo-concafe-map.com/:path*",permanent:true},
+  ];},
   async headers(){
     const security=[
       {key:"X-Content-Type-Options",value:"nosniff"},
