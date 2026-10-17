@@ -7,15 +7,19 @@ const cafeInput={name:"管理機能検証店舗",address:"札幌市中央区南3
 test("設定画面を店舗設定・お問い合わせのタブで切り替える",async({page})=>{
   expect((await page.request.post("/api/admin/login",{data:{username:"admin",password:"admin"}})).status()).toBe(200);
   await page.goto("/admin");
-  const navigation=page.getByRole("navigation",{name:"設定画面",exact:true});
-  await expect(navigation.getByRole("link",{name:"店舗設定",exact:true})).toHaveAttribute("aria-current","page");
-  await navigation.getByRole("link",{name:"お問い合わせ",exact:true}).click();
-  await expect(page).toHaveURL(/\/admin\/contacts$/);
-  await expect(navigation.getByRole("link",{name:"お問い合わせ",exact:true})).toHaveAttribute("aria-current","page");
-  await navigation.getByRole("link",{name:"店舗設定",exact:true}).click();
+  const navigation=page.getByRole("tablist",{name:"設定画面",exact:true});
+  await expect(navigation.getByRole("tab",{name:"店舗設定",exact:true})).toHaveAttribute("aria-selected","true");
+  await page.getByRole("button",{name:"手入力で追加",exact:true}).click();
+  const editor=page.locator("#admin-editor-title").locator("..");
+  await editor.getByLabel("店舗名",{exact:true}).fill("編集中の店舗名");
+  await navigation.getByRole("tab",{name:"お問い合わせ",exact:true}).click();
   await expect(page).toHaveURL(/\/admin$/);
-  await page.goBack();
-  await expect(navigation.getByRole("link",{name:"お問い合わせ",exact:true})).toHaveAttribute("aria-current","page");
+  await expect(navigation.getByRole("tab",{name:"お問い合わせ",exact:true})).toHaveAttribute("aria-selected","true");
+  await page.getByRole("button",{name:"対応済み",exact:true}).click();
+  await navigation.getByRole("tab",{name:"店舗設定",exact:true}).click();
+  await expect(editor.getByLabel("店舗名",{exact:true})).toHaveValue("編集中の店舗名");
+  await navigation.getByRole("tab",{name:"お問い合わせ",exact:true}).click();
+  await expect(page.getByRole("button",{name:"対応済み",exact:true})).toHaveAttribute("aria-pressed","true");
   await page.getByRole("button",{name:"ログアウト",exact:true}).click();
   await expect(page).toHaveURL(/\/admin\/login$/);
 });
