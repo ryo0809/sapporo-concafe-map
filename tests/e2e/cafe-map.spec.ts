@@ -15,7 +15,7 @@ test.beforeAll(async ({ playwright }) => {
     expect((await request.post("/api/admin/login",{data:{username:"admin",password:"admin"}})).ok()).toBe(true);
     const stores=(await (await request.get("/api/admin/cafes")).json()).cafes;
     for(const cafe of stores.filter((item:{id:string})=>cafes.some(seed=>seed.id===item.id))) {
-      expect((await request.put(`/api/admin/cafes/${cafe.id}`,{data:{...cafe,publicationStatus:"published"}})).ok()).toBe(true);
+      expect((await request.put(`/api/admin/cafes/${cafe.id}`,{data:{...cafe,publicationStatus:"published",...(cafe.name.includes("めいどりーみん")?{socialUrls:["https://x.com/spr_maidreamin","https://www.instagram.com/spr_maidreamin2/","https://www.tiktok.com/@sapporo_maidreamin"]}:{})}})).ok()).toBe(true);
     }
   } finally { await request.dispose(); }
 });
@@ -44,7 +44,8 @@ test("最新バッチの件数を表示し、座標なしの店舗も選択で�
   await page.getByRole("tab", { name: /^狸小路/ }).click();
   await page.getByRole("searchbox", { name: "店舗名・住所で検索" }).fill("Make U Cute");
   await page.getByRole("button", { name: /Make U Cute/ }).click();
-  await expect(page.getByRole("region", { name: "選択した店舗" })).toContainText("座標未取得");
+  await expect(page.getByRole("region", { name: "選択した店舗" })).not.toContainText("情報の取得・位置について");
+  await expect(page.getByRole("region", { name: "選択した店舗" })).not.toContainText("位置の確認元");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 });
 
@@ -66,6 +67,34 @@ test("店舗名で検索し、詳細を閉じて一覧に戻れる", async ({ pa
   await page.screenshot({ path: "test-results/ui-desktop.png", fullPage: true });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.screenshot({ path: "test-results/ui-mobile.png", fullPage: true });
+});
+
+test("管理画面に登録したSNSをアイコンで表示し、別タブで開く", async ({ page }) => {
+  await page.route("https://tile.openstreetmap.org/**", route => route.fulfill({ contentType: "image/png", body: png }));
+  await page.context().route("https://x.com/spr_maidreamin", route => route.fulfill({ contentType: "text/html", body: "<title>店舗のX</title>" }));
+  await page.goto("/");
+  await page.getByRole("tab", { name: /^狸小路/ }).click();
+  await page.getByRole("searchbox", { name: "店舗名・住所で検索" }).fill("めいどりーみん");
+  await page.getByRole("button", { name: /めいどりーみん/ }).click();
+  const detail = page.getByRole("region", { name: "選択した店舗" });
+  await expect(detail.locator(".detail-metadata")).toHaveCount(0);
+  for (const name of ["X", "Instagram", "TikTok"]) {
+    const link = detail.getByRole("link", { name: `${name}（別タブで開く）`, exact: true });
+    await expect(link).toBeVisible();
+    await expect(link).toHaveAttribute("target", "_blank");
+    await expect(link).toHaveAttribute("rel", "noopener noreferrer");
+    await expect(link.locator("svg")).toHaveCount(1);
+  }
+  const popup = page.waitForEvent("popup");
+  await detail.getByRole("link", { name: "X（別タブで開く）", exact: true }).click();
+  const opened = await popup;
+  await expect(opened).toHaveURL("https://x.com/spr_maidreamin");
+  await opened.close();
+  await expect(detail).toBeVisible();
+  await page.screenshot({ path: "test-results/social-links-desktop.png", fullPage: true });
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  await page.screenshot({ path: "test-results/social-links-mobile.png", fullPage: true });
 });
 
 test("ビルタブで情報を切り替え、階ごとに店舗をまとめる", async ({ page }) => {
@@ -104,6 +133,35 @@ test("タイル取得失敗後に再試行できる", async ({ page }) => {
   await page.getByRole("button", { name: "再読み込み" }).click();
   await expect(page.locator(".map-status")).toBeEmpty();
   await expect(page.locator(".cafe-pin").first()).toBeVisible();
+});
+
+test("地図はビル・階ごとにまとめ、店舗選択は単独ポップアップと詳細スクロールに切り替える", async ({ page }) => {
+  await page.route("https://tile.openstreetmap.org/**", route => route.fulfill({ contentType: "image/png", body: png }));
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await page.locator(".cafe-pin.shared").first().click();
+  const popup = page.locator(".leaflet-popup");
+  await expect(popup.locator(".popup-building h4").first()).toBeVisible();
+  await expect(popup.locator(".popup-floor h5").first()).toBeVisible();
+  expect(await popup.locator(".popup-cafe-button").count()).toBeGreaterThan(1);
+  const name = (await popup.locator(".popup-cafe-button").first().textContent())!;
+  await popup.locator(".popup-cafe-button").first().click();
+  await expect(popup.locator(".popup-cafe-button")).toHaveCount(1);
+  await expect(popup).toContainText(name);
+  const detail = page.getByRole("region", { name: "選択した店舗" });
+  await expect(detail).toContainText(name);
+  await expect.poll(async () => (await detail.boundingBox())?.y ?? -1000).toBeGreaterThanOrEqual(0);
+  await expect.poll(async () => (await detail.boundingBox())?.y ?? 1000).toBeLessThan(100);
+  // Selecting the same store again must scroll back to its details too.
+  const card = page.locator(".cafe-cards .cafe-card").filter({ hasText: name }).first();
+  await card.click();
+  await expect(popup.locator(".popup-cafe-button")).toHaveCount(1);
+  await expect.poll(async () => (await detail.boundingBox())?.y ?? 1000).toBeLessThan(100);
+  const marker = page.locator(".leaflet-marker-icon").filter({ has: page.locator(".cafe-pin") }).and(page.locator(`[title*=${JSON.stringify(name)}]`)).first();
+  await marker.click();
+  await expect(popup.locator(".popup-building h4").first()).toBeVisible();
+  await expect(popup.locator(".popup-floor h5").first()).toBeVisible();
 });
 
 test("キーボードでエリアを切り替え、重なったピンから店舗を選べる", async ({ page }) => {
