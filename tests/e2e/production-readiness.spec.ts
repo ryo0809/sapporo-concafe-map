@@ -21,8 +21,8 @@ test("公開ページのメタデータ・アイコン・案内と機密APIヘ�
   await expect(page.locator('footer a[href^="/admin"]')).toHaveCount(0);
   await expect(page.locator("body")).not.toContainText("お出かけ前に、店舗の最新情報をご確認ください。");
   await expect(page.locator("body")).not.toContainText("管理画面");
-  await page.getByRole("link",{name:"お問い合わせ・掲載情報の修正"}).click();
-  await expect(page.getByRole("heading",{name:"お問い合わせ・掲載情報の修正"})).toBeVisible();
+  await page.getByRole("link",{name:"お問い合わせ",exact:true}).click();
+  await expect(page.getByRole("heading",{name:"お問い合わせ",exact:true})).toBeVisible();
   await page.goto("/privacy");
   await expect(page.locator("body")).not.toContainText("管理画面");
   await expect(page.locator("body")).not.toContainText("管理者ログイン");
