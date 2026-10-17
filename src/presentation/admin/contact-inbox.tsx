@@ -26,16 +26,21 @@ export function ContactInbox() {
     finally { setBusy(false); }
   }
   return <div className="contact-inbox">
-    <div className="contact-tabs" aria-label="対応状況">{(["new", "done"] as const).map(value => <button key={value} type="button" aria-pressed={status === value} disabled={busy} onClick={() => { if (status === value) return; setStatus(value); setMessages([]); setLoading(true); setError(""); }}>{value === "new" ? "未対応" : "対応済み"}</button>)}</div>
-    <p>新しい順に最大100件を表示します。返信はメールアドレスのリンクから行ってください。不要になった内容は削除してください。</p>
-    {error && <p role="alert" className="contact-error">{error}</p>}
-    {loading ? <p role="status">読み込んでいます…</p> : messages.length === 0 ? <p>お問い合わせはありません。</p> : messages.map(message => <article className="contact-message" key={message.id}>
-      <h2>{contactCategories[message.category]}{message.store_name && `：${message.store_name}`}</h2><p><time dateTime={message.created_at}>{new Date(message.created_at).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })}</time>（日本時間）</p>
+    <section className="admin-panel" aria-labelledby="admin-inbox-title">
+    <div className="admin-panel-heading"><h2 id="admin-inbox-title">受信一覧</h2></div>
+    <div className="admin-area-tabs admin-inbox-status" role="group" aria-label="対応状況">{(["new", "done"] as const).map(value => <button key={value} type="button" aria-pressed={status === value} disabled={busy} onClick={() => { if (status === value) return; setStatus(value); setMessages([]); setLoading(true); setError(""); }}>{value === "new" ? "未対応" : "対応済み"}</button>)}</div>
+    <p className="admin-field-help">新しい順に最大100件を表示します。返信はメールアドレスのリンクから行ってください。不要になった内容は削除してください。</p>
+    {error && <p role="alert" className="admin-error">{error}</p>}
+    <div className="admin-results-heading"><h3>{status === "new" ? "未対応" : "対応済み"}のお問い合わせ</h3>{!loading && <span>{messages.length}件</span>}</div>
+    <div className="admin-inbox-list">
+    {loading ? <p role="status" className="admin-empty">読み込んでいます…</p> : messages.length === 0 ? <p className="admin-empty">お問い合わせはありません。</p> : messages.map(message => <article className="contact-message" key={message.id}>
+      <div className="admin-inbox-message-heading"><h3>{contactCategories[message.category]}{message.store_name && `：${message.store_name}`}</h3><span className={`admin-inbox-badge ${message.status}`}>{message.status === "new" ? "未対応" : "対応済み"}</span></div><p className="admin-field-help"><time dateTime={message.created_at}>{new Date(message.created_at).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })}</time>（日本時間）</p>
       <p>{message.name && <>{message.category === "deletion" && "事業責任者："}{message.name} / </>}{message.email ? <a href={`mailto:${encodeURIComponent(message.email)}`}>{message.email}</a> : <span>メールアドレス未入力（返信不可）</span>}</p>
       {message.reference_url && <p><a href={message.reference_url} target="_blank" rel="noopener noreferrer">確認用URLを開く</a></p>}
       <MessageDetails message={message}/>
-      <p className="contact-message-body">{message.message}</p><div className="contact-tabs"><button disabled={busy} onClick={() => update(message)}>{status === "new" ? "対応済みにする" : "未対応に戻す"}</button><button className="contact-danger" disabled={busy} onClick={() => { setTarget(message); dialog.current?.showModal(); }}>削除</button></div>
+      {message.message && <p className="contact-message-body">{message.message}</p>}<div className="admin-form-actions admin-inbox-actions"><button disabled={busy} onClick={() => update(message)}>{status === "new" ? "対応済みにする" : "未対応に戻す"}</button><button className="danger admin-delete-button" disabled={busy} onClick={() => { setTarget(message); dialog.current?.showModal(); }}>削除</button></div>
     </article>)}
-    <dialog ref={dialog} className="contact-dialog" aria-labelledby="contact-delete-title" onCancel={event => { if (busy) event.preventDefault(); }}><h2 id="contact-delete-title">お問い合わせを削除しますか？</h2><p>削除すると元に戻せません。</p>{error && <p role="alert">{error}</p>}<div className="contact-tabs"><button disabled={busy} onClick={() => dialog.current?.close()}>キャンセル</button><button disabled={busy} className="contact-danger" onClick={() => target && update(target, true)}>{busy ? "削除しています…" : "削除する"}</button></div></dialog>
+    </div></section>
+    <dialog ref={dialog} className="admin-save-dialog admin-delete-dialog" aria-labelledby="contact-delete-title" onCancel={event => { if (busy) event.preventDefault(); }}><h2 id="contact-delete-title">お問い合わせを削除しますか？</h2><p>削除すると元に戻せません。</p>{error && <p role="alert" className="admin-error">{error}</p>}<div className="admin-delete-actions"><button className="secondary" autoFocus disabled={busy} onClick={() => dialog.current?.close()}>キャンセル</button><button disabled={busy} className="danger" onClick={() => target && update(target, true)}>{busy ? "削除しています…" : "削除する"}</button></div></dialog>
   </div>;
 }
