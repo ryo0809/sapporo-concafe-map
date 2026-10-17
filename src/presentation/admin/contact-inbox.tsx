@@ -1,7 +1,12 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { contactCategories, type ContactMessage } from "@/domain/contact";
+import { contactCategories, contactDetailFields, contactUrlFields, isStoreContact, type ContactMessage } from "@/domain/contact";
+function MessageDetails({ message }: { message: ContactMessage }) {
+  const details: Record<string, string> = JSON.parse(message.details_json || "{}");
+  const fields = [...contactDetailFields[message.category], ...(isStoreContact(message.category) ? contactUrlFields : [])];
+  return <dl className="contact-details">{fields.filter(field => details[field.key]).map(field => <div key={field.key}><dt>{field.label}</dt><dd>{field.type === "url" ? <a href={details[field.key]} target="_blank" rel="noopener noreferrer">{details[field.key]}</a> : details[field.key]}</dd></div>)}</dl>;
+}
 export function ContactInbox() {
   const [status, setStatus] = useState<"new" | "done">("new");
   const [messages, setMessages] = useState<ContactMessage[]>([]), [loading, setLoading] = useState(true), [busy, setBusy] = useState(false), [error, setError] = useState("");
@@ -29,6 +34,7 @@ export function ContactInbox() {
       <h2>{contactCategories[message.category]}{message.store_name && `：${message.store_name}`}</h2><p><time dateTime={message.created_at}>{new Date(message.created_at).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })}</time>（日本時間）</p>
       <p>{message.name} / {message.email ? <a href={`mailto:${encodeURIComponent(message.email)}`}>{message.email}</a> : <span>メールアドレス未入力（返信不可）</span>}</p>
       {message.reference_url && <p><a href={message.reference_url} target="_blank" rel="noopener noreferrer">確認用URLを開く</a></p>}
+      <MessageDetails message={message}/>
       <p className="contact-message-body">{message.message}</p><div className="contact-tabs"><button disabled={busy} onClick={() => update(message)}>{status === "new" ? "対応済みにする" : "未対応に戻す"}</button><button className="contact-danger" disabled={busy} onClick={() => { setTarget(message); dialog.current?.showModal(); }}>削除</button></div>
     </article>)}
     <dialog ref={dialog} className="contact-dialog" aria-labelledby="contact-delete-title" onCancel={event => { if (busy) event.preventDefault(); }}><h2 id="contact-delete-title">お問い合わせを削除しますか？</h2><p>削除すると元に戻せません。</p>{error && <p role="alert">{error}</p>}<div className="contact-tabs"><button disabled={busy} onClick={() => dialog.current?.close()}>キャンセル</button><button disabled={busy} className="contact-danger" onClick={() => target && update(target, true)}>{busy ? "削除しています…" : "削除する"}</button></div></dialog>

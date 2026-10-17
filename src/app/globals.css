@@ -102,6 +102,12 @@ summary { cursor: pointer; }
 .contact-form fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 22px; min-width: 0; }
 .contact-form label { display: grid; gap: 8px; font-size: .9rem; font-weight: 600; }
 .contact-form label + p { margin: 8px 0 0; font-size: .8rem; color: var(--muted); }
+.contact-field-section { display: grid; gap: 22px; min-width: 0; }
+.contact-field-section h2 { margin: 8px 0 0; }
+.contact-field-section > p { margin: -12px 0 0; font-size: .8rem; color: var(--muted); }
+.contact-details { display: grid; gap: 16px; }
+.contact-details dt { font-weight: 700; }
+.contact-details dd { margin: 4px 0 0; white-space: pre-wrap; }
 .contact-form input:not([type=checkbox]), .contact-form select, .contact-form textarea { width: 100%; min-width: 0; padding: 12px; border: 1px solid #becdc2; border-radius: 8px; background: white; color: var(--ink); font: inherit; font-weight: 400; }
 .contact-form textarea { resize: vertical; }
 .contact-form .contact-consent { display: flex; align-items: flex-start; gap: 12px; font-weight: 400; }

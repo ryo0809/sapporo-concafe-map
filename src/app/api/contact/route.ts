@@ -14,7 +14,7 @@ export async function POST(request: Request) {
       while (true) {
         const { done, value } = await reader.read(); if (done) break;
         size += value.length;
-        if (size > 32768) { await reader.cancel(); throw new AccessError(413, "送信データが大きすぎます。"); }
+        if (size > 65536) { await reader.cancel(); throw new AccessError(413, "送信データが大きすぎます。"); }
         chunks.push(value);
       }
     } finally { reader.releaseLock(); }
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     await db.prepare("DELETE FROM contact_rate_limits WHERE started_at < ?").bind(now - 86400000).run();
     const limit = await db.prepare(`INSERT INTO contact_rate_limits VALUES(?,1,?) ON CONFLICT(client_key) DO UPDATE SET request_count=CASE WHEN ?-started_at>=3600000 THEN 1 ELSE request_count+1 END, started_at=CASE WHEN ?-started_at>=3600000 THEN ? ELSE started_at END RETURNING request_count,started_at`).bind(key, now, now, now, now).first<{ request_count: number; started_at: number }>();
     if (!limit || limit.request_count > 5) return Response.json({ error: "送信回数の上限に達しました。しばらく待ってから再度お試しください。" }, { status: 429, headers: { ...headers, "Retry-After": String(limit ? Math.max(1, Math.ceil((limit.started_at + 3600000 - now) / 1000)) : 3600) } });
-    await db.prepare("INSERT INTO contact_messages(id,name,email,category,store_name,reference_url,message,created_at) VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(id) DO NOTHING").bind(input.id, input.name, input.email, input.category, input.storeName, input.referenceUrl, input.message, new Date(now).toISOString()).run();
+    await db.prepare("INSERT INTO contact_messages(id,name,email,category,store_name,reference_url,details_json,message,created_at) VALUES(?,?,?,?,?,?,?,?,?) ON CONFLICT(id) DO NOTHING").bind(input.id, input.name, input.email, input.category, input.storeName, input.referenceUrl, JSON.stringify(input.details), input.message, new Date(now).toISOString()).run();
     return Response.json({ ok: true }, { status: 201, headers });
   } catch (error) {
     if (error instanceof AccessError) return Response.json({ error: error.message }, { status: error.status, headers });

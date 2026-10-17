@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 test("種類に応じて入力欄を切り替え、メールなしでサイトへの要望を受け付ける", async ({ page }) => {
   await page.goto("/contact");
   const category = page.getByLabel("お問い合わせの種類");
-  for (const [value, label] of [["correction", "修正内容"], ["deletion", "削除の理由・内容"], ["addition", "掲載店舗の情報"]]) {
+  for (const [value, label] of [["correction", "修正する項目"], ["deletion", "削除の理由"], ["addition", "住所"]]) {
     await category.selectOption(value);
     await expect(page.locator('input[name="storeName"]')).toBeVisible();
     await expect(page.locator('input[name="storeName"]')).toHaveAttribute("required", "");
@@ -16,7 +16,8 @@ test("種類に応じて入力欄を切り替え、メールなしでサイト�
     await expect(page.locator('input[name="referenceUrl"]')).toHaveCount(0);
   }
   await page.getByLabel("お名前（必須）").fill("サイトへの要望検証");
-  await page.getByLabel("要望・追加してほしい機能").fill("地図の表示方法を追加してほしいです。");
+  await page.getByLabel("要望の件名").fill("地図の機能追加");
+  await page.getByLabel("改善・追加してほしいこと").fill("地図の表示方法を追加してほしいです。");
   await page.getByRole("checkbox").check();
   await page.getByRole("button", { name: "送信する", exact: true }).click();
   await expect(page.getByRole("dialog")).toContainText("メールアドレスが未入力");
@@ -38,6 +39,7 @@ test("スマートフォンで送信に失敗しても入力を保持し、再�
   await page.goto("/contact");
   await page.getByLabel("お問い合わせの種類").selectOption("other");
   await page.getByLabel("お名前（必須）").fill("再送信検証");
+  await page.getByLabel("件名（必須）", { exact: true }).fill("再送信検証");
   await page.getByLabel("メールアドレス（任意）").fill("retry@example.com");
   await page.locator('textarea[name="message"]').fill("入力を保持する");
   await page.getByRole("checkbox").check();
@@ -55,6 +57,10 @@ test("フォーム送信から管理画面の確認・対応済み・削除ま�
   await page.getByLabel("お名前（必須）").fill("お問い合わせ検証");
   await page.getByLabel("メールアドレス（任意）").fill("contact-test@example.com");
   await page.getByLabel("対象の店舗名（必須）").fill("お問い合わせ検証店舗");
+  await page.getByLabel("修正する項目").fill("営業時間");
+  await page.getByLabel("正しい内容").fill("18:00〜翌2:00");
+  await page.getByLabel("公式サイトURL（任意）", { exact: true }).fill("https://official.example.com/");
+  await page.getByLabel("X（旧Twitter）URL（任意）", { exact: true }).fill("https://x.com/example");
   await page.locator('textarea[name="message"]').fill("修正のお願い\n<script>alert('test')</script>");
   await page.getByRole("checkbox").check();
   const release: (() => void)[] = [];
@@ -76,6 +82,9 @@ test("フォーム送信から管理画面の確認・対応済み・削除ま�
   await page.goto("/admin/contacts");
   const message = page.getByRole("article").filter({ hasText: "お問い合わせ検証店舗" });
   await expect(message).toContainText("<script>alert('test')</script>");
+  await expect(message).toContainText("18:00〜翌2:00");
+  await expect(message.getByRole("link", { name: "https://official.example.com/", exact: true })).toHaveAttribute("href", "https://official.example.com/");
+  await expect(message.getByRole("link", { name: "https://x.com/example", exact: true })).toHaveAttribute("href", "https://x.com/example");
   await message.getByRole("button", { name: "対応済みにする" }).click();
   await expect(message).toHaveCount(0);
   await page.getByRole("button", { name: "対応済み", exact: true }).click();
@@ -87,7 +96,7 @@ test("フォーム送信から管理画面の確認・対応済み・削除ま�
 });
 
 test("問い合わせAPIの入力・送信元・重複・連続送信を検証する", async ({ request }) => {
-  const data = { id: randomUUID(), name: "検証", email: "test@example.com", category: "other", storeName: "", referenceUrl: "", message: "APIテスト", website: "", consent: true };
+  const data = { id: randomUUID(), name: "検証", email: "test@example.com", category: "other", storeName: "", referenceUrl: "", subject: "API検証", message: "APIテスト", website: "", consent: true };
   const headers = { "cf-connecting-ip": "192.0.2.23" };
   expect((await request.post("/api/contact", { data, headers: { ...headers, Origin: "https://other.example" } })).status()).toBe(403);
   expect((await request.post("/api/contact", { data: { ...data, consent: false }, headers })).status()).toBe(400);
