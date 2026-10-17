@@ -8,6 +8,7 @@ export interface Cafe {
   readonly location: { readonly latitude: number; readonly longitude: number } | null;
   readonly sourceUrl: string;
   readonly officialUrl?: string;
+  readonly socialUrls?: readonly string[];
   readonly verifiedOn: string;
   readonly area: CafeArea;
   readonly locationGroup: string;

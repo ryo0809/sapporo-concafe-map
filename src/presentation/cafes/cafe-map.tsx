@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Map as LeafletMap, Marker } from "leaflet";
 import type { CafeSummary } from "@/application/cafes/list-cafes";
 import { getBuildingDetails, groupCafesByBuilding } from "./building-groups";
+import { SocialLinks } from "./social-links";
 
 const labels = { concept: "コンカフェ", maid: "メイドカフェ", unknown: "種別未確認" };
 type Area = CafeSummary["area"];
@@ -175,11 +176,8 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
           <span className={`category ${selected.category}`}>{labels[selected.category]}</span>
           <h3>{selected.name}</h3><p className="detail-address">{selected.address}</p>
           {selected.officialUrl&&<a className="source-link" href={selected.officialUrl} target="_blank" rel="noreferrer">公式サイト ↗</a>}
+          <SocialLinks urls={selected.socialUrls ?? []} cafeName={selected.name}/>
           <p className="detail-status">{selected.businessStatus === "operating" ? "営業情報あり" : "営業状態は未確認です。来店前に店舗へご確認ください。"}</p>
-          <details className="detail-metadata"><summary>情報の取得・位置について</summary>
-            <p>情報確認日：{selected.verifiedOn||"未確認"}</p>
-            <p>位置の確認元：{selected.coordinateSource}</p>
-          </details>
         </section>}
       <section className="cafe-sidebar" aria-label="店舗一覧">
         <div className="sidebar-heading"><h2>ビルからお店を探す</h2><span>{listedCafes.length}件</span></div>
