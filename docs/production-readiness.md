@@ -18,6 +18,8 @@
 
 ## ローカルD1の移行準備（本番操作なし）
 
+お問い合わせのメールアドレスは任意です。未入力の場合は個別の返信を行わず、受信一覧に「返信不可」と表示します。「掲載情報の修正」「掲載情報の削除」「掲載店舗の追加」は店舗名と確認用URLを表示し、「サイトに対する要望・追加」「その他」では店舗項目を表示しません。内容欄の見出しと案内文も種類ごとに切り替わります。
+
 ```powershell
 npm.cmd run db:migrate:local
 npm.cmd run db:snapshot -- --output reports/snapshots/local-review.json

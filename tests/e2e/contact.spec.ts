@@ -1,5 +1,36 @@
 import { expect, test } from "@playwright/test";
 import { randomUUID } from "node:crypto";
+test("種類に応じて入力欄を切り替え、メールなしでサイトへの要望を受け付ける", async ({ page }) => {
+  await page.goto("/contact");
+  const category = page.getByLabel("お問い合わせの種類");
+  for (const [value, label] of [["correction", "修正内容"], ["deletion", "削除の理由・内容"], ["addition", "掲載店舗の情報"]]) {
+    await category.selectOption(value);
+    await expect(page.locator('input[name="storeName"]')).toBeVisible();
+    await expect(page.locator('input[name="storeName"]')).toHaveAttribute("required", "");
+    await expect(page.getByLabel(label)).toBeVisible();
+  }
+  await expect(category.locator('option[value="addition"]')).toHaveText("掲載店舗の追加");
+  for (const value of ["other", "site"]) {
+    await category.selectOption(value);
+    await expect(page.locator('input[name="storeName"]')).toHaveCount(0);
+    await expect(page.locator('input[name="referenceUrl"]')).toHaveCount(0);
+  }
+  await page.getByLabel("お名前（必須）").fill("サイトへの要望検証");
+  await page.getByLabel("要望・追加してほしい機能").fill("地図の表示方法を追加してほしいです。");
+  await page.getByRole("checkbox").check();
+  await page.getByRole("button", { name: "送信する", exact: true }).click();
+  await expect(page.getByRole("dialog")).toContainText("メールアドレスが未入力");
+  expect((await page.request.post("/api/admin/login", { data: { username: "admin", password: "admin" } })).status()).toBe(200);
+  await page.goto("/admin/contacts");
+  const message = page.getByRole("article").filter({ hasText: "サイトへの要望検証" });
+  await expect(message).toContainText("サイトに対する要望・追加");
+  await expect(message).toContainText("メールアドレス未入力（返信不可）");
+  await expect(message.locator('a[href^="mailto:"]')).toHaveCount(0);
+  await message.getByRole("button", { name: "削除", exact: true }).click();
+  await page.getByRole("button", { name: "削除する", exact: true }).click();
+  await expect(message).toHaveCount(0);
+});
+
 test("スマートフォンで送信に失敗しても入力を保持し、再送信できる", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
   let attempts = 0;
@@ -7,24 +38,24 @@ test("スマートフォンで送信に失敗しても入力を保持し、再�
   await page.goto("/contact");
   await page.getByLabel("お問い合わせの種類").selectOption("other");
   await page.getByLabel("お名前（必須）").fill("再送信検証");
-  await page.getByLabel("メールアドレス（必須）").fill("retry@example.com");
-  await page.getByLabel("お問い合わせ内容").fill("入力を保持する");
+  await page.getByLabel("メールアドレス（任意）").fill("retry@example.com");
+  await page.locator('textarea[name="message"]').fill("入力を保持する");
   await page.getByRole("checkbox").check();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.getByRole("button", { name: "送信する", exact: true }).click();
   await expect(page.locator("form").getByRole("alert")).toContainText("送信できませんでした");
-  await expect(page.getByLabel("お問い合わせ内容")).toHaveValue("入力を保持する");
+  await expect(page.locator('textarea[name="message"]')).toHaveValue("入力を保持する");
   await page.getByRole("button", { name: "送信する", exact: true }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
-  await expect(page.getByLabel("お問い合わせ内容")).toHaveValue("");
+  await expect(page.locator('textarea[name="message"]')).toHaveValue("");
 });
 
 test("フォーム送信から管理画面の確認・対応済み・削除まで", async ({ page, request }) => {
   await page.goto("/contact");
   await page.getByLabel("お名前（必須）").fill("お問い合わせ検証");
-  await page.getByLabel("メールアドレス（必須）").fill("contact-test@example.com");
-  await page.getByLabel("店舗名（必須）").fill("お問い合わせ検証店舗");
-  await page.getByLabel("お問い合わせ内容").fill("修正のお願い\n<script>alert('test')</script>");
+  await page.getByLabel("メールアドレス（任意）").fill("contact-test@example.com");
+  await page.getByLabel("対象の店舗名（必須）").fill("お問い合わせ検証店舗");
+  await page.locator('textarea[name="message"]').fill("修正のお願い\n<script>alert('test')</script>");
   await page.getByRole("checkbox").check();
   const release: (() => void)[] = [];
   await page.route("**/api/contact", async route => {
