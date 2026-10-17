@@ -23,6 +23,8 @@ test.beforeAll(async ({ playwright }) => {
 test("最新バッチの件数を表示し、座標なしの店舗も選択できる", async ({ page }) => {
   await page.route("https://tile.openstreetmap.org/**", (route) => route.fulfill({ contentType: "image/png", body: png }));
   await page.goto("/");
+  await expect(page.getByRole("tab", { name: /^すすきの/ })).toHaveAttribute("aria-selected", "true");
+  await page.getByRole("tab", { name: /^狸小路/ }).click();
   await expect(page.getByRole("tab", { name: /^狸小路/ })).toContainText(`${count("tanukikoji")}件`);
   await expect(page.getByRole("tablist", { name: "ビルを選択" })).toBeVisible();
   await expect(page.locator(".cafe-pin").first()).toBeVisible();
@@ -49,6 +51,7 @@ test("最新バッチの件数を表示し、座標なしの店舗も選択で�
 test("店舗名で検索し、詳細を閉じて一覧に戻れる", async ({ page }) => {
   await page.route("https://tile.openstreetmap.org/**", (route) => route.fulfill({ contentType: "image/png", body: png }));
   await page.goto("/");
+  await page.getByRole("tab", { name: /^狸小路/ }).click();
   const search = page.getByRole("searchbox", { name: "店舗名・住所で検索" });
   await search.fill("めいどりーみん");
   await expect(page.locator(".cafe-cards > li")).toHaveCount(1);
@@ -68,6 +71,7 @@ test("店舗名で検索し、詳細を閉じて一覧に戻れる", async ({ pa
 test("ビルタブで情報を切り替え、階ごとに店舗をまとめる", async ({ page }) => {
   await page.route("https://tile.openstreetmap.org/**", (route) => route.fulfill({ contentType: "image/png", body: png }));
   await page.goto("/");
+  await page.getByRole("tab", { name: /^狸小路/ }).click();
   const tabs = page.getByRole("tablist", { name: "ビルを選択" });
   await expect(page.locator(".leaflet-marker-icon").first()).toBeVisible();
   await tabs.getByRole("tab", { name: /N・ヴィコロビル/ }).click();
