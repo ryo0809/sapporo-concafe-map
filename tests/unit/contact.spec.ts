@@ -13,7 +13,7 @@ test("問い合わせの入力を検証し、前後の空白を除去する", ()
   for (const category of ["correction", "deletion", "addition"]) {
     expect(() => validateContact({ ...valid, category, storeName: "" })).toThrow();
   }
-  for (const input of [null, {}, { ...valid, consent: false }, { ...valid, correctValue: " " }, { ...valid, category: "other", message: " " }, { ...valid, message: "あ".repeat(5001) }, { ...valid, email: "invalid" }, { ...valid, category: "__proto__" }, { ...valid, referenceUrl: "javascript:alert(1)" }, { ...valid, storeName: "" }, { ...valid, referenceUrl: "https://user:pass@example.com" }]) {
+  for (const input of [null, {}, { ...valid, consent: false }, { ...valid, message: " " }, { ...valid, category: "other", message: " " }, { ...valid, message: "あ".repeat(5001) }, { ...valid, email: "invalid" }, { ...valid, category: "__proto__" }, { ...valid, category: "addition", address: "札幌", officialUrl: "javascript:alert(1)" }, { ...valid, storeName: "" }, { ...valid, category: "addition", address: "札幌", officialUrl: "https://user:pass@example.com" }]) {
     expect(() => validateContact(input)).toThrow();
   }
 });

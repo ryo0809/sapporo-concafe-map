@@ -2,7 +2,7 @@ export const contactCategories = { correction: "掲載情報の修正", deletion
 export type ContactCategory = keyof typeof contactCategories;
 export const isStoreContact = (category: ContactCategory) => ["correction", "deletion", "addition"].includes(category);
 export const contactFields = {
-  correction: { label: "補足", hint: "修正について補足があればお知らせください。" },
+  correction: { label: "修正したい内容", hint: "修正したい箇所と正しい内容をお知らせください。" },
   deletion: { label: "補足", hint: "削除について補足があればお知らせください。" },
   addition: { label: "補足", hint: "各項目以外に掲載に必要な情報があればお知らせください。" },
   site: { label: "補足", hint: "要望について補足があればお知らせください。" },
@@ -62,7 +62,7 @@ export function validateContact(value: unknown) {
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error("メールアドレスを確認してください。");
   const storeName = isStoreContact(category) ? text("storeName", 200, true) : "";
   const details: Record<string, string> = {};
-  for (const field of category === "deletion" ? [] : [...contactDetailFields[category], ...(isStoreContact(category) ? contactUrlFields : [])]) {
+  for (const field of ["deletion", "correction"].includes(category) ? [] : [...contactDetailFields[category], ...(category === "addition" ? contactUrlFields : [])]) {
     const value = text(field.key, field.max, field.required);
     if (field.type === "url" && value) {
       let url: URL;
@@ -71,12 +71,12 @@ export function validateContact(value: unknown) {
     }
     if (value) details[field.key] = value;
   }
-  const referenceUrl = isStoreContact(category) && category !== "deletion" ? text("referenceUrl", 2048) : "";
+  const referenceUrl = category === "addition" ? text("referenceUrl", 2048) : "";
   if (referenceUrl) {
     let url: URL;
     try { url = new URL(referenceUrl); } catch { throw new Error("確認用URLを確認してください。"); }
     if (!["https:", "http:"].includes(url.protocol) || url.username || url.password) throw new Error("確認用URLはhttpまたはhttpsで入力してください。");
   }
   if (data.consent !== true) throw new Error("プライバシーポリシーへの同意が必要です。");
-  return { id, name, email, category, storeName, referenceUrl, details, message: category === "deletion" ? "" : text("message", 5000, category === "other"), website: text("website", 200) };
+  return { id, name, email, category, storeName, referenceUrl, details, message: category === "deletion" ? "" : text("message", 5000, category === "other" || category === "correction"), website: text("website", 200) };
 }

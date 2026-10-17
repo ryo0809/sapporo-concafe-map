@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 test("種類に応じて入力欄を切り替え、メールなしでサイトへの要望を受け付ける", async ({ page }) => {
   await page.goto("/contact");
   const category = page.getByLabel("お問い合わせの種類");
-  for (const [value, label] of [["correction", "修正する項目"], ["deletion", "対象の店舗名"], ["addition", "住所"]]) {
+  for (const [value, label] of [["correction", "修正したい内容"], ["deletion", "対象の店舗名"], ["addition", "住所"]]) {
     await category.selectOption(value);
     await expect(page.locator('input[name="storeName"]')).toBeVisible();
     await expect(page.locator('input[name="storeName"]')).toHaveAttribute("required", "");
@@ -57,11 +57,6 @@ test("フォーム送信から管理画面の確認・対応済み・削除ま�
   await page.getByLabel("お名前（必須）").fill("お問い合わせ検証");
   await page.getByLabel("メールアドレス（任意）").fill("contact-test@example.com");
   await page.getByLabel("対象の店舗名（必須）").fill("お問い合わせ検証店舗");
-  await page.getByLabel("修正する項目").fill("営業時間");
-  await page.getByLabel("正しい内容").fill("18:00〜翌2:00");
-  await page.getByLabel("公式サイトURL（任意）", { exact: true }).fill("https://official.example.com/");
-  await page.getByLabel("X（旧Twitter）URL（任意）", { exact: true }).fill("https://x.com/example");
-  await page.getByText("詳しい情報を追加（任意）", { exact: true }).click();
   await page.locator('textarea[name="message"]').fill("修正のお願い\n<script>alert('test')</script>");
   await page.getByRole("checkbox").check();
   const release: (() => void)[] = [];
@@ -83,9 +78,6 @@ test("フォーム送信から管理画面の確認・対応済み・削除ま�
   await page.goto("/admin/contacts");
   const message = page.getByRole("article").filter({ hasText: "お問い合わせ検証店舗" });
   await expect(message).toContainText("<script>alert('test')</script>");
-  await expect(message).toContainText("18:00〜翌2:00");
-  await expect(message.getByRole("link", { name: "https://official.example.com/", exact: true })).toHaveAttribute("href", "https://official.example.com/");
-  await expect(message.getByRole("link", { name: "https://x.com/example", exact: true })).toHaveAttribute("href", "https://x.com/example");
   await message.getByRole("button", { name: "対応済みにする" }).click();
   await expect(message).toHaveCount(0);
   await page.getByRole("button", { name: "対応済み", exact: true }).click();
