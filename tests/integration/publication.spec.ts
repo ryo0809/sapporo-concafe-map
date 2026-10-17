@@ -6,6 +6,7 @@ import { D1CafeStore } from "../../src/infrastructure/database/d1-cafe-store";
 import { validateCafeInput } from "../../src/domain/admin/managed-cafe";
 import {D1SearchRateLimiter} from "../../src/infrastructure/admin/search-rate-limiter";
 import {verifyPassword} from "../../db/passwords.mjs";
+import {ListCafes} from "../../src/application/cafes/list-cafes";
 
 test("D1で既存店舗を非公開にし、予約時刻・解除・公式サイトを保持する", async () => {
   const persistPath=path.resolve(".wrangler/tests",`publication-${Date.now()}`);
@@ -68,5 +69,22 @@ test("D1で既存店舗を非公開にし、予約時刻・解除・公式サイ
     expect(limitResults.filter(result=>result.status==="rejected")).toHaveLength(1);
     await expect(limiter.consume("admin-b",100000)).resolves.toBeUndefined();
     await expect(limiter.consume("admin-a",160000)).resolves.toBeUndefined();
+    // Legacy shared addresses contain one tenant's floor; it must never leak to another tenant.
+    const base="札幌市中央区南4条西3丁目1-1";
+    await proxy.env.DB.prepare("INSERT INTO buildings(id,area,name,street,address) VALUES(?,?,?,?,?)")
+      .bind("floor-test","susukino","共通ビル",base,`${base} 共通ビル 9F`).run();
+    const first=await store.save({...input,name:"階数2階",buildingId:"floor-test",floor:"2F",publicationStatus:"published",publishAt:undefined},"test");
+    const second=await store.save({...input,name:"階数5階",buildingId:"floor-test",floor:"5F",publicationStatus:"published",publishAt:undefined},"test");
+    expect(first).toMatchObject({address:base,floor:"2F"});
+    expect(second).toMatchObject({address:base,floor:"5F"});
+    // A legacy cafe without a separate floor uses its OWN original address, never the shared one.
+    await proxy.env.DB.prepare("UPDATE cafes SET floor_id=NULL,floor_label='',address=?,version=version+1 WHERE id=?")
+      .bind(`${base} 共通ビル 7F`,second.id).run();
+    expect(await store.find(second.id)).toMatchObject({address:base,floor:"7F"});
+    await proxy.env.DB.prepare("UPDATE buildings SET address=?,version=version+1 WHERE id=?")
+      .bind("札幌市中央区南4条西3丁目2-2","floor-test").run();
+    const publicCafes=await new ListCafes({findAll:async()=> (await store.list(true)).map(cafe=>({...cafe,businessStatus:"unknown" as const}))}).execute();
+    expect(publicCafes.find(cafe=>cafe.id===first.id)?.address).toBe("札幌市中央区南4条西3丁目2-2 共通ビル2F");
+    expect(publicCafes.find(cafe=>cafe.id===second.id)?.address).toBe("札幌市中央区南4条西3丁目2-2 共通ビル7F");
   } finally { await proxy.dispose(); }
 });

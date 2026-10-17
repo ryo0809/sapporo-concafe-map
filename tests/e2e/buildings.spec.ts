@@ -42,16 +42,23 @@ test("ビルAPIは認証・送信元・重複・エリア・同時更新を検�
   const created=await request.post("/api/admin/buildings",{data:buildingInput});expect(created.status()).toBe(201);
   const building=(await created.json()).building;
   expect((await request.post("/api/admin/buildings",{data:buildingInput})).status()).toBe(400);
+  expect((await request.post("/api/admin/buildings",{data:{...buildingInput,address:`${buildingInput.address} ${buildingInput.name} 5F`}})).status()).toBe(400);
   expect((await request.post("/api/admin/buildings",{data:{...buildingInput,address:"札幌市中央区南4条西5丁目2-2"}})).status()).toBe(201);
   expect((await request.post("/api/admin/cafes",{data:{...cafeInput,area:"tanukikoji",buildingId:building.id}})).status()).toBe(400);
   const cafeResponse=await request.post("/api/admin/cafes",{data:{...cafeInput,buildingId:building.id}});expect(cafeResponse.status()).toBe(201);
   const cafe=(await cafeResponse.json()).cafe;expect(cafe).toMatchObject({buildingId:building.id,buildingName:building.name,address:building.address});
+  const otherResponse=await request.post("/api/admin/cafes",{data:{...cafeInput,name:"同じビルの別階店舗",buildingId:building.id,floor:"5F"}});
+  expect(otherResponse.status()).toBe(201);
+  const other=(await otherResponse.json()).cafe;
+  expect(other).toMatchObject({address:building.address,floor:"5F"});
   expect((await request.put(`/api/admin/buildings/${building.id}`,{data:{...building,area:"tanukikoji"}})).status()).toBe(400);
   const results=await Promise.all(["A","B"].map(suffix=>request.put(`/api/admin/buildings/${building.id}`,{data:{...building,name:"更新済みビル"+suffix,address:"札幌市中央区南4条西3丁目9-9",location:{latitude:43.055,longitude:141.35}}})));
   expect(results.map(result=>result.status()).sort()).toEqual([200,409]);
   const saved=(await results.find(result=>result.status()===200)!.json()).building;
   const cafes=(await(await request.get("/api/admin/cafes")).json()).cafes;
   expect(cafes.find((value:{id:string})=>value.id===cafe.id)).toMatchObject({address:saved.address,buildingName:saved.name,location:saved.location,socialUrls:cafeInput.socialUrls});
+  expect(cafes.find((value:{id:string})=>value.id===cafe.id)).toMatchObject({floor:"2F"});
+  expect(cafes.find((value:{id:string})=>value.id===other.id)).toMatchObject({address:saved.address,floor:"5F"});
   // A stale editor cannot overwrite a centrally managed address with its old value.
   const updated=await request.put(`/api/admin/cafes/${cafe.id}`,{data:cafe});expect(updated.status()).toBe(200);
   expect((await updated.json()).cafe).toMatchObject({address:saved.address,buildingName:saved.name,location:saved.location});
@@ -78,8 +85,8 @@ test("ビル管理と店舗編集をSPAで切り替え、住所引継ぎ・SNS�
   await form.getByLabel("経度",{exact:true}).fill("141.35");
   await form.getByLabel("ビルを絞り込む",{exact:true}).fill("UI共通住所ビル");
   await form.getByRole("combobox",{name:"ビルを選択",exact:true}).selectOption({label:"UI共通住所ビル — 札幌市中央区南5条西4丁目3-3"});
-  await expect(form.getByLabel("住所",{exact:true})).toHaveValue("札幌市中央区南5条西4丁目3-3");
-  await expect(form.getByLabel("住所",{exact:true})).toHaveAttribute("readonly","");
+  await expect(form.getByText("札幌市中央区南5条西4丁目3-3",{exact:true})).toBeVisible();
+  await expect(form.getByLabel("住所",{exact:true})).toHaveCount(0);
   await expect(form.getByLabel("緯度",{exact:true})).toHaveValue("");
   await expect(form.getByLabel("経度",{exact:true})).toHaveValue("");
   await form.getByLabel("階数",{exact:true}).fill("3F");
@@ -106,7 +113,8 @@ test("ビル管理と店舗編集をSPAで切り替え、住所引継ぎ・SNS�
   await buildingForm.getByRole("button",{name:"ビル情報を保存",exact:true}).click();
   await expect(page.locator(".admin-building-editor")).toHaveCount(0);
   await navigation.getByRole("tab",{name:"店舗設定",exact:true}).click();
-  await expect(form.getByLabel("住所",{exact:true})).toHaveValue("札幌市中央区南5条西4丁目9-9");
+  await expect(form.getByText("札幌市中央区南5条西4丁目9-9",{exact:true})).toBeVisible();
+  await expect(form.getByLabel("階数",{exact:true})).toHaveValue("3F");
   await expect(form.getByLabel("店舗名",{exact:true})).toHaveValue("店舗編集中の内容を保持");
   await page.setViewportSize({width:375,height:812});
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);

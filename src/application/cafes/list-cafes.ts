@@ -1,3 +1,4 @@
+import {cafeAddress} from "@/domain/cafes/building-address";
 import type { CafeRepository } from "@/domain/cafes/cafe-repository";
 import type { CafeArea } from "@/domain/cafes/cafe";
 
@@ -24,7 +25,7 @@ export class ListCafes {
   async execute(): Promise<readonly CafeSummary[]> {
     const cafes = await this.repository.findAll();
     return cafes.map(({ id, name, address, category, location, officialUrl, verifiedOn, area, locationGroup, coordinateSource, fetchedAt, businessStatus,buildingName,floor }) => ({
-      id, name, address, category, location: location ? { ...location } : null, officialUrl, verifiedOn, area, locationGroup, coordinateSource, fetchedAt, businessStatus,buildingName,floor,
+      id, name, address: cafeAddress(address,buildingName,floor), category, location: location ? { ...location } : null, officialUrl, verifiedOn, area, locationGroup, coordinateSource, fetchedAt, businessStatus,buildingName,floor,
     }));
   }
 }
