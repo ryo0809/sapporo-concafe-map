@@ -13,7 +13,7 @@ const areas: Record<Area, { label: string; bounds: [[number, number], [number, n
 };
 
 export function CafeMap({ cafes }: { cafes: readonly CafeSummary[] }) {
-  const [area, setArea] = useState<Area>("tanukikoji");
+  const [area, setArea] = useState<Area>("susukino");
   function switchArea(next: Area) { setArea(next); }
   return <>
     <div className="area-tabs" role="tablist" aria-label="地図のエリア">
