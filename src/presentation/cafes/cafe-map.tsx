@@ -24,7 +24,7 @@ export function CafeMap({ cafes }: { cafes: readonly CafeSummary[] }) {
         onKeyDown={(event) => {
           if (["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) {
             event.preventDefault();
-            const next = event.key === "Home" ? "tanukikoji" : event.key === "End" ? "susukino" : area === "tanukikoji" ? "susukino" : "tanukikoji";
+            const next = event.key === "Home" ? "tanukikoji" : event.key === "End" ? "susukino" : key === "tanukikoji" ? "susukino" : "tanukikoji";
             switchArea(next);
             document.getElementById(`tab-${next}`)?.focus();
           }
