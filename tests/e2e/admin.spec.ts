@@ -1,6 +1,27 @@
 import { expect,test } from "@playwright/test";
 import { spawnSync } from "node:child_process";
 
+test("resource-limit save failures keep the form and do not retry the mutation",async({page})=>{
+  await page.request.post("/api/admin/login",{data:{username:"admin",password:"admin"}});
+  let attempts=0;
+  await page.route("**/api/admin/cafes",async route=>{
+    if(route.request().method()!=="POST")return route.continue();
+    attempts++;
+    await route.fulfill({status:500,contentType:"text/html",body:"<!DOCTYPE html><h1>Error 1102</h1><p>Worker exceeded resource limits</p>"});
+  });
+  await page.goto("/admin");
+  await page.getByRole("button",{name:"手入力で追加",exact:true}).click();
+  const form=page.locator(".admin-editor form");
+  await form.getByLabel("店舗名",{exact:true}).fill("保存エラー時の入力保持");
+  await form.getByLabel("住所",{exact:true}).fill("札幌市中央区南4条西3丁目");
+  await form.getByRole("button",{name:"店舗情報を保存",exact:true}).click();
+  await expect(page.getByRole("alert")).toContainText("実行リソース上限");
+  await expect(form.getByLabel("店舗名",{exact:true})).toHaveValue("保存エラー時の入力保持");
+  await expect(form.getByRole("button",{name:"店舗情報を保存",exact:true})).toBeEnabled();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  expect(attempts).toBe(1);
+});
+
 const cafeInput={name:"管理機能検証店舗",address:"札幌市中央区南3条西6丁目3-3",area:"tanukikoji",category:"maid",buildingName:"管理機能検証ビル",floor:"2F",location:{latitude:43.05656,longitude:141.34884},
   businessStatus:"unknown",publicationStatus:"draft",sourceUrl:"https://example.com/",socialUrls:[],verifiedOn:"",coordinateSource:"テスト座標"};
 
