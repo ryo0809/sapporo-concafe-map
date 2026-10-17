@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
+import {readAdminResponse} from "./api-response";
 import { contactCategories, contactFields, contactDetailFields, contactUrlFields, isStoreContact, type ContactMessage } from "@/domain/contact";
 function MessageDetails({ message }: { message: ContactMessage }) {
   const details: Record<string, string> = JSON.parse(message.details_json || "{}");
@@ -25,14 +26,14 @@ export function ContactInbox() {
   const dialog = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     let disposed = false;
-    fetch(`/api/admin/contacts?status=${status}`).then(async response => { const data = await response.json(); if (!response.ok) throw new Error(data.error); if (!disposed) setMessages(data.messages); }).catch(error => { if (!disposed) setError(error.message); }).finally(() => { if (!disposed) setLoading(false); });
+    fetch(`/api/admin/contacts?status=${status}`).then(async response => { const data = await readAdminResponse(response); if (!disposed) setMessages(data.messages); }).catch(error => { if (!disposed) setError(error.message); }).finally(() => { if (!disposed) setLoading(false); });
     return () => { disposed = true; };
   }, [status, revision]);
   async function update(message: ContactMessage, remove = false) {
     if (busy) return; setBusy(true); setError("");
     try {
       const response = await fetch("/api/admin/contacts", { method: remove ? "DELETE" : "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: message.id, status: status === "new" ? "done" : "new" }) });
-      const data = await response.json(); if (!response.ok) throw new Error(data.error);
+      await readAdminResponse(response);
       dialog.current?.close(); setTarget(null); setLoading(true); setRevision(v => v + 1);
     } catch (error) { setError(error instanceof Error ? error.message : "更新に失敗しました。"); }
     finally { setBusy(false); }

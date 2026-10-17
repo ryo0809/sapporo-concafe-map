@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import {readAdminResponse} from "./api-response";
 
 export type AdminTab = "stores" | "contacts";
 export function AdminNavigation({ current, onChange }: { current: AdminTab; onChange: (tab: AdminTab) => void }) {
@@ -12,7 +13,7 @@ export function AdminNavigation({ current, onChange }: { current: AdminTab; onCh
     setBusy(true); setError("");
     try {
       const response = await fetch("/api/admin/logout", { method: "POST" });
-      if (!response.ok) throw new Error("ログアウトに失敗しました。もう一度お試しください。");
+      await readAdminResponse(response);
       router.replace("/admin/login"); router.refresh();
     } catch (error) { setError(error instanceof Error ? error.message : "ログアウトに失敗しました。"); setBusy(false); }
   }

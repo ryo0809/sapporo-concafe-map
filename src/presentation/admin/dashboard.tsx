@@ -2,6 +2,7 @@
 import { useEffect,useRef,useState } from "react";
 import type { CafeInput,ManagedCafe } from "@/domain/admin/managed-cafe";
 import type { StoreCandidate } from "@/domain/admin/candidates";
+import {readAdminResponse} from "./api-response";
 
 const businessLabels={unknown:"未確認",operating:"営業中",temporarily_closed:"一時休業",closed:"閉店",moved:"移転"};
 const publicationLabels={draft:"下書き",published:"公開",hidden:"非公開",scheduled:"予約公開"};
@@ -16,8 +17,7 @@ type Editor=CafeInput&{id?:string;version?:number};
 
 async function request(url:string,options?:RequestInit){
   const response=await fetch(url,options);
-  if(response.status===401)throw new Error("ログインしてください。管理者ログイン画面から入り直してください。");
-  const result=await response.json();if(!response.ok)throw new Error(result.error??"処理に失敗しました");return result;
+  return readAdminResponse(response);
 }
 export function AdminDashboard(){
   const [cafes,setCafes]=useState<ManagedCafe[]>([]),[query,setQuery]=useState("");
