@@ -32,6 +32,11 @@ h1 { font-size: clamp(1.7rem, 3vw, 2.3rem); letter-spacing: .025em; line-height:
 .legend { display: flex; flex-wrap: wrap; gap: 18px; padding: 13px 20px; font-size: .7rem; color: var(--muted); }
 .legend-dot { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; margin-right: 4px; font-size: .6rem; }
 .concept { background: #6d65ae; color: white; }
+.category-glyph { display: inline-block; width: 22px; height: 22px; flex-shrink: 0; background: currentColor; mask: var(--category-icon) center / contain no-repeat; -webkit-mask: var(--category-icon) center / contain no-repeat; }
+.maid-glyph { --category-icon: url("/icons/maid.svg"); }
+.concept-glyph { --category-icon: url("/icons/concept.svg"); }
+.legend-dot .category-glyph { width: 17px; height: 17px; }
+.cafe-pin .category-glyph { width: 21px; height: 21px; }
 .maid { background: #b56788; color: white; }
 .shared { background: var(--accent); color: white; }
 .unknown { background: #798680; color: white; }
