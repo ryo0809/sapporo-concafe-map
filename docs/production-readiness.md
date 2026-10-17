@@ -1,6 +1,6 @@
 # 公開準備・レビュー手順（Issue #5）
 
-採用ドメインは `sapporo-concafe-map.com`、正規URLは `https://sapporo-concafe-map.com/`。この変更ではドメイン購入、リモートD1操作、デプロイを実行しません。サイト公開は所有者のレビュー後に進めます。
+採用ドメインは `sapporo-concafe-map.com`、正規URLは `https://sapporo-concafe-map.com/`。2026-10-18に所有者の承認で検証用・本番用D1の準備、検証環境への配置、公開前確認を実施しました。結果は docs/staging-deployment-2026-10-18.md を参照してください。本番サイトの公開は所有者のレビュー後に進めます。
 
 ## ローカルで確認できる変更
 
@@ -44,14 +44,14 @@ npm.cmd run db:sync -- --snapshot reports/snapshots/local-review.json
 
 ## 初回D1同期（レビュー・バックアップ確認後）
 
-以下は**本番を書き換えるコマンド**です。今の実装作業では実行しません。
+以下は**リモートD1を書き換えるコマンド**です。2026-10-18にstagingへの初回同期を実施済みです。本番への店舗データ同期は未実施で、所有者の承認後に進めます。同期済みのstagingへ再適用せず、空の移行先に対する初回操作として使用してください。
 
 ```bash
 npx wrangler d1 migrations apply DB --remote --env staging
 npm run db:sync -- --snapshot reports/snapshots/local-review.json --apply --remote --env staging --confirm-domain sapporo-concafe-map.com
 ```
 
-まずstagingで検証し、承認後にproductionへ同じ手順を実施します。`db:setup:remote` は旧SQLite／JSONの取込用なので、この最新ローカルD1同期には使いません。
+stagingでの同期・検証結果は `docs/staging-deployment-2026-10-18.md` を参照してください。承認後にproductionへ同じ手順を実施します。`db:setup:remote` は旧SQLite／JSONの取込用なので、この最新ローカルD1同期には使いません。
 
 同期は空の移行先への初回一方向反映専用です。同期テーブルが1件でもある場合やスキーマが異なる場合は停止し、自動上書きしません。実行直前にリモートDBを `reports/snapshots/` へバックアップし、適用後に全テーブルの内容ダイジェストを照合します。実行中は対象への書き込みを止めてください。途中失敗時は再適用せず、バックアップまたは新しい空DBから復旧します。複数SQLが全体で原子的に実行されることは前提にしません。
 

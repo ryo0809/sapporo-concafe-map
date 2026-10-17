@@ -1,6 +1,7 @@
 import {spawnSync} from "node:child_process";
 import {mkdirSync,readFileSync} from "node:fs";
 import path from "node:path";
+import {parseWranglerJson,redactWranglerOutput} from "./wrangler-output.mjs";
 
 export const domain="sapporo-concafe-map.com";
 export function valueAfter(args,key){const index=args.indexOf(key);return index<0?undefined:args[index+1];}
@@ -19,9 +20,9 @@ export function wrangler(args,{json=false}={}){
   const result=spawnSync(process.execPath,["node_modules/wrangler/bin/wrangler.js",...args],{
     env:{...process.env,CI:"true",WRANGLER_SEND_METRICS:"false",WRANGLER_LOG_PATH:path.resolve("reports/wrangler")},encoding:"utf8",maxBuffer:64*1024*1024,
   });
-  if(result.status!==0)throw new Error(`Wrangler処理に失敗しました。${result.stderr||result.error?.message||""}`);
-  if(json)return JSON.parse(result.stdout);
-  if(result.stdout)process.stdout.write(result.stdout);
+  if(result.status!==0)throw new Error(`Wrangler処理に失敗しました。${redactWranglerOutput(result.stderr||result.error?.message||"")}`);
+  if(json)return parseWranglerJson(result.stdout);
+  if(result.stdout)process.stdout.write(redactWranglerOutput(result.stdout));
 }
 export function reportPath(filename){
   const root=path.resolve("reports"),resolved=path.resolve(filename);

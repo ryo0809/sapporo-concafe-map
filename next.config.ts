@@ -23,6 +23,7 @@ const nextConfig: NextConfig = {
     ];
     const privateHeaders=[{key:"Cache-Control",value:"private, no-store, max-age=0"},{key:"X-Robots-Tag",value:"noindex, nofollow"}];
     if(process.env.SITE_INDEXABLE==="true")security.push({key:"Strict-Transport-Security",value:"max-age=31536000"});
+    else security.push({key:"X-Robots-Tag",value:"noindex, nofollow, noarchive"});
     return [
       {source:"/:path*",headers:security},
       {source:"/admin/:path*",headers:privateHeaders},

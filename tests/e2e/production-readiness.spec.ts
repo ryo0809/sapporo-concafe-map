@@ -10,6 +10,7 @@ test("公開ページのメタデータ・アイコン・案内と機密APIヘ�
   const indexing=process.env.SITE_INDEXABLE==="true";
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content",indexing?/^index, follow$/:/noindex/);
   const robots=await request.get("/robots.txt");
+  expect(robots.headers()["x-robots-tag"]).toBe(indexing?undefined:"noindex, nofollow, noarchive");
   const robotsText=await robots.text();
   expect(robotsText).toContain(indexing?"Allow: /$":"Disallow: /");
   expect(robotsText).not.toContain("/admin");
