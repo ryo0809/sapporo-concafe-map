@@ -3,6 +3,37 @@ import {expect,test} from "@playwright/test";
 const buildingInput={name:"共通住所検証ビル",area:"susukino",address:"札幌市中央区南4条西3丁目1-1",location:null};
 const cafeInput={name:"ビル所属検証店舗",area:"susukino",address:"ignored address",category:"concept",floor:"2F",buildingName:"ignored name",location:null,businessStatus:"unknown",publicationStatus:"hidden",sourceUrl:"",socialUrls:["https://x.com/first","https://twitter.com/second","https://unknown.example/profile"],verifiedOn:"",coordinateSource:""};
 
+test("ビル一覧は1カラムで10件ずつ表示し、検索・エリア変更で先頭ページに戻る",async({page})=>{
+  await page.request.post("/api/admin/login",{data:{username:"admin",password:"admin"}});
+  const buildings=Array.from({length:21},(_,index)=>({id:`pagination-${index}`,name:`ページ検証ビル${index+1}`,area:index%2?"tanukikoji":"susukino",address:`札幌市中央区南4条西3丁目${index+1}`,location:null,version:1,storeCount:0}));
+  await page.route("**/api/admin/buildings",route=>route.fulfill({json:{buildings}}));
+  await page.goto("/admin?tab=buildings");
+  const cards=page.locator(".admin-building-card"),pager=page.getByRole("navigation",{name:"ビル一覧のページ切り替え"});
+  await expect(cards).toHaveCount(10);
+  await expect(pager.getByRole("button",{name:"前へ",exact:true})).toBeDisabled();
+  const first=await cards.nth(0).boundingBox(),second=await cards.nth(1).boundingBox();
+  expect(second!.x).toBe(first!.x);expect(second!.y).toBeGreaterThanOrEqual(first!.y+first!.height);
+  await pager.getByRole("button",{name:"次へ",exact:true}).click();
+  await expect(cards.first()).toContainText("ページ検証ビル11");
+  await pager.getByRole("button",{name:"次へ",exact:true}).click();
+  await expect(cards).toHaveCount(1);
+  await expect(pager.getByRole("button",{name:"次へ",exact:true})).toBeDisabled();
+  await pager.getByRole("combobox",{name:"ページ",exact:true}).selectOption("2");
+  await page.getByLabel("ビルを検索",{exact:true}).fill("ページ検証ビル21");
+  await expect(cards).toHaveCount(1);
+  await expect(pager.getByRole("combobox",{name:"ページ",exact:true})).toHaveValue("1");
+  await page.getByLabel("ビルを検索",{exact:true}).fill("");
+  await pager.getByRole("button",{name:"次へ",exact:true}).click();
+  await page.getByRole("combobox",{name:"ビルのエリア",exact:true}).selectOption("susukino");
+  await expect(pager.getByRole("combobox",{name:"ページ",exact:true})).toHaveValue("1");
+  await expect(cards).toHaveCount(10);
+  await page.getByLabel("ビルを検索",{exact:true}).fill("存在しないビル");
+  await expect(cards).toHaveCount(0);await expect(pager).toHaveCount(0);
+  await page.setViewportSize({width:375,height:812});
+  await page.getByLabel("ビルを検索",{exact:true}).fill("");
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
+});
+
 test("ビルAPIは認証・送信元・重複・エリア・同時更新を検証し共通住所を反映する",async({request})=>{
   expect((await request.get("/api/admin/buildings")).status()).toBe(401);
   expect((await request.post("/api/admin/buildings",{data:buildingInput})).status()).toBe(401);

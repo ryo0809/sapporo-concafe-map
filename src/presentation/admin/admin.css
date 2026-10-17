@@ -121,7 +121,10 @@
 .admin-building-group > header > span { color: var(--muted); font-size: .8rem; }
 .admin-building-group > header > p { flex-basis: 100%; margin: 0; color: var(--muted); font-size: .8rem; overflow-wrap: anywhere; }
 .admin-building-stores { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; padding: 12px; }
-.admin-building-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,280px),1fr)); gap: 16px; }
+.admin-building-grid { display: grid; grid-template-columns: minmax(0,1fr); gap: 16px; }
+.admin-pagination { display: flex; flex-wrap: wrap; justify-content: center; align-items: end; gap: 16px; margin-top: 24px; }
+.admin-pagination label { margin: 0; font-size: .8rem; }
+.admin-pagination select { min-width: 100px; }
 .admin-building-card { padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: #fafcf9; overflow-wrap: anywhere; }
 .admin-building-card h3 { margin: 0 0 12px; font-size: 1rem; }
 .admin-building-card p { font-size: .85rem; color: var(--muted); line-height: 1.6; }
