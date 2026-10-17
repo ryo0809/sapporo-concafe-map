@@ -18,7 +18,7 @@
 
 ## ローカルD1の移行準備（本番操作なし）
 
-お問い合わせのメールアドレスは削除依頼のみ必須で、それ以外は任意です。未入力の場合は個別の返信を行わず、受信一覧に「返信不可」と表示します。修正は対象店舗名と修正したい内容のテキストエリア、削除は対象の店舗名・事業責任者の氏名・メールアドレス・連絡先電話番号が必須で、掲載店舗の追加は住所・建物名・階数・業態・営業時間・定休日を個別に入力します。公式サイト・X・Instagram・TikTok・Facebook・YouTube・LINEのURLも別々の任意項目です。サイトへの要望は件名・対象ページURL・困っていること・改善や追加してほしいことに分けます。「その他」は件名と内容を入力します。補足欄は「その他」以外では任意です。新しい項目は0007の列追加で保存し、過去のお問い合わせの本文と確認用URLは維持します。
+お問い合わせのメールアドレスは削除依頼のみ必須で、それ以外は任意です。未入力の場合は個別の返信を行わず、受信一覧に「返信不可」と表示します。修正は対象店舗名と修正したい内容のテキストエリア、削除は対象の店舗名・事業責任者の氏名・メールアドレス・連絡先電話番号が必須で、掲載店舗の追加は住所・建物名・階数・業態・営業時間・定休日を個別に入力します。公式サイト・X・Instagram・TikTok・Facebook・YouTube・LINEのURLも別々の任意項目です。サイトへの要望は件名・対象ページURL・困っていること・改善や追加してほしいことに分けます。「その他」は件名と内容を入力します。補足欄は掲載店舗の追加・サイト要望では任意です。修正は本文が必須、削除は本文を入力しません。新しい項目は0007の列追加で保存し、過去のお問い合わせの本文と確認用URLは維持します。
 
 ```powershell
 npm.cmd run db:migrate:local
@@ -40,7 +40,7 @@ npm.cmd run db:sync -- --snapshot reports/snapshots/local-review.json
 6. バックアップの公開鍵はRSA 2048bit以上のPEM形式。秘密鍵はGitHub／Cloudflareへ登録せず、所有者が安全な別の場所で保管する。紛失するとバックアップを復元できない。
 7. 手動デプロイを許可する段階でのみ、Repository variable `DEPLOY_ENABLED=true` を設定する。設定前はworkflow_dispatchを実行しても配置ジョブが起動しない。
 
-本番設定だけを確認するコマンドは `npm run release:check`。D1のID・問い合わせ先・本番インデックス設定が未入力なら失敗するのが正常です。このチェックはドメインの所有確認や法的レビュー、復旧テストの代わりではありません。
+本番設定だけを確認するコマンドは `npm run release:check`。D1のID・本番インデックス設定が未入力なら失敗するのが正常です。このチェックはドメインの所有確認や法的レビュー、復旧テストの代わりではありません。
 
 ## 初回D1同期（レビュー・バックアップ確認後）
 
@@ -71,7 +71,7 @@ PR／mainのCIはNode 24とLinux上でlint、型チェック、単体・専用D1
 
 手動のDeploy reviewed releaseはmainのみ対象。環境・ドメイン確認に加え、GitHub Environmentの承認を使います。検証とビルド後、DBをバックアップして公開鍵で暗号化し、暗号化ファイルだけを30日間のArtifactとして保存します。その後マイグレーション・配置・本番スモークテストを実行します。生SQLやパスワードをArtifactへ入れません。
 
-本番操作を伴う配置コマンドは `npm run deploy -- --env production --confirm-domain sapporo-concafe-map.com`。`SITE_INDEXABLE=true`、問い合わせ先、本番DB設定が必要です。コードの配置はDBの初回同期とは別工程です。
+本番操作を伴う配置コマンドは `npm run deploy -- --env production --confirm-domain sapporo-concafe-map.com`。`SITE_INDEXABLE=true`、本番DB設定が必要です。コードの配置はDBの初回同期とは別工程です。
 
 バックアップを復号する場合は、安全なローカル環境だけで `BACKUP_PRIVATE_KEY` を設定します。
 
@@ -87,7 +87,7 @@ node scripts/backup-crypto.mjs --decrypt --input reports/pre-deploy-backup.encry
 - `/api/health` はDBの主要スキーマを確認し、成功200／失敗503のみ返す。管理データは返さない。外部監視を適度な頻度（例：5分間隔）で登録し、通知先と担当者を決める。
 - Workers Observabilityは有効。Cloudflare上でエラー・使用量・費用の通知と確認担当を設定する。DBの定期バックアップ／復旧機能と保持期間もアカウント上で設定し、実DBで復元演習を行う。配置時のバックアップだけでは日々の編集の保護は不十分。
 - 公開店舗を所有者が確認し、必要なものだけ公開する。コード・移行作業から勝手に全店舗を公開しない。
-- スモークテスト：`npm run smoke -- --url https://sapporo-concafe-map.com`。HTTPS、www転送、メール受信、DB復旧は所有者と別途実確認する。
+- スモークテスト：`npm run smoke -- --url https://sapporo-concafe-map.com`。HTTPS、www転送、問い合わせ受付・返信、DB復旧は所有者と別途実確認する。
 - Google Search Consoleへの所有確認・sitemap送信は、公開とnoindex解除の確認後に行う。
 
 ### レビュー観点
@@ -99,3 +99,5 @@ node scripts/backup-crypto.mjs --decrypt --input reports/pre-deploy-backup.encry
 - 本番デプロイを実行していないこと。
 
 管理画面はSPA形式で店舗設定・お問い合わせのコンテンツを切り替えます。タブ切り替えではURLを変更せず、一度表示したパネルを保持するため、店舗の入力途中の内容と問い合わせの対応状況フィルターが維持されます。旧 /admin/contacts は /admin?tab=contacts へ転送します。
+
+CLIコマンドも.envを読み込み、.env.localがある場合はそちらを優先します。OS側で設定した環境変数が最優先です。公開判断の最新の確認結果は docs/release-review.md を参照してください。

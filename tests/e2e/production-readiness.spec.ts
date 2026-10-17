@@ -26,7 +26,7 @@ test("公開ページのメタデータ・アイコン・案内と機密APIヘ�
   await expect(page.locator("body")).not.toContainText("管理画面");
   await page.getByRole("link",{name:"掲載情報について",exact:true}).click();
   await expect(page.getByRole("heading",{name:"掲載情報について",exact:true})).toBeVisible();
-  await page.getByRole("link",{name:"お問い合わせ",exact:true}).click();
+  await page.getByRole("main").getByRole("link",{name:"お問い合わせ",exact:true}).click();
   await expect(page.getByRole("heading",{name:"お問い合わせ",exact:true})).toBeVisible();
   await page.goto("/privacy");
   await expect(page.locator("body")).not.toContainText("管理画面");

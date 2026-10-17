@@ -7,6 +7,7 @@ const cafeInput={name:"管理機能検証店舗",address:"札幌市中央区南3
 test("設定画面を店舗設定・お問い合わせのタブで切り替える",async({page})=>{
   expect((await page.request.post("/api/admin/login",{data:{username:"admin",password:"admin"}})).status()).toBe(200);
   await page.goto("/admin");
+  await expect(page.locator(".admin-header")).not.toContainText("admin");
   const navigation=page.getByRole("tablist",{name:"設定画面",exact:true});
   await expect(navigation.getByRole("tab",{name:"店舗設定",exact:true})).toHaveAttribute("aria-selected","true");
   await page.getByRole("button",{name:"手入力で追加",exact:true}).click();
