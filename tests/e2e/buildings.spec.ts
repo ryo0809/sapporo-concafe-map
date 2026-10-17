@@ -69,7 +69,7 @@ test("ビル管理と店舗編集をSPAで切り替え、住所引継ぎ・SNS�
   await form.getByLabel("店舗名",{exact:true}).fill("店舗編集中の内容を保持");
   await navigation.getByRole("tab",{name:"ビル管理",exact:true}).click();
   await page.getByLabel("ビルを検索",{exact:true}).fill("UI共通住所ビル");
-  await page.getByRole("button",{name:/ビルを編集：UI共通住所ビル/}).click();
+  await page.getByRole("button",{name:/ビルを編集.*UI共通住所ビル/}).click();
   await expect(buildingForm.getByRole("combobox",{name:"エリア",exact:true})).toBeDisabled();
   await buildingForm.getByLabel("住所",{exact:true}).fill("札幌市中央区南5条西4丁目9-9");
   await buildingForm.getByRole("button",{name:"ビル情報を保存",exact:true}).click();
