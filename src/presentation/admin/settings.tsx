@@ -19,7 +19,7 @@ export function AdminSettings({ initialTab = "stores" }: { initialTab?: AdminTab
     <AdminNavigation current={current} onChange={select}/>
     {buildingError&&<p role="alert" className="admin-error">ビル情報：{buildingError}<button type="button" onClick={refreshBuildings}>再読み込み</button></p>}
     <div id="admin-panel-stores" role="tabpanel" aria-labelledby="admin-tab-stores" hidden={current !== "stores"}>{visited.stores && <AdminDashboard buildings={buildings} revision={storeRevision} onBuildingSaved={buildingSaved} onStoreChanged={refreshBuildings}/>}</div>
-    <div id="admin-panel-buildings" role="tabpanel" aria-labelledby="admin-tab-buildings" hidden={current!=="buildings"}>{visited.buildings&&<BuildingManager buildings={buildings} onSaved={buildingSaved}/>}</div>
+    <div id="admin-panel-buildings" role="tabpanel" aria-labelledby="admin-tab-buildings" hidden={current!=="buildings"}>{visited.buildings&&<BuildingManager buildings={buildings} onSaved={buildingSaved} onDeleted={id=>{setBuildings(previous=>previous.filter(building=>building.id!==id));setStoreRevision(previous=>previous+1);}}/>}</div>
     <div id="admin-panel-contacts" role="tabpanel" aria-labelledby="admin-tab-contacts" hidden={current !== "contacts"}>{visited.contacts && <ContactInbox/>}</div>
   </main>;
 }

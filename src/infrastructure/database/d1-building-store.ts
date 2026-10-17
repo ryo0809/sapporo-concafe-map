@@ -8,6 +8,21 @@ const select=`SELECT b.*, (SELECT COUNT(*) FROM cafes c WHERE c.building_id=b.id
 type Row={id:string;name:string;area:ManagedBuilding["area"];address:string;latitude:number|null;longitude:number|null;version:number;store_count:number};
 const fromRow=(row:Row):ManagedBuilding=>({id:row.id,name:row.name,area:row.area,address:buildingAddress(row.address,row.name),location:row.latitude===null||row.longitude===null?null:{latitude:row.latitude,longitude:row.longitude},version:row.version,storeCount:row.store_count});
 export class D1BuildingStore{
+  async delete(id:string,value:unknown){
+    const version=(value as {version?:unknown}|null)?.version;
+    if(typeof version!=="number"||!Number.isInteger(version)||version<1)throw new InputError("ビルのバージョンが不正です。読み込み直してください。");
+    const db=await getD1();
+    const current=await db.prepare("SELECT version FROM buildings WHERE id=?").bind(id).first<{version:number}>();
+    if(!current)throw Object.assign(new Error("ビルがありません。"),{code:"NOT_FOUND"});
+    if(current.version!==version)throw Object.assign(new Error("ビルが更新されています。"),{code:"CONFLICT"});
+    // Include deleted stores: their restore data must retain its building and floor.
+    const unused="NOT EXISTS (SELECT 1 FROM cafes WHERE building_id=buildings.id OR floor_id IN (SELECT id FROM floors WHERE building_id=buildings.id))";
+    const results=await db.batch([
+      db.prepare(`DELETE FROM floors WHERE building_id IN (SELECT id FROM buildings WHERE id=? AND version=? AND ${unused})`).bind(id,version),
+      db.prepare(`DELETE FROM buildings WHERE id=? AND version=? AND ${unused}`).bind(id,version),
+    ]);
+    if(!results[1].meta.changes)throw new InputError("店舗が所属するビルは削除できません（削除済み店舗を含みます）。店舗の所属を変更するか、一覧を読み込み直してください。");
+  }
   async list(){const result=await(await getD1()).prepare(select+" ORDER BY b.area,b.name,b.address").all<Row>();return result.results.map(fromRow);}
   async save(value:unknown,id?:string){
     const input=validateBuilding(value),db=await getD1();
