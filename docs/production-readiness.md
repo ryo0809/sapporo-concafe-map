@@ -1,6 +1,6 @@
 # 公開準備・レビュー手順（Issue #5）
 
-採用ドメインは `sapporo-concafe-map.com`、正規URLは `https://sapporo-concafe-map.com/`。この変更ではドメイン購入、リモートD1操作、デプロイを実行しません。サイト公開は所有者のレビュー後に進めます。
+採用ドメインは `sapporo-concafe-map.com`、正規URLは `https://sapporo-concafe-map.com/`。2026-10-18に所有者の承認で検証用・本番用D1の準備、検証環境への配置、公開前確認を実施しました。結果は docs/staging-deployment-2026-10-18.md を参照してください。本番サイトの公開は所有者のレビュー後に進めます。
 
 ## ローカルで確認できる変更
 

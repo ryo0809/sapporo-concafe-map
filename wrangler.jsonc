@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "sapporo-concafe-map",
+  "account_id": "067ffeba4da12d0e6fc02b96dcabfaa6",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-10-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
@@ -19,7 +20,7 @@
       "name": "sapporo-concafe-map-staging",
       "workers_dev": true,
       "vars": { "APP_ENV": "staging", "SESSION_COOKIE_SECURE": "true" },
-      "d1_databases": [{ "binding": "DB", "database_name": "sapporo-concafe-map-staging", "database_id": "00000000-0000-0000-0000-000000000000", "migrations_dir": "db/migrations" }],
+      "d1_databases": [{ "binding": "DB", "database_name": "sapporo-concafe-map-staging", "database_id": "81b039b5-96ba-4b16-a873-ceb3c03ea42c", "migrations_dir": "db/migrations" }],
       "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "sapporo-concafe-map-staging" }]
     },
     "production": {
@@ -28,7 +29,7 @@
       "preview_urls": false,
       "routes": [{ "pattern": "sapporo-concafe-map.com", "custom_domain": true }, { "pattern": "www.sapporo-concafe-map.com", "custom_domain": true }],
       "vars": { "APP_ENV": "production", "SESSION_COOKIE_SECURE": "true" },
-      "d1_databases": [{ "binding": "DB", "database_name": "sapporo-concafe-map-production", "database_id": "00000000-0000-0000-0000-000000000000", "migrations_dir": "db/migrations" }],
+      "d1_databases": [{ "binding": "DB", "database_name": "sapporo-concafe-map-production", "database_id": "c9e66a61-82bc-4592-b0c9-13fcc5944753", "migrations_dir": "db/migrations" }],
       "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "sapporo-concafe-map" }]
     }
   }
