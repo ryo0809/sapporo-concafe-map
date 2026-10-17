@@ -1,4 +1,5 @@
 import "server-only";
+import { captureException } from "@sentry/nextjs";
 import { cookies } from "next/headers";
 import { createAuthentication } from "@/composition/admin";
 import { InputError } from "@/domain/admin/managed-cafe";
@@ -42,5 +43,6 @@ export function apiError(error:unknown){
     if(error.code==="CONFLICT")return Response.json({error:"別の更新が行われました。読み込み直してください。"},{status:409});
     if(error.code==="RATE_LIMIT")return Response.json({error:"ログインの試行回数を超えました。15分後に再試行してください。"},{status:429});
   }
+  captureException(error);
   console.error(error);return Response.json({error:"処理に失敗しました。もう一度お試しください。"},{status:500});
 }

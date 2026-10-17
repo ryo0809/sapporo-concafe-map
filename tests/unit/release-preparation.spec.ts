@@ -41,6 +41,9 @@ test("未設定のドメイン・D1・公開設定ではリリースチェック
   expect(checkRelease(config,{}).length).toBeGreaterThan(0);
   config.env.production.d1_databases[0].database_id="12345678-1234-1234-1234-123456789abc";
   expect(checkRelease(config,{SITE_INDEXABLE:"true"})).toEqual([]);
+  delete config.env.production.vars.SITE_INDEXABLE;
+  expect(checkRelease(config,{SITE_INDEXABLE:"true"}).join()).toContain("本番WorkerのSITE_INDEXABLE");
+  config.env.production.vars.SITE_INDEXABLE="true";
   config.env.staging.d1_databases[0].database_id=config.env.production.d1_databases[0].database_id;
   expect(checkRelease(config,{SITE_INDEXABLE:"true"}).join()).toContain("同じD1");
 });

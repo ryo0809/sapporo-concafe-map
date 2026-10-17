@@ -11,6 +11,7 @@ export function checkRelease(config,env=process.env){
   if(!target?.routes?.some(route=>route.pattern===domain&&route.custom_domain))errors.push("採用ドメインのカスタムドメイン設定が必要です。");
   if(target?.workers_dev!==false||target?.preview_urls!==false)errors.push("本番のworkers.devとプレビューURLを無効にしてください。");
   if(env.SITE_INDEXABLE!=="true")errors.push("本番公開時のみSITE_INDEXABLE=trueを指定してください。");
+  if(target?.vars?.SITE_INDEXABLE!=="true")errors.push("本番WorkerのSITE_INDEXABLE=trueを設定してください。");
   return errors;
 }
 
