@@ -1,5 +1,19 @@
 import { expect, test } from "@playwright/test";
 import { randomUUID } from "node:crypto";
+test("削除依頼は事業責任者の氏名・メール・電話番号を必須にする", async ({ page, request }) => {
+  const data = { id: randomUUID(), category: "deletion", storeName: "削除依頼の検証店舗", name: "責任者の検証", email: "owner@example.com", phone: "011-000-0000", consent: true, website: "verification-honeypot" };
+  for (const field of ["name", "email", "phone"]) {
+    expect((await request.post("/api/contact", { data: { ...data, [field]: "" } })).status()).toBe(400);
+  }
+  expect((await request.post("/api/contact", { data })).status()).toBe(200);
+  await page.goto("/contact");
+  await page.getByLabel("お問い合わせの種類").selectOption("deletion");
+  for (const label of ["事業責任者の氏名（必須）", "メールアドレス（必須）", "連絡先（電話番号）（必須）"]) await expect(page.getByLabel(label, { exact: true })).toHaveAttribute("required", "");
+  await page.getByLabel("お問い合わせの種類").selectOption("correction");
+  await expect(page.getByLabel("メールアドレス（任意）", { exact: true })).not.toHaveAttribute("required", "");
+  await expect(page.locator('[name="phone"]')).toHaveCount(0);
+});
+
 test("種類に応じて入力欄を切り替え、メールなしでサイトへの要望を受け付ける", async ({ page }) => {
   await page.goto("/contact");
   const category = page.getByLabel("お問い合わせの種類");

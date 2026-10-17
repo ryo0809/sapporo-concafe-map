@@ -14,8 +14,8 @@ export function ContactForm() {
   }
   const messageRequired = category === "other" || category === "correction";
   const supplementary = <div><label>{contactFields[category].label}（{messageRequired ? "必須" : "任意"}・5,000文字以内）<textarea name="message" required={messageRequired} maxLength={5000} rows={category === "correction" ? 6 : 4} aria-describedby="contact-message-hint" placeholder={contactFields[category].hint}/></label><p id="contact-message-hint">{contactFields[category].hint}</p></div>;
-  const nameField = <label>お名前（必須）<input name="name" autoComplete="name" required maxLength={100}/></label>;
-  const emailField = <div><label>メールアドレス（任意）<input name="email" type="email" autoComplete="email" maxLength={254} aria-describedby="contact-email-hint"/></label><p id="contact-email-hint">返信をご希望の場合に入力してください。未入力の場合は個別に返信できません。</p></div>;
+  const nameField = <label>{category === "deletion" ? "事業責任者の氏名" : "お名前"}（必須）<input name="name" autoComplete="name" required maxLength={100}/></label>;
+  const emailField = <div><label>メールアドレス（{category === "deletion" ? "必須" : "任意"}）<input name="email" type="email" autoComplete="email" required={category === "deletion"} maxLength={254} aria-describedby="contact-email-hint"/></label><p id="contact-email-hint">{category === "deletion" ? "削除依頼の確認・ご連絡のために使用します。" : "返信をご希望の場合に入力してください。未入力の場合は個別に返信できません。"}</p></div>;
   const storeField = <label>{category === "addition" ? "掲載を希望する店舗名" : "対象の店舗名"}（必須）<input name="storeName" required maxLength={200}/></label>;
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault(); if (pending.current) return;
@@ -49,9 +49,10 @@ export function ContactForm() {
           {supplementary}
         </div></details>
       </> : <>
-      {category !== "deletion" && nameField}
+      {nameField}
       {emailField}
       {isStoreContact(category) && storeField}
+      {category === "deletion" && contactDetailFields.deletion.filter(field => field.key === "phone").map(detailField)}
       {category !== "deletion" && category !== "correction" && <section className="contact-field-section" key={category} aria-label="お問い合わせの詳細">
         {contactDetailFields[category].filter(field => field.required).map(detailField)}
       </section>}

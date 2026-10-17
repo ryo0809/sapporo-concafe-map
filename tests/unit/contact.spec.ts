@@ -24,5 +24,11 @@ test("店舗の個別項目と媒体別URLを検証し、選択した種類の�
   expect(() => validateContact({ ...addition, xUrl: "javascript:alert(1)" })).toThrow();
   expect(() => validateContact({ ...addition, instagramUrl: "https://user:pass@example.com" })).toThrow();
   expect(validateContact({ ...addition, category: "site" }).details).toEqual({ subject: valid.subject, requestedChange: valid.requestedChange });
-  expect(validateContact({ id: valid.id, category: "deletion", storeName: "削除対象店舗", consent: true })).toMatchObject({ name: "", email: "", storeName: "削除対象店舗", details: {}, message: "" });
+  const deletion = { id: valid.id, category: "deletion", storeName: "削除対象店舗", name: "事業責任者", email: "owner@example.com", phone: "011-123-4567", consent: true };
+  expect(validateContact(deletion)).toMatchObject({ name: deletion.name, email: deletion.email, storeName: deletion.storeName, details: { phone: deletion.phone }, message: "" });
+  for (const field of ["name", "email", "phone"]) {
+    expect(() => validateContact({ ...deletion, [field]: "" })).toThrow();
+    expect(() => validateContact({ ...deletion, [field]: undefined })).toThrow();
+  }
+  for (const phone of ["abc1234567", "123", "1".repeat(16)]) expect(() => validateContact({ ...deletion, phone })).toThrow();
 });

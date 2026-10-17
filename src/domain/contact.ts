@@ -8,7 +8,7 @@ export const contactFields = {
   site: { label: "補足", hint: "要望について補足があればお知らせください。" },
   other: { label: "お問い合わせ内容", hint: "お問い合わせの内容をお知らせください。" },
 };
-type DetailField = { key: string; label: string; max: number; required?: boolean; multiline?: boolean; type?: "url"; placeholder?: string };
+type DetailField = { key: string; label: string; max: number; required?: boolean; multiline?: boolean; type?: "url" | "tel"; placeholder?: string };
 export const contactDetailFields: Record<ContactCategory, DetailField[]> = {
   correction: [
     { key: "correctionItem", label: "修正する項目", max: 200, required: true, placeholder: "例：営業時間、住所、店舗名" },
@@ -16,6 +16,7 @@ export const contactDetailFields: Record<ContactCategory, DetailField[]> = {
     { key: "correctValue", label: "正しい内容", max: 2000, required: true, multiline: true },
   ],
   deletion: [
+    { key: "phone", label: "連絡先（電話番号）", max: 50, required: true, type: "tel", placeholder: "例：011-123-4567" },
     { key: "deletionTarget", label: "削除を希望する情報", max: 1000, required: true, placeholder: "例：店舗全体、掲載されているURL" },
     { key: "deletionReason", label: "削除の理由", max: 2000, required: true, multiline: true },
   ],
@@ -58,12 +59,17 @@ export function validateContact(value: unknown) {
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id)) throw new Error("ページを再読み込みして送信してください。");
   const category = text("category", 20) as ContactCategory;
   if (!Object.hasOwn(contactCategories, category)) throw new Error("お問い合わせの種類を選択してください。");
-  const name = category === "deletion" ? "" : text("name", 100, true), email = text("email", 254);
+  const name = text("name", 100, true), email = text("email", 254, category === "deletion");
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error("メールアドレスを確認してください。");
   const storeName = isStoreContact(category) ? text("storeName", 200, true) : "";
   const details: Record<string, string> = {};
-  for (const field of ["deletion", "correction"].includes(category) ? [] : [...contactDetailFields[category], ...(category === "addition" ? contactUrlFields : [])]) {
+  const fields = category === "deletion" ? contactDetailFields.deletion.filter(field => field.key === "phone") : category === "correction" ? [] : [...contactDetailFields[category], ...(category === "addition" ? contactUrlFields : [])];
+  for (const field of fields) {
     const value = text(field.key, field.max, field.required);
+    if (field.type === "tel") {
+      const phone = value.normalize("NFKC"), digits = phone.replace(/\D/g, "");
+      if (!/^\+?[\d ()-]+$/.test(phone) || digits.length < 7 || digits.length > 15) throw new Error("連絡先の電話番号を確認してください。");
+    }
     if (field.type === "url" && value) {
       let url: URL;
       try { url = new URL(value); } catch { throw new Error(`${field.label}を確認してください。`); }
