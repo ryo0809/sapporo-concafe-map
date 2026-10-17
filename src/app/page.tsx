@@ -19,7 +19,7 @@ export default function Home() {
         <span className="area-label">狸小路・すすきの</span>
       </header>
       <Suspense fallback={<p role="status">最新の店舗データを読み込んでいます…</p>}><LatestCafeMap /></Suspense>
-      <footer>札幌コンカフェマップ<span>お出かけ前に、店舗の最新情報をご確認ください。</span></footer>
+      <footer>札幌コンカフェマップ<span>お出かけ前に、店舗の最新情報をご確認ください。</span><Link href="/admin">管理画面</Link></footer>
     </main>
   );
 }

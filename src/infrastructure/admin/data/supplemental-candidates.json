@@ -1,0 +1,19 @@
+[
+  {
+    "id": "guide-1147",
+    "name": "問題児メイド喫茶だぁく♡またぁ",
+    "address": "北海道札幌市中央区南3条西2丁目15-1 N・ヴィコロビル2F",
+    "area": "tanukikoji",
+    "category": "maid",
+    "location": null,
+    "businessStatus": "unknown",
+    "sources": [{
+      "provider": "maidcafeguide",
+      "url": "https://www.maidcafeguide.com/blog-entry-1147.html?sp=",
+      "fetchedAt": ""
+    }],
+    "links": [{"kind": "social", "url": "https://x.com/mondaiji_maid"}],
+    "referenceCheckedOn": "2026-10-17",
+    "reviewNote": "検索で参照先を確認した候補。営業継続・現住所は登録前に確認する。"
+  }
+]

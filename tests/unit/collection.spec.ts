@@ -19,9 +19,11 @@ test("住所でエリアを判定し、札幌以外や住所不明は公開候�
 
 test("一覧の店舗リンクとページ送りを区別し、キャストページを取得しない", () => {
   const result = discoverPages(`<a href="/a01/a0101/a010101/a01010101/1/">店舗</a>
+    <a href="/a01/a0101/a010101/a01010101/1/"><img src="shop.jpg" alt=""></a>
     <a href="/a01/a0101/a010101/a01010101/page/2/" rel="next">次へ</a>
     <a href="https://other.example/">外部</a>`, "https://cafecon.jp/a01/a0101/a010101/a01010101/", "cafecon");
   expect(result.shops).toHaveLength(1);
+  expect(result.shops[0].name).toBe("店舗");
   expect(result.pagination).toHaveLength(1);
   const pokepara = discoverPages(`<a href="/ _hokkaido/m801/a1801/shop1/gal/1/">キャスト</a>`, "https://www.pokepara.jp/_hokkaido/m801/a1801/g220/", "pokepara");
   expect(pokepara.shops).toHaveLength(0);

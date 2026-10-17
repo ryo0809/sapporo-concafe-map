@@ -35,7 +35,11 @@ export function discoverPages(html, pageUrl, source) {
     const shop = source === "pokepara"
       ? /^\/_hokkaido\/m801\/a1801\/shop\d+\/$/.test(url.pathname)
       : /^\/a01\/a0101\/a010101\/a01010101\/\d+\/$/.test(url.pathname);
-    if (shop) shops.set(url.href, normalize($(element).find("h2,h3").first().text() || $(element).text()).split("札幌・すすきの")[0].trim());
+    if (shop) {
+      const name = normalize($(element).find("h2,h3").first().text() || $(element).text()).split("札幌・すすきの")[0].trim();
+      // The same store can have a title link and an empty image link.
+      if (name || !shops.has(url.href)) shops.set(url.href, name);
+    }
     const base = source === "pokepara" ? "/_hokkaido/m801/a1801/g220/" : "/a01/a0101/a010101/a01010101/";
     if (url.href !== root.href && url.pathname.startsWith(base) && !shop &&
         (/\/page\/\d+\/$/.test(url.pathname) || /(?:page|p)=\d+/.test(url.search) || $(element).attr("rel") === "next")) pagination.add(url.href);

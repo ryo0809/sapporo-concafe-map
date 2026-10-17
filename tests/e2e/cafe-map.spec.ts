@@ -8,6 +8,18 @@ const cafes = projectCollection(["tanukikoji", "susukino"].flatMap((area) => JSO
 const count = (area: string) => cafes.filter((cafe) => cafe.area === area).length;
 const png = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=", "base64");
 
+// Publish map fixtures explicitly: production imports now start private.
+test.beforeAll(async ({ playwright }) => {
+  const request=await playwright.request.newContext({baseURL:"http://127.0.0.1:3100"});
+  try {
+    expect((await request.post("/api/admin/login",{data:{username:"admin",password:"admin"}})).ok()).toBe(true);
+    const stores=(await (await request.get("/api/admin/cafes")).json()).cafes;
+    for(const cafe of stores.filter((item:{id:string})=>cafes.some(seed=>seed.id===item.id))) {
+      expect((await request.put(`/api/admin/cafes/${cafe.id}`,{data:{...cafe,publicationStatus:"published"}})).ok()).toBe(true);
+    }
+  } finally { await request.dispose(); }
+});
+
 test("最新バッチの件数を表示し、座標なしの店舗も選択できる", async ({ page }) => {
   await page.route("https://tile.openstreetmap.org/**", (route) => route.fulfill({ contentType: "image/png", body: png }));
   await page.goto("/");
@@ -23,7 +35,7 @@ test("最新バッチの件数を表示し、座標なしの店舗も選択で�
   await page.getByRole("searchbox", { name: "店舗名・住所で検索" }).fill("すた");
   await page.getByRole("button", { name: /アニソンカフェ.*すた/ }).click();
   await expect(page.getByRole("region", { name: "選択した店舗" })).toContainText("わたなべビル5F");
-  await expect(page.getByRole("link", { name: "情報元で確認" })).toHaveAttribute("href", "https://anison-stars.com/sapporo-susukino/");
+  await expect(page.getByRole("link", { name: "情報元で確認" })).toHaveCount(0);
   await expect(page.getByRole("region", { name: "選択した店舗" })).toContainText("営業状態は未確認");
   await page.setViewportSize({ width: 390, height: 844 });
   await page.getByRole("button", { name: "店舗詳細を閉じる" }).click();

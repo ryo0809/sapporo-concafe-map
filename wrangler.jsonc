@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sapporo-concafe-map",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "sapporo-concafe-map" }],
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "sapporo-concafe-map",
+    "database_id": "00000000-0000-0000-0000-000000000000",
+    "migrations_dir": "db/migrations"
+  }],
+  "vars": { "SESSION_COOKIE_SECURE": "true" },
+  "observability": { "enabled": true }
+}
