@@ -31,6 +31,7 @@ export async function prepareD1Import({ fromJson = false } = {}) {
       const rows = source.prepare(`SELECT * FROM ${identifier(table)}`).all();
       counts[table] = rows.length;
       for (const row of rows) {
+        if(table==="buildings"&&row.address===undefined)row.address=source.prepare("SELECT address FROM cafes WHERE building_id=? ORDER BY created_at,id LIMIT 1").get(row.id)?.address??"";
         // Initial imports always require an explicit publication decision in admin.
         if (table === "cafes") row.publication_status = "hidden";
         const columns = Object.keys(row).map(identifier).join(",");

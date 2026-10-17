@@ -80,7 +80,7 @@ test("登録・公開・ビル階の更新・閉店除外・競合検知・移�
   expect(unnamedBuilding.status()).toBe(201);expect((await unnamedBuilding.json()).cafe).toMatchObject({buildingName:"",floor:"B1F"});
   let cafe=(await created.json()).cafe;
   expect(await (await request.get("/")).text()).not.toContain("管理機能検証店舗");
-  let response=await request.put(`/api/admin/cafes/${cafe.id}`,{data:{...cafe,publicationStatus:"published",buildingName:"管理機能検証更新ビル",floor:"7F"}});
+  let response=await request.put(`/api/admin/cafes/${cafe.id}`,{data:{...cafe,buildingId:undefined,publicationStatus:"published",buildingName:"管理機能検証更新ビル",floor:"7F"}});
   expect(response.status()).toBe(200);const oldVersion=cafe.version;cafe=(await response.json()).cafe;
   const html=await(await request.get("/")).text();expect(html).toContain("管理機能検証店舗");expect(html).toContain("管理機能検証更新ビル");expect(html).toContain("7F");
   expect((await request.put(`/api/admin/cafes/${cafe.id}`,{data:{...cafe,version:oldVersion}})).status()).toBe(409);
@@ -100,7 +100,13 @@ test("admin/adminでログインし、検索候補を確認・編集して下書
   await page.getByLabel("外部サイトも検索").uncheck();await page.getByLabel("候補を検索",{exact:true}).fill("めいどりーみん");await page.getByRole("button",{name:"候補を検索",exact:true}).click();
   await expect(page.getByRole("button",{name:"確認・編集して登録"}).first()).toBeVisible();await page.getByRole("button",{name:"確認・編集して登録"}).first().click();
   const form=page.locator(".admin-editor");await expect(form.getByRole("heading",{name:"掲載店舗を追加"})).toBeVisible();await expect(form.getByText("既存店舗と重複する可能性があります。",{exact:false})).toBeVisible();
-  await form.getByLabel("店舗名",{exact:true}).fill("候補から確認した検証店舗");await form.getByLabel("ビル名",{exact:true}).fill("候補検証ビル");await form.getByLabel("階数",{exact:true}).fill("5F");
+  await form.getByLabel("店舗名",{exact:true}).fill("候補から確認した検証店舗");
+  await form.getByRole("button",{name:"新しいビルを追加",exact:true}).click();
+  const buildingDialog=page.getByRole("dialog",{name:"新しいビルを追加"});
+  await buildingDialog.getByLabel("ビル名",{exact:true}).fill("候補検証ビル");
+  await buildingDialog.getByRole("button",{name:"ビル情報を保存",exact:true}).click();
+  await expect(buildingDialog).not.toBeVisible();
+  await form.getByLabel("階数",{exact:true}).fill("5F");
   await form.getByRole("button",{name:"店舗情報を保存"}).click();const saved=page.getByRole("dialog",{name:"保存が完了しました"});await expect(saved.getByRole("status")).toContainText("店舗情報を保存しました");await saved.getByRole("button",{name:"閉じる",exact:true}).click();await expect(form.getByLabel("掲載状態")).toHaveValue("draft");
   await page.getByRole("button",{name:"ログアウト",exact:true}).click();await expect(page).toHaveURL(/\/admin\/login/);
 });
@@ -108,7 +114,7 @@ test("admin/adminでログインし、検索候補を確認・編集して下書
 test("D1の同時更新で一方だけが成功し、失敗した変更と履歴を残さない",async({request})=>{
   await request.post("/api/admin/login",{data:{username:"admin",password:"admin"}});
   const cafe=(await(await request.post("/api/admin/cafes",{data:{...cafeInput,name:"D1同時更新検証"}})).json()).cafe;
-  const variants=["A","B"].map(suffix=>({...cafe,name:`D1同時更新${suffix}`,buildingName:`同時更新ビル${suffix}`,floor:"8F"}));
+  const variants=["A","B"].map(suffix=>({...cafe,buildingId:undefined,name:`D1同時更新${suffix}`,buildingName:`同時更新ビル${suffix}`,floor:"8F"}));
   const results=await Promise.all(variants.map(data=>request.put(`/api/admin/cafes/${cafe.id}`,{data})));
   expect(results.map(result=>result.status()).sort()).toEqual([200,409]);
   const winner=variants[results.findIndex(result=>result.status()===200)];

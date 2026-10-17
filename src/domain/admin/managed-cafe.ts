@@ -3,7 +3,7 @@ import type { Cafe } from "@/domain/cafes/cafe";
 export type BusinessStatus = "unknown" | "operating" | "temporarily_closed" | "closed" | "moved";
 export interface CafeInput {
   name: string; address: string; area: "tanukikoji" | "susukino"; category: "concept" | "maid" | "unknown";
-  buildingName: string; floor: string; location: { latitude: number; longitude: number } | null;
+  buildingName: string; buildingId?:string; floor: string; location: { latitude: number; longitude: number } | null;
   businessStatus: BusinessStatus; publicationStatus: "draft" | "published" | "hidden" | "scheduled";
   publishAt?: string; officialUrl?: string;
   sourceUrl: string; socialUrls: string[]; fetchedAt?: string; verifiedOn: string; coordinateSource: string;
@@ -48,7 +48,8 @@ export function validateCafeInput(value: unknown): CafeInput {
     publishAt=new Date(data.publishAt).toISOString();
   }
   const officialUrl=data.officialUrl===undefined?"":safeUrl(text("officialUrl",false,2000));
-  return {name,address,area,category,location,buildingName:text("buildingName",false,200),floor:text("floor",false,40),
+  const buildingId=data.buildingId===undefined?undefined:text("buildingId",false,100);
+  return {name,address,area,category,location,buildingId,buildingName:text("buildingName",false,200),floor:text("floor",false,40),
     businessStatus:enumValue("businessStatus",["unknown","operating","temporarily_closed","closed","moved"] as const),
     publicationStatus,publishAt,officialUrl,
     sourceUrl:safeUrl(text("sourceUrl",false,2000)),socialUrls:data.socialUrls.map((url)=>safeUrl((url as string).trim())).filter(Boolean),

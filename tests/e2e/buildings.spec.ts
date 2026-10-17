@@ -1,0 +1,67 @@
+import {expect,test} from "@playwright/test";
+
+const buildingInput={name:"共通住所検証ビル",area:"susukino",address:"札幌市中央区南4条西3丁目1-1",location:null};
+const cafeInput={name:"ビル所属検証店舗",area:"susukino",address:"ignored address",category:"concept",floor:"2F",buildingName:"ignored name",location:null,businessStatus:"unknown",publicationStatus:"hidden",sourceUrl:"",socialUrls:["https://x.com/first","https://twitter.com/second","https://unknown.example/profile"],verifiedOn:"",coordinateSource:""};
+
+test("ビルAPIは認証・送信元・重複・エリア・同時更新を検証し共通住所を反映する",async({request})=>{
+  expect((await request.get("/api/admin/buildings")).status()).toBe(401);
+  expect((await request.post("/api/admin/buildings",{data:buildingInput})).status()).toBe(401);
+  await request.post("/api/admin/login",{data:{username:"admin",password:"admin"}});
+  expect((await request.post("/api/admin/buildings",{data:buildingInput,headers:{Origin:"https://other.example"}})).status()).toBe(403);
+  const created=await request.post("/api/admin/buildings",{data:buildingInput});expect(created.status()).toBe(201);
+  const building=(await created.json()).building;
+  expect((await request.post("/api/admin/buildings",{data:buildingInput})).status()).toBe(400);
+  expect((await request.post("/api/admin/buildings",{data:{...buildingInput,address:"札幌市中央区南4条西5丁目2-2"}})).status()).toBe(201);
+  expect((await request.post("/api/admin/cafes",{data:{...cafeInput,area:"tanukikoji",buildingId:building.id}})).status()).toBe(400);
+  const cafeResponse=await request.post("/api/admin/cafes",{data:{...cafeInput,buildingId:building.id}});expect(cafeResponse.status()).toBe(201);
+  const cafe=(await cafeResponse.json()).cafe;expect(cafe).toMatchObject({buildingId:building.id,buildingName:building.name,address:building.address});
+  expect((await request.put(`/api/admin/buildings/${building.id}`,{data:{...building,area:"tanukikoji"}})).status()).toBe(400);
+  const results=await Promise.all(["A","B"].map(suffix=>request.put(`/api/admin/buildings/${building.id}`,{data:{...building,name:"更新済みビル"+suffix,address:"札幌市中央区南4条西3丁目9-9",location:{latitude:43.055,longitude:141.35}}})));
+  expect(results.map(result=>result.status()).sort()).toEqual([200,409]);
+  const saved=(await results.find(result=>result.status()===200)!.json()).building;
+  const cafes=(await(await request.get("/api/admin/cafes")).json()).cafes;
+  expect(cafes.find((value:{id:string})=>value.id===cafe.id)).toMatchObject({address:saved.address,buildingName:saved.name,location:saved.location,socialUrls:cafeInput.socialUrls});
+  // A stale editor cannot overwrite a centrally managed address with its old value.
+  const updated=await request.put(`/api/admin/cafes/${cafe.id}`,{data:cafe});expect(updated.status()).toBe(200);
+  expect((await updated.json()).cafe).toMatchObject({address:saved.address,buildingName:saved.name,location:saved.location});
+  expect((await request.put(`/api/admin/buildings/${building.id}`,{data:building})).status()).toBe(409);
+});
+
+test("ビル管理と店舗編集をSPAで切り替え、住所引継ぎ・SNS保持・ビル別一覧を利用できる",async({page})=>{
+  await page.request.post("/api/admin/login",{data:{username:"admin",password:"admin"}});
+  await page.goto("/admin");
+  const navigation=page.getByRole("tablist",{name:"設定画面",exact:true});
+  await navigation.getByRole("tab",{name:"店舗設定",exact:true}).press("ArrowRight");
+  await expect(navigation.getByRole("tab",{name:"ビル管理",exact:true})).toHaveAttribute("aria-selected","true");
+  await page.getByRole("button",{name:"ビルを追加",exact:true}).click();
+  const buildingForm=page.locator(".admin-building-editor");
+  await buildingForm.getByLabel("ビル名",{exact:true}).fill("UI共通住所ビル");
+  await buildingForm.getByLabel("住所",{exact:true}).fill("札幌市中央区南5条西4丁目3-3");
+  await buildingForm.getByRole("button",{name:"ビル情報を保存",exact:true}).click();
+  await expect(page.getByRole("status")).toContainText("UI共通住所ビル");
+  await navigation.getByRole("tab",{name:"店舗設定",exact:true}).click();
+  await page.getByRole("button",{name:"手入力で追加",exact:true}).click();
+  const form=page.locator(".admin-editor form");
+  await form.getByLabel("店舗名",{exact:true}).fill("UIビル所属店舗");
+  await form.getByLabel("ビルを絞り込む",{exact:true}).fill("UI共通住所ビル");
+  await form.getByRole("combobox",{name:"ビルを選択",exact:true}).selectOption({label:"UI共通住所ビル — 札幌市中央区南5条西4丁目3-3"});
+  await expect(form.getByLabel("住所",{exact:true})).toHaveValue("札幌市中央区南5条西4丁目3-3");
+  await expect(form.getByLabel("住所",{exact:true})).toHaveAttribute("readonly","");
+  await form.getByLabel("階数",{exact:true}).fill("3F");
+  await form.getByLabel("X URL",{exact:true}).fill("https://x.com/first\nhttps://twitter.com/second");
+  await form.getByLabel("Instagram URL",{exact:true}).fill("https://instagram.com/example");
+  await form.getByLabel("その他のSNS URL",{exact:true}).fill("https://unknown.example/profile");
+  await navigation.getByRole("tab",{name:"ビル管理",exact:true}).click();
+  await expect(page).toHaveURL(/\/admin$/);
+  await navigation.getByRole("tab",{name:"店舗設定",exact:true}).click();
+  await expect(form.getByLabel("店舗名",{exact:true})).toHaveValue("UIビル所属店舗");
+  await form.getByRole("button",{name:"店舗情報を保存",exact:true}).click();
+  await page.getByRole("dialog",{name:"保存が完了しました"}).getByRole("button",{name:"閉じる",exact:true}).click();
+  const group=page.locator(".admin-building-group").filter({has:page.getByRole("heading",{name:"UI共通住所ビル",exact:true})});
+  await expect(group.getByRole("button",{name:/UIビル所属店舗/})).toBeVisible();
+  await group.getByRole("button",{name:/UIビル所属店舗/}).click();
+  await expect(form.getByLabel("X URL",{exact:true})).toHaveValue("https://x.com/first\nhttps://twitter.com/second");
+  await expect(form.getByLabel("その他のSNS URL",{exact:true})).toHaveValue("https://unknown.example/profile");
+  await page.setViewportSize({width:375,height:812});
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
+});
