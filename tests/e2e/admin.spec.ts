@@ -59,7 +59,7 @@ test("admin/adminでログインし、検索候補を確認・編集して下書
   await expect(page.getByRole("button",{name:"確認・編集して登録"}).first()).toBeVisible();await page.getByRole("button",{name:"確認・編集して登録"}).first().click();
   const form=page.locator(".admin-editor");await expect(form.getByRole("heading",{name:"掲載店舗を追加"})).toBeVisible();await expect(form.getByText("既存店舗と重複する可能性があります。",{exact:false})).toBeVisible();
   await form.getByLabel("店舗名",{exact:true}).fill("候補から確認した検証店舗");await form.getByLabel("ビル名",{exact:true}).fill("候補検証ビル");await form.getByLabel("階数",{exact:true}).fill("5F");
-  await form.getByRole("button",{name:"店舗情報を保存"}).click();await expect(page.getByRole("status")).toContainText("店舗情報を保存しました");await expect(form.getByLabel("掲載状態")).toHaveValue("draft");
+  await form.getByRole("button",{name:"店舗情報を保存"}).click();const saved=page.getByRole("dialog",{name:"保存が完了しました"});await expect(saved.getByRole("status")).toContainText("店舗情報を保存しました");await saved.getByRole("button",{name:"閉じる",exact:true}).click();await expect(form.getByLabel("掲載状態")).toHaveValue("draft");
   await page.getByRole("button",{name:"ログアウト",exact:true}).click();await expect(page).toHaveURL(/\/admin\/login/);
 });
 

@@ -38,22 +38,25 @@ npm run db:setup           # ローカルD1の準備・取り込み
 
 ## 本番D1の作成とデプロイ
 
-Cloudflareへログインし、DBを作成します。
+最新の公開準備・レビュー・D1同期手順は [公開準備・レビュー手順](./production-readiness.md) を参照してください。以下はレビュー後のリモート操作です。
 
 ```bash
 npx wrangler login
-npm run db:create
+npm run db:create:staging
+npm run db:create:production
 ```
 
-表示された `database_id` を `wrangler.jsonc` の `d1_databases[0].database_id` に設定します。初期値のゼロUUIDはローカル開発用です。`DB` というbinding名は変更しません。必要に応じて `account_id` を設定します。Workers名を変える場合は `name` と `services[0].service` を同じ名前にします。
+表示された `database_id` を `wrangler.jsonc` の `env.staging.d1_databases[0]` と `env.production.d1_databases[0]` にそれぞれ設定します。トップレベルのbindingはローカル開発用です。stagingとproductionは同じDBを使いません。`DB` というbinding名は変更しません。
 
 ```bash
 npm run cf:typegen
-npm run db:setup:remote
-npm run deploy
+npm run db:snapshot -- --output reports/snapshots/local-review.json
+npm run db:sync -- --snapshot reports/snapshots/local-review.json
 ```
 
-`db:setup:remote` は本番D1のマイグレーションと初回データの取り込みを実行します。`deploy` はOpenNextのビルド後にWorkersを配置します。DBが未設定の場合は、これらのスクリプトは設定手順を表示して停止します。コードのデプロイだけでDBのスキーマや掲載情報を変更する処理はありません。
+この段階ではローカルD1の読み取りと同期SQLの生成だけを行います。リモートへの適用は新規の空DBに限定し、環境と `--confirm-domain sapporo-concafe-map.com` を明示します。`db:setup:remote` は旧SQLite／JSON向けの従来インポートであり、最新のローカルD1の編集を移す用途には使いません。
+
+レビュー後の配置コマンドは `npm run deploy -- --env production --confirm-domain sapporo-concafe-map.com` です。D1・問い合わせ先・本番SEO設定が未入力なら停止します。GitHubの手動配置ワークフローは別途Environmentの承認とDEPLOY_ENABLEDの有効化が必要です。
 
 本番の `SESSION_COOKIE_SECURE` は `wrangler.jsonc` で `true` に設定済みです。ローカルの `.dev.vars` では `false` を使用します。`.env.local` の初期アカウント設定をWorkerへ配布する必要はありません。管理者はD1に保存されています。
 
@@ -65,8 +68,8 @@ CIで実行する場合は、Cloudflare APIトークンとアカウントIDをCI
 
 ```bash
 npm run db:migrate:local
-npm run db:migrate:remote
-npm run db:export:remote
+npm run db:migrate:remote -- --env production --confirm-domain sapporo-concafe-map.com
+npm run db:export:remote -- --env production
 ```
 
 バックアップは `reports/d1-backup.sql` に出力します。新しい空のD1への復元はWranglerの `d1 execute` にバックアップファイルを渡して行います。復元先のDB・bindingを確認して実行してください。ローカルD1での編集を本番へ移す場合もD1のexport/importを使用します。`db:setup:remote` の移行元は旧SQLite・JSONであり、ローカルD1の編集内容はそのコマンドだけでは転送されません。

@@ -13,7 +13,7 @@ const publicationGroups={published:{label:"公開",help:"公開設定になっ�
 type PublicationGroup=keyof typeof publicationGroups;
 const storeAreas={susukino:"すすきの",tanukikoji:"狸小路"};
 const publicationGroup=(cafe:CafeInput):PublicationGroup=>cafe.businessStatus==="closed"?"closed":publicationLabel(cafe)==="予約公開"?"scheduled":publicationLabel(cafe)==="公開"?"published":"hidden";
-const emptyCafe=():CafeInput=>({name:"",address:"",area:"tanukikoji",category:"unknown",buildingName:"",floor:"",location:null,businessStatus:"unknown",publicationStatus:"draft",sourceUrl:"",socialUrls:[],verifiedOn:"",coordinateSource:""});
+const emptyCafe=(area:CafeInput["area"]="tanukikoji"):CafeInput=>({name:"",address:"",area,category:"unknown",buildingName:"",floor:"",location:null,businessStatus:"unknown",publicationStatus:"draft",sourceUrl:"",socialUrls:[],verifiedOn:"",coordinateSource:""});
 type Editor=CafeInput&{id?:string;version?:number};
 
 async function request(url:string,options?:RequestInit){
@@ -96,7 +96,7 @@ export function AdminDashboard({username}:{username:string}){
       <div className="admin-delete-actions"><button type="button" className="secondary" autoFocus onClick={()=>setDeleteTarget(null)}>キャンセル</button><button type="button" className="danger" onClick={remove}>削除する</button></div>
     </dialog>
     {error&&<p role="alert" className="admin-error">{error}</p>}
-    <div className="admin-grid"><section className="admin-panel admin-list"><div className="admin-panel-heading"><h2>登録店舗</h2><button onClick={()=>edit({...emptyCafe(),area:storeArea})}>手入力で追加</button></div>
+    <div className="admin-grid"><section className="admin-panel admin-list"><div className="admin-panel-heading"><h2>登録店舗</h2><button onClick={()=>edit(emptyCafe(storeArea))}>手入力で追加</button></div>
       <div className="admin-area-tabs" role="tablist" aria-label="登録店舗のエリア">{(Object.keys(storeAreas) as CafeInput["area"][]).map((key)=><button key={key} id={`admin-area-${key}`} type="button" role="tab" aria-selected={storeArea===key} aria-controls="admin-area-panel" tabIndex={storeArea===key?0:-1} onClick={()=>setStoreArea(key)} onKeyDown={(event)=>{if(!["ArrowLeft","ArrowRight","Home","End"].includes(event.key))return;event.preventDefault();const next=event.key==="Home"?"susukino":event.key==="End"?"tanukikoji":key==="susukino"?"tanukikoji":"susukino";setStoreArea(next);document.getElementById(`admin-area-${next}`)?.focus();}}>{storeAreas[key]}<span>{cafes.filter(cafe=>cafe.area===key).length}件</span></button>)}</div>
       <div id="admin-area-panel" role="tabpanel" aria-labelledby={`admin-area-${storeArea}`}>
       <div className="admin-publication-filters" role="group" aria-label="掲載状態で絞り込み">{(Object.keys(publicationGroups) as PublicationGroup[]).map((key)=><button key={key} type="button" className={`admin-publication-filter ${key}`} aria-pressed={group===key} aria-controls="admin-store-results" onClick={()=>setGroup(key)}><span>{publicationGroups[key].label}</span><strong>{areaCafes.filter(cafe=>publicationGroup(cafe)===key).length}<small>件</small></strong><span className="admin-filter-help">{publicationGroups[key].help}</span></button>)}</div>

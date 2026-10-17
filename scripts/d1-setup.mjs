@@ -1,21 +1,19 @@
 import { spawnSync } from "node:child_process";
-import { readFile, access, copyFile, mkdir } from "node:fs/promises";
+import { access, copyFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { prepareD1Import } from "./d1-import.mjs";
+import {remoteEnvironment} from "./lib/wrangler.mjs";
 
 const remote = process.argv.includes("--remote");
 const prepareOnly = process.argv.includes("--prepare-only");
 const migrateOnly = process.argv.includes("--migrate-only");
-const config = JSON.parse(await readFile("wrangler.jsonc", "utf8"));
-if (remote && config.d1_databases[0].database_id === "00000000-0000-0000-0000-000000000000") {
-  throw new Error("先に npm run db:create を実行し、wrangler.jsonc のdatabase_idを設定してください。");
-}
+const remoteTarget=remote?remoteEnvironment(process.argv):null;
 await mkdir("reports/wrangler", { recursive: true });
 if (!remote) {
   try { await access(".dev.vars"); }
   catch { await copyFile(".dev.vars.example", ".dev.vars"); }
 }
-const mode = remote ? ["--remote"] : ["--local", "--persist-to", process.env.D1_PERSIST_PATH || ".wrangler/state"];
+const mode = remote ? ["--remote","--env",remoteTarget.environment] : ["--local", "--persist-to", process.env.D1_PERSIST_PATH || ".wrangler/state"];
 function wrangler(args, capture = false) {
   const result = spawnSync(process.execPath, ["node_modules/wrangler/bin/wrangler.js", ...args], {
     env: { ...process.env, CI: "true", WRANGLER_SEND_METRICS: "false", WRANGLER_LOG_PATH: path.resolve("reports/wrangler") },

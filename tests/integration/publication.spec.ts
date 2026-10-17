@@ -4,6 +4,8 @@ import path from "node:path";
 import { getPlatformProxy } from "wrangler";
 import { D1CafeStore } from "../../src/infrastructure/database/d1-cafe-store";
 import { validateCafeInput } from "../../src/domain/admin/managed-cafe";
+import {D1SearchRateLimiter} from "../../src/infrastructure/admin/search-rate-limiter";
+import {verifyPassword} from "../../db/passwords.mjs";
 
 test("D1で既存店舗を非公開にし、予約時刻・解除・公式サイトを保持する", async () => {
   const persistPath=path.resolve(".wrangler/tests",`publication-${Date.now()}`);
@@ -11,8 +13,15 @@ test("D1で既存店舗を非公開にし、予約時刻・解除・公式サイ
     env:{...process.env,D1_PERSIST_PATH:persistPath},encoding:"utf8",
   });
   expect(setup.status,setup.stderr).toBe(0);
+  const password="integration-only-unique-password";
+  const reset=spawnSync(process.execPath,["scripts/admin-password.mjs","--local"],{
+    env:{...process.env,D1_PERSIST_PATH:persistPath,ADMIN_USERNAME:"admin",ADMIN_NEW_PASSWORD:password},encoding:"utf8",
+  });
+  expect(reset.status,reset.stderr).toBe(0);
   let proxy=await getPlatformProxy<{DB:D1Database}>({persist:{path:path.join(persistPath,"v3")}});
   try {
+    const administrator=await proxy.env.DB.prepare("SELECT password_hash FROM administrators WHERE username='admin'").first<{password_hash:string}>();
+    expect(verifyPassword(password,administrator!.password_hash)).toBe(true);
     const store=new D1CafeStore(async()=>proxy.env.DB);
     expect((await store.list()).length).toBeGreaterThan(0);
     expect((await store.list()).every(cafe=>cafe.publicationStatus==="hidden")).toBe(true);
@@ -53,5 +62,11 @@ test("D1で既存店舗を非公開にし、予約時刻・解除・公式サイ
     ]);
     expect(results.filter(result=>result.status==="fulfilled")).toHaveLength(1);
     expect(results.filter(result=>result.status==="rejected")).toHaveLength(1);
+    const limiter=new D1SearchRateLimiter(async()=>proxy.env.DB);
+    const limitResults=await Promise.allSettled(Array.from({length:6},()=>limiter.consume("admin-a",100000)));
+    expect(limitResults.filter(result=>result.status==="fulfilled")).toHaveLength(5);
+    expect(limitResults.filter(result=>result.status==="rejected")).toHaveLength(1);
+    await expect(limiter.consume("admin-b",100000)).resolves.toBeUndefined();
+    await expect(limiter.consume("admin-a",160000)).resolves.toBeUndefined();
   } finally { await proxy.dispose(); }
 });
