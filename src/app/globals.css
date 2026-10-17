@@ -77,7 +77,6 @@ h1 { font-size: clamp(1.7rem, 3vw, 2.3rem); letter-spacing: .025em; line-height:
 .row-content > span { font-size: .75rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .row-content .row-meta { font-size: .68rem; color: #8a968e; }
 .row-arrow { color: #99a69d; font-size: 1.25rem; }
-.data-note { border-top: 1px solid var(--line); padding: 14px 20px; font-size: .68rem; color: var(--muted); }
 summary { cursor: pointer; }
 .site-footer { width: 100%; margin-top: 32px; background: #eaf0e9; border-top: 1px solid #d6e1d6; color: #40584a; font-size: .875rem; }
 .site-footer-inner { max-width: 1280px; margin: auto; padding: 40px clamp(20px,4vw,56px) 20px; }
@@ -134,7 +133,6 @@ summary { cursor: pointer; }
 .contact-message h2 { margin-top: 0; }
 .contact-message-body { white-space: pre-wrap; }
 .information-page .contact-danger { background: #b83232; color: white; }
-.data-note p { margin: 10px 0 0; }
 .selected-cafe { position: absolute; z-index: 500; bottom: 65px; left: 18px; width: min(350px, calc(100% - 36px)); background: white; border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 10px 35px #20362c22; padding: 22px; }
 .category { display: inline-block; border-radius: 5px; padding: 3px 8px; font-size: .6rem; }
 .detail-close { position: absolute; right: 12px; top: 12px; width: 28px; height: 28px; border: 0; border-radius: 50%; background: #f1f4f1; color: var(--muted); font-size: 1.1rem; }

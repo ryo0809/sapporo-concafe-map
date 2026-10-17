@@ -254,9 +254,6 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
           </button>
         </li>)}</ul></section>)}</div></section>}
         {listedCafes.length === 0 && <p className="empty-list">{cafes.length ? "一致するお店が見つかりませんでした。" : "店舗情報は準備中です。"}</p>}
-        <details className="data-note"><summary>掲載情報について</summary>
-          <p>営業未確認の候補を含みます。閉店・休業・移転と判定した候補は除外しています。全店舗を網羅するものではありません。</p>
-        </details>
       </section>
     </div>
   );
