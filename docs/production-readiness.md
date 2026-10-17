@@ -4,7 +4,7 @@
 
 ## ローカルで確認できる変更
 
-- タイトル、description、canonical、OGP／Twitterカード、クラゲのfavicon・Appleアイコン、コピーライト。
+- タイトル、description、canonical、OGP／Twitterカード、クラゲのfavicon・Appleアイコン、掲載情報に関するお問い合わせ案内。
 - 問い合わせ・修正依頼ページ、プライバシー案内、404、読み込み失敗時の再試行。
 - 管理画面・APIのnoindex/no-store、セキュリティヘッダー、wwwから正規URLへの転送。
 - 管理者ごとの外部候補検索は1分間に5回。保存済み候補の検索は制限対象外。
@@ -33,7 +33,7 @@ npm.cmd run db:sync -- --snapshot reports/snapshots/local-review.json
 1. ドメインの取得可否・取得費・更新費を確認し、指定ドメインを取得する。採用ドメインを勝手に変更しない。
 2. CloudflareアカウントとDNSを準備し、ルートとwwwのカスタムドメイン・HTTPSを設定する。wwwはアプリの308転送で正規URLへ移動する。
 3. stagingとproductionを別のD1で作成し、`wrangler.jsonc` の各environmentの `database_id` をそれぞれ設定する。既定のゼロUUIDでは配置・同期を拒否する。
-4. 実際の問い合わせ先を決め、窓口、プライバシー案内、Ryo Fujiwara名義のコピーライトをレビューする。地図・画像の帰属表示と利用権も確認する。
+4. 実際の問い合わせ先を決め、窓口、プライバシー案内、掲載情報の修正・削除・追加依頼の案内をレビューする。地図・画像の帰属表示と利用権も確認する。
 5. GitHubにstaging／productionのEnvironmentを用意し、productionは必須レビュアー・mainへのブランチ制限を設定する。Secretsに `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID`、Environment variablesに `CONTACT_EMAIL` と `BACKUP_PUBLIC_KEY` を登録する。
 6. バックアップの公開鍵はRSA 2048bit以上のPEM形式。秘密鍵はGitHub／Cloudflareへ登録せず、所有者が安全な別の場所で保管する。紛失するとバックアップを復元できない。
 7. 手動デプロイを許可する段階でのみ、Repository variable `DEPLOY_ENABLED=true` を設定する。設定前はworkflow_dispatchを実行しても配置ジョブが起動しない。
@@ -90,7 +90,7 @@ node scripts/backup-crypto.mjs --decrypt --input reports/pre-deploy-backup.encry
 
 ### レビュー観点
 
-- 公開ページとスマホ表示、コピーライト、アイコン、OGP、問い合わせ・プライバシー案内。
+- 公開ページとスマホ表示、掲載情報に関するお問い合わせ案内、アイコン、OGP、問い合わせ・プライバシー案内。
 - ログイン・保存・削除・予約公開・検索制限・モーダルのフォーカス。
 - スナップショットに認証情報が含まれず、公開状態・削除状態を保持していること。
 - CIが成功し、未設定のまま本番へ配置できないこと。
