@@ -31,19 +31,19 @@ export function ContactForm() {
   return <><form className="contact-form" onSubmit={submit} aria-busy={busy} onInvalidCapture={event => { const details = (event.target as HTMLElement).closest("details"); if (details) details.open = true; }} onChange={() => { if (!pending.current) submissionId.current = ""; }}>
     <fieldset disabled={busy}>
       <label>お問い合わせの種類<select name="category" value={category} onChange={e => { setCategory(e.target.value as ContactCategory); setError(""); }}>{Object.entries(contactCategories).map(([key, label]) => <option key={key} value={key}>{label}</option>)}</select></label>
-      <label>お名前（必須）<input name="name" autoComplete="name" required maxLength={100}/></label>
+      {category !== "deletion" && <label>お名前（必須）<input name="name" autoComplete="name" required maxLength={100}/></label>}
       <div><label>メールアドレス（任意）<input name="email" type="email" autoComplete="email" maxLength={254} aria-describedby="contact-email-hint"/></label><p id="contact-email-hint">返信をご希望の場合に入力してください。未入力の場合は個別に返信できません。</p></div>
       {isStoreContact(category) && <>
         <label>{category === "addition" ? "掲載を希望する店舗名" : "対象の店舗名"}（必須）<input name="storeName" required maxLength={200}/></label>
       </>}
-      <section className="contact-field-section" key={category} aria-label="お問い合わせの詳細">
+      {category !== "deletion" && <section className="contact-field-section" key={category} aria-label="お問い合わせの詳細">
         {contactDetailFields[category].filter(field => field.required).map(detailField)}
-      </section>
-      {isStoreContact(category) && <section className="contact-field-section" aria-label="公式サイト・SNS">
+      </section>}
+      {isStoreContact(category) && category !== "deletion" && <section className="contact-field-section" aria-label="公式サイト・SNS">
         {contactUrlFields.slice(0, 2).map(detailField)}
         <details className="contact-optional"><summary>ほかのSNSを追加</summary><div className="contact-field-section">{contactUrlFields.slice(2).map(detailField)}</div></details>
       </section>}
-      {category === "other" ? supplementary : <details className="contact-optional" key={`optional-${category}`}><summary>詳しい情報を追加（任意）</summary><div className="contact-field-section">{contactDetailFields[category].filter(field => !field.required).map(detailField)}{supplementary}</div></details>}
+      {category !== "deletion" && (category === "other" ? supplementary : <details className="contact-optional" key={`optional-${category}`}><summary>詳しい情報を追加（任意）</summary><div className="contact-field-section">{contactDetailFields[category].filter(field => !field.required).map(detailField)}{supplementary}</div></details>)}
       <div className="contact-honeypot" aria-hidden="true"><label>ウェブサイト<input name="website" tabIndex={-1} autoComplete="off" maxLength={200}/></label></div>
       <label className="contact-consent"><input name="consent" type="checkbox" required/><span><Link href="/privacy" target="_blank" rel="noopener">プライバシーポリシー</Link>を確認し、個人情報の取り扱いに同意します（必須）</span></label>
       {error && <p role="alert" className="contact-error">{error}</p>}

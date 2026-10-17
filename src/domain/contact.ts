@@ -56,13 +56,13 @@ export function validateContact(value: unknown) {
   }
   const id = text("id", 36, true);
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id)) throw new Error("ページを再読み込みして送信してください。");
-  const name = text("name", 100, true), email = text("email", 254);
-  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error("メールアドレスを確認してください。");
   const category = text("category", 20) as ContactCategory;
   if (!Object.hasOwn(contactCategories, category)) throw new Error("お問い合わせの種類を選択してください。");
+  const name = category === "deletion" ? "" : text("name", 100, true), email = text("email", 254);
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error("メールアドレスを確認してください。");
   const storeName = isStoreContact(category) ? text("storeName", 200, true) : "";
   const details: Record<string, string> = {};
-  for (const field of [...contactDetailFields[category], ...(isStoreContact(category) ? contactUrlFields : [])]) {
+  for (const field of category === "deletion" ? [] : [...contactDetailFields[category], ...(isStoreContact(category) ? contactUrlFields : [])]) {
     const value = text(field.key, field.max, field.required);
     if (field.type === "url" && value) {
       let url: URL;
@@ -71,12 +71,12 @@ export function validateContact(value: unknown) {
     }
     if (value) details[field.key] = value;
   }
-  const referenceUrl = isStoreContact(category) ? text("referenceUrl", 2048) : "";
+  const referenceUrl = isStoreContact(category) && category !== "deletion" ? text("referenceUrl", 2048) : "";
   if (referenceUrl) {
     let url: URL;
     try { url = new URL(referenceUrl); } catch { throw new Error("確認用URLを確認してください。"); }
     if (!["https:", "http:"].includes(url.protocol) || url.username || url.password) throw new Error("確認用URLはhttpまたはhttpsで入力してください。");
   }
   if (data.consent !== true) throw new Error("プライバシーポリシーへの同意が必要です。");
-  return { id, name, email, category, storeName, referenceUrl, details, message: text("message", 5000, category === "other"), website: text("website", 200) };
+  return { id, name, email, category, storeName, referenceUrl, details, message: category === "deletion" ? "" : text("message", 5000, category === "other"), website: text("website", 200) };
 }

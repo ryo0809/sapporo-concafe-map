@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 test("種類に応じて入力欄を切り替え、メールなしでサイトへの要望を受け付ける", async ({ page }) => {
   await page.goto("/contact");
   const category = page.getByLabel("お問い合わせの種類");
-  for (const [value, label] of [["correction", "修正する項目"], ["deletion", "削除の理由"], ["addition", "住所"]]) {
+  for (const [value, label] of [["correction", "修正する項目"], ["deletion", "対象の店舗名"], ["addition", "住所"]]) {
     await category.selectOption(value);
     await expect(page.locator('input[name="storeName"]')).toBeVisible();
     await expect(page.locator('input[name="storeName"]')).toHaveAttribute("required", "");

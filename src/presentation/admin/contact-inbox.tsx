@@ -32,7 +32,7 @@ export function ContactInbox() {
     {error && <p role="alert" className="contact-error">{error}</p>}
     {loading ? <p role="status">読み込んでいます…</p> : messages.length === 0 ? <p>お問い合わせはありません。</p> : messages.map(message => <article className="contact-message" key={message.id}>
       <h2>{contactCategories[message.category]}{message.store_name && `：${message.store_name}`}</h2><p><time dateTime={message.created_at}>{new Date(message.created_at).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })}</time>（日本時間）</p>
-      <p>{message.name} / {message.email ? <a href={`mailto:${encodeURIComponent(message.email)}`}>{message.email}</a> : <span>メールアドレス未入力（返信不可）</span>}</p>
+      <p>{message.name && <>{message.name} / </>}{message.email ? <a href={`mailto:${encodeURIComponent(message.email)}`}>{message.email}</a> : <span>メールアドレス未入力（返信不可）</span>}</p>
       {message.reference_url && <p><a href={message.reference_url} target="_blank" rel="noopener noreferrer">確認用URLを開く</a></p>}
       <MessageDetails message={message}/>
       <p className="contact-message-body">{message.message}</p><div className="contact-tabs"><button disabled={busy} onClick={() => update(message)}>{status === "new" ? "対応済みにする" : "未対応に戻す"}</button><button className="contact-danger" disabled={busy} onClick={() => { setTarget(message); dialog.current?.showModal(); }}>削除</button></div>
