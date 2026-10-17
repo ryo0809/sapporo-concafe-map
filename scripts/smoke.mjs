@@ -6,6 +6,7 @@ if(!["http:","https:"].includes(base.protocol))throw new Error("URLが不正で�
 const checks=[
   ["/",200,"札幌コンカフェマップ"],
   ["/contact",200,"お問い合わせ"],
+  ["/listing-information",200,"掲載情報について"],
   ["/privacy",200,"プライバシー"],
   ["/robots.txt",200,"User-Agent"],
   ["/sitemap.xml",200,"urlset"],

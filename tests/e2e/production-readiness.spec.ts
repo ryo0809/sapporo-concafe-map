@@ -17,11 +17,15 @@ test("公開ページのメタデータ・アイコン・案内と機密APIヘ�
   const sitemapText=await sitemap.text();
   expect(sitemapText).not.toContain("/admin");
   if(!indexing)expect(sitemapText).not.toContain("<loc>");
-  await expect(page.locator("footer")).toContainText("掲載情報の修正・削除・追加依頼は、");
+  await expect(page.locator("footer").getByRole("link",{name:"掲載情報について",exact:true})).toBeVisible();
+  await expect(page.locator("body")).not.toContainText("掲載情報の修正・削除・追加依頼は、");
+  await expect(page.locator("footer").getByRole("link",{name:"プライバシーポリシー",exact:true})).toHaveText("プライバシーポリシー");
   await expect(page.locator("footer")).not.toContainText("©");
   await expect(page.locator('footer a[href^="/admin"]')).toHaveCount(0);
   await expect(page.locator("body")).not.toContainText("お出かけ前に、店舗の最新情報をご確認ください。");
   await expect(page.locator("body")).not.toContainText("管理画面");
+  await page.getByRole("link",{name:"掲載情報について",exact:true}).click();
+  await expect(page.getByRole("heading",{name:"掲載情報について",exact:true})).toBeVisible();
   await page.getByRole("link",{name:"お問い合わせ",exact:true}).click();
   await expect(page.getByRole("heading",{name:"お問い合わせ",exact:true})).toBeVisible();
   await page.goto("/privacy");
