@@ -114,12 +114,12 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
             const heading = document.createElement("button");
             heading.className = "popup-cafe-button";
             heading.textContent = item.name;
-            heading.onclick = () => { setSelectedId(item.id); setBuildingKey(getBuildingDetails(item.address).key); };
+            heading.onclick = () => { setSelectedId(item.id); setBuildingKey(getBuildingDetails(item.address,item.buildingName,item.floor).key); };
             const details = document.createElement("p");
             details.textContent = `${labels[item.category]} · ${item.address}`;
             popup.append(heading, details);
           }
-          marker.bindPopup(popup).on("click", () => { setSelectedId(cafe.id); setBuildingKey(getBuildingDetails(cafe.address).key); }).addTo(instance);
+          marker.bindPopup(popup).on("click", () => { setSelectedId(cafe.id); setBuildingKey(getBuildingDetails(cafe.address,cafe.buildingName,cafe.floor).key); }).addTo(instance);
           for (const item of group) markerStore.set(item.id, marker);
         }
         }
@@ -174,10 +174,10 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
           <button className="detail-close" aria-label="店舗詳細を閉じる" onClick={() => { setSelectedId(null); mapRef.current?.closePopup(); }}>×</button>
           <span className={`category ${selected.category}`}>{labels[selected.category]}</span>
           <h3>{selected.name}</h3><p className="detail-address">{selected.address}</p>
-          <a className="source-link" href={selected.sourceUrl} target="_blank" rel="noreferrer">情報元で確認 ↗</a>
+          {selected.officialUrl&&<a className="source-link" href={selected.officialUrl} target="_blank" rel="noreferrer">公式サイト ↗</a>}
           <p className="detail-status">{selected.businessStatus === "operating" ? "営業情報あり" : "営業状態は未確認です。来店前に店舗へご確認ください。"}</p>
           <details className="detail-metadata"><summary>情報の取得・位置について</summary>
-            <p>取得日時：{selected.fetchedAt ? new Date(selected.fetchedAt).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }) : selected.verifiedOn}</p>
+            <p>取得日時：{selected.fetchedAt ? new Date(selected.fetchedAt).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }) : "未取得"}</p><p>情報確認日：{selected.verifiedOn||"未確認"}</p>
             <p>位置の確認元：{selected.coordinateSource}</p>
           </details>
         </section>}

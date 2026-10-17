@@ -2,32 +2,55 @@
   "name": "sapporo-concafe-map",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node --env-file-if-exists=.env.local scripts/cloudflare-preview.mjs",
+    "build:cloudflare": "opennextjs-cloudflare build",
+    "preview": "opennextjs-cloudflare build && npm run start",
+    "deploy": "node scripts/cloudflare-deploy.mjs",
+    "cf:typegen": "wrangler types --env-interface CloudflareEnv --include-runtime=false cloudflare-env.d.ts",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
+    "test:unit": "playwright test --config=playwright.unit.config.ts",
+    "test:integration": "playwright test --config=playwright.integration.config.ts",
     "test:e2e": "playwright test",
     "cafes:audit": "node scripts/cafe-source-audit.mjs",
-    "cafes:collect": "node batch/collect-cafes.mjs"
+    "cafes:collect": "node batch/collect-cafes.mjs",
+    "db:create": "wrangler d1 create sapporo-concafe-map",
+    "db:setup": "node --env-file-if-exists=.env.local scripts/d1-setup.mjs --local",
+    "db:setup:remote": "node --env-file-if-exists=.env.local scripts/d1-setup.mjs --remote",
+    "db:prepare-import": "node --env-file-if-exists=.env.local scripts/d1-setup.mjs --prepare-only",
+    "db:migrate:local": "node --env-file-if-exists=.env.local scripts/d1-setup.mjs --local --migrate-only",
+    "db:migrate:remote": "node --env-file-if-exists=.env.local scripts/d1-setup.mjs --remote --migrate-only",
+    "db:export:remote": "wrangler d1 export DB --remote --output=reports/d1-backup.sql"
+  },
+  "overrides": {
+    "@node-minify/core": { "glob": "10.5.0" }
   },
   "dependencies": {
+    "@opennextjs/cloudflare": "^1.20.11",
     "leaflet": "^1.9.4",
-    "next": "16.4.1",
+    "next": "16.3.8",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261014.1",
     "@playwright/test": "^1.64.1",
     "@types/leaflet": "^1.9.22",
-    "@types/node": "^20",
+    "@types/node": "^24.19.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "cheerio": "^1.2.0",
     "eslint": "^9",
-    "eslint-config-next": "16.4.1",
+    "eslint-config-next": "16.3.8",
     "robots-parser": "^3.0.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.151.0"
   }
 }

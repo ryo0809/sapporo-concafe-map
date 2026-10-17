@@ -7,10 +7,13 @@ export interface Cafe {
   readonly category: "concept" | "maid" | "unknown";
   readonly location: { readonly latitude: number; readonly longitude: number } | null;
   readonly sourceUrl: string;
+  readonly officialUrl?: string;
   readonly verifiedOn: string;
   readonly area: CafeArea;
   readonly locationGroup: string;
   readonly coordinateSource: string;
   readonly fetchedAt?: string;
   readonly businessStatus?: "unknown" | "operating";
+  readonly buildingName?: string;
+  readonly floor?: string;
 }

@@ -7,13 +7,15 @@ export interface CafeSummary {
   readonly address: string;
   readonly category: "concept" | "maid" | "unknown";
   readonly location: { readonly latitude: number; readonly longitude: number } | null;
-  readonly sourceUrl: string;
+  readonly officialUrl?: string;
   readonly verifiedOn: string;
   readonly area: CafeArea;
   readonly locationGroup: string;
   readonly coordinateSource: string;
   readonly fetchedAt?: string;
   readonly businessStatus?: "unknown" | "operating";
+  readonly buildingName?: string;
+  readonly floor?: string;
 }
 
 export class ListCafes {
@@ -21,8 +23,8 @@ export class ListCafes {
 
   async execute(): Promise<readonly CafeSummary[]> {
     const cafes = await this.repository.findAll();
-    return cafes.map(({ id, name, address, category, location, sourceUrl, verifiedOn, area, locationGroup, coordinateSource, fetchedAt, businessStatus }) => ({
-      id, name, address, category, location: location ? { ...location } : null, sourceUrl, verifiedOn, area, locationGroup, coordinateSource, fetchedAt, businessStatus,
+    return cafes.map(({ id, name, address, category, location, officialUrl, verifiedOn, area, locationGroup, coordinateSource, fetchedAt, businessStatus,buildingName,floor }) => ({
+      id, name, address, category, location: location ? { ...location } : null, officialUrl, verifiedOn, area, locationGroup, coordinateSource, fetchedAt, businessStatus,buildingName,floor,
     }));
   }
 }
