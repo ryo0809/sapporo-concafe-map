@@ -1,5 +1,7 @@
 # sapporo-concafe-map
 
+独自ドメインでの公開準備とレビュー手順は [公開準備・レビュー手順](./docs/production-readiness.md) を参照してください。本番への同期・配置はレビュー後に実施します。
+
 札幌のコンセプトカフェを探すためのWebアプリケーション。Next.js App Router / React / TypeScriptを使用し、Cloudflare WorkersとD1に配置します。
 
 ## 開発
@@ -31,7 +33,7 @@ E2Eテストは `npx playwright install chromium` でブラウザを準備し、
 
 ## Cloudflareへの配置
 
-[Cloudflare Workers・D1の構築手順](./docs/cloudflare-d1.md) に、DBの作成、マイグレーション、既存データの移行、デプロイ、バックアップのコマンドを記載しています。`wrangler.jsonc` の `DB` bindingを使用します。本番用 `database_id` はDB作成後に設定してください。
+[Cloudflare Workers・D1の構築手順](./docs/cloudflare-d1.md) に、DBの作成、マイグレーション、既存データの移行、デプロイ、バックアップのコマンドを記載しています。`wrangler.jsonc` の `DB` bindingを使用します。`env.staging` と `env.production` の `database_id` は別々のDB作成後に設定してください。
 
 ## 管理画面
 

@@ -4,6 +4,27 @@ import { spawnSync } from "node:child_process";
 const cafeInput={name:"管理機能検証店舗",address:"札幌市中央区南3条西6丁目3-3",area:"tanukikoji",category:"maid",buildingName:"管理機能検証ビル",floor:"2F",location:{latitude:43.05656,longitude:141.34884},
   businessStatus:"unknown",publicationStatus:"draft",sourceUrl:"https://example.com/",socialUrls:[],verifiedOn:"",coordinateSource:"テスト座標"};
 
+test("設定画面を店舗設定・お問い合わせのタブで切り替える",async({page})=>{
+  expect((await page.request.post("/api/admin/login",{data:{username:"admin",password:"admin"}})).status()).toBe(200);
+  await page.goto("/admin");
+  await expect(page.locator(".admin-header")).not.toContainText("admin");
+  const navigation=page.getByRole("tablist",{name:"設定画面",exact:true});
+  await expect(navigation.getByRole("tab",{name:"店舗設定",exact:true})).toHaveAttribute("aria-selected","true");
+  await page.getByRole("button",{name:"手入力で追加",exact:true}).click();
+  const editor=page.locator("#admin-editor-title").locator("..");
+  await editor.getByLabel("店舗名",{exact:true}).fill("編集中の店舗名");
+  await navigation.getByRole("tab",{name:"お問い合わせ",exact:true}).click();
+  await expect(page).toHaveURL(/\/admin$/);
+  await expect(navigation.getByRole("tab",{name:"お問い合わせ",exact:true})).toHaveAttribute("aria-selected","true");
+  await page.getByRole("button",{name:"対応済み",exact:true}).click();
+  await navigation.getByRole("tab",{name:"店舗設定",exact:true}).click();
+  await expect(editor.getByLabel("店舗名",{exact:true})).toHaveValue("編集中の店舗名");
+  await navigation.getByRole("tab",{name:"お問い合わせ",exact:true}).click();
+  await expect(page.getByRole("button",{name:"対応済み",exact:true})).toHaveAttribute("aria-pressed","true");
+  await page.getByRole("button",{name:"ログアウト",exact:true}).click();
+  await expect(page).toHaveURL(/\/admin\/login$/);
+});
+
 test("削除APIは認証・送信元・バージョンを検証し、同名の別店舗を残す",async({request})=>{
   expect((await request.delete("/api/admin/cafes/missing",{data:{version:1}})).status()).toBe(401);
   await request.post("/api/admin/login",{data:{username:"admin",password:"admin"}});
@@ -59,7 +80,7 @@ test("admin/adminでログインし、検索候補を確認・編集して下書
   await expect(page.getByRole("button",{name:"確認・編集して登録"}).first()).toBeVisible();await page.getByRole("button",{name:"確認・編集して登録"}).first().click();
   const form=page.locator(".admin-editor");await expect(form.getByRole("heading",{name:"掲載店舗を追加"})).toBeVisible();await expect(form.getByText("既存店舗と重複する可能性があります。",{exact:false})).toBeVisible();
   await form.getByLabel("店舗名",{exact:true}).fill("候補から確認した検証店舗");await form.getByLabel("ビル名",{exact:true}).fill("候補検証ビル");await form.getByLabel("階数",{exact:true}).fill("5F");
-  await form.getByRole("button",{name:"店舗情報を保存"}).click();await expect(page.getByRole("status")).toContainText("店舗情報を保存しました");await expect(form.getByLabel("掲載状態")).toHaveValue("draft");
+  await form.getByRole("button",{name:"店舗情報を保存"}).click();const saved=page.getByRole("dialog",{name:"保存が完了しました"});await expect(saved.getByRole("status")).toContainText("店舗情報を保存しました");await saved.getByRole("button",{name:"閉じる",exact:true}).click();await expect(form.getByLabel("掲載状態")).toHaveValue("draft");
   await page.getByRole("button",{name:"ログアウト",exact:true}).click();await expect(page).toHaveURL(/\/admin\/login/);
 });
 

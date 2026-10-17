@@ -1,4 +1,9 @@
 .admin-shell { max-width: 1400px; margin: auto; padding: 28px; }
+.admin-settings-tabs { display: flex; gap: 4px; margin: 24px 0; padding: 5px; border: 1px solid var(--line); border-radius: 12px; background: #e8eee9; }
+.admin-shell .admin-settings-tabs button { flex: 1; padding: 13px 16px; border: 0; border-radius: 8px; text-align: center; background: transparent; color: var(--muted); font-size: .95rem; font-weight: 700; }
+.admin-shell .admin-settings-tabs button[aria-selected="true"] { background: white; color: var(--accent); box-shadow: 0 2px 6px #20362c12; }
+.admin-shell .admin-settings-tabs button:hover { background: #f6f8f5; }
+.admin-shell button.contact-danger { background: #b83232; border-color: #b83232; color: white; }
 .admin-header { display: flex; justify-content: space-between; gap: 20px; align-items: center; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
 .admin-header h1 { font-size: 1.6rem; margin: 0; }
 .admin-eyebrow { color: var(--accent); font-size: .75rem; margin: 0 0 6px; }
@@ -16,6 +21,19 @@
 .admin-panel h3 { font-size: .95rem; }
 .admin-panel-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; }
 .admin-panel-heading h2 { margin: 0; }
+.admin-shell .admin-inbox-status button[aria-pressed="true"] { background: var(--accent); color: white; }
+.admin-inbox-list { display: grid; gap: 16px; }
+.admin-inbox-list .contact-message { margin: 0; padding: 20px; border-radius: 10px; background: #fafcf9; }
+.admin-inbox-message-heading { display: flex; align-items: start; justify-content: space-between; gap: 12px; }
+.admin-inbox-message-heading h3 { margin: 0 0 8px; }
+.admin-inbox-badge { flex-shrink: 0; border-radius: 4px; padding: 3px 8px; background: #edf0f2; color: #53616a; font-size: .7rem; }
+.admin-inbox-badge.done { background: #e4f2e7; color: #326c46; }
+.admin-inbox-table { width: 100%; table-layout: fixed; border-collapse: collapse; margin-top: 12px; background: white; font-size: .85rem; }
+.admin-inbox-table th, .admin-inbox-table td { padding: 12px 14px; border: 1px solid var(--line); text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+.admin-inbox-table th { width: 30%; background: #eef3ee; font-weight: 600; }
+.admin-inbox-table td { white-space: pre-wrap; }
+@media(max-width:540px){.admin-inbox-table{font-size:.8rem}.admin-inbox-table th,.admin-inbox-table td{padding:10px 8px}.admin-inbox-table th{width:35%}}
+.admin-inbox-actions { padding-top: 16px; border-top: 1px solid var(--line); }
 .admin-area-tabs { display: flex; gap: 8px; border-bottom: 1px solid var(--line); margin-bottom: 24px; padding-bottom: 10px; }
 .admin-shell .admin-area-tabs button { flex: 1; display: flex; align-items: center; justify-content: center; gap: 12px; padding: 14px 16px; background: #f6f8f6; color: var(--muted); border-color: transparent; font-size: .95rem; font-weight: 600; }
 .admin-shell .admin-area-tabs button[aria-selected="true"] { background: var(--accent); color: white; }

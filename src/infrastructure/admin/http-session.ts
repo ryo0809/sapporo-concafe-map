@@ -36,6 +36,8 @@ export function apiError(error:unknown){
   if(error instanceof AccessError)return Response.json({error:error.message},{status:error.status});
   if(error instanceof InputError)return Response.json({error:error.message},{status:400});
   if(error&&typeof error==="object"&&"code"in error){
+    if(error.code==="CONFIGURATION")return Response.json({error:"管理者の初期設定が必要です。運営者にお問い合わせください。"},{status:503,headers:{"Cache-Control":"no-store"}});
+    if(error.code==="SEARCH_RATE_LIMIT")return Response.json({error:"外部検索は1分間に5回までです。少し待ってから再試行してください。"},{status:429,headers:{"Retry-After":String("retryAfter" in error?error.retryAfter:60),"Cache-Control":"no-store"}});
     if(error.code==="NOT_FOUND")return Response.json({error:"店舗は削除済みか、存在しません。"},{status:404});
     if(error.code==="CONFLICT")return Response.json({error:"別の更新が行われました。読み込み直してください。"},{status:409});
     if(error.code==="RATE_LIMIT")return Response.json({error:"ログインの試行回数を超えました。15分後に再試行してください。"},{status:429});

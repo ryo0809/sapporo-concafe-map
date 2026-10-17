@@ -3,7 +3,7 @@ import path from "node:path";
 process.env.PLAYWRIGHT_D1_PATH ??=path.join(process.cwd(),".wrangler/tests",`test-${Date.now()}`);
 
 export default defineConfig({
-  testDir: "./tests",
+  testDir: "./tests/e2e",
   workers: 1,
   use: { baseURL: "http://127.0.0.1:3100" },
   webServer: {

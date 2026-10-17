@@ -4,6 +4,13 @@ import { dummyPasswordHash, tokenHash, verifyPassword } from "../../../db/passwo
 import { getD1 } from "../database/d1";
 import { D1CafeStore } from "../database/d1-cafe-store";
 import type { AuthenticationRepository, ManagementRepository, Administrator } from "@/domain/admin/repositories";
+import {getCloudflareContext} from "@opennextjs/cloudflare";
+import {ensureAdministratorPassword} from "./password-policy";
+
+async function checkProductionPassword(hash:string){
+  const {env}=await getCloudflareContext({async:true});
+  ensureAdministratorPassword(env.APP_ENV,hash);
+}
 
 export class D1ManagementRepository extends D1CafeStore implements ManagementRepository {
   constructor() { super(getD1); }
@@ -18,6 +25,7 @@ export class D1AuthenticationRepository implements AuthenticationRepository {
       throw Object.assign(new Error("ログインの試行回数を超えました。"), { code: "RATE_LIMIT" });
     }
     const admin = await db.prepare("SELECT id,username,password_hash FROM administrators WHERE username=?").bind(username).first<Administrator & { password_hash: string }>();
+    if(admin)await checkProductionPassword(admin.password_hash);
     const valid = verifyPassword(password, admin?.password_hash ?? dummyPasswordHash);
     if (!admin || !valid) {
       await db.prepare(`INSERT INTO login_attempts VALUES(?,1,?) ON CONFLICT(username) DO UPDATE SET
@@ -37,8 +45,11 @@ export class D1AuthenticationRepository implements AuthenticationRepository {
   async session(token: string): Promise<Administrator | null> {
     if (!/^[a-f0-9]{64}$/.test(token)) return null;
     const db = await getD1();
-    return db.prepare("SELECT a.id,a.username FROM sessions s JOIN administrators a ON a.id=s.admin_id WHERE s.token_hash=? AND s.expires_at>?")
-      .bind(tokenHash(token), Date.now()).first<Administrator>();
+    const admin=await db.prepare("SELECT a.id,a.username,a.password_hash FROM sessions s JOIN administrators a ON a.id=s.admin_id WHERE s.token_hash=? AND s.expires_at>?")
+      .bind(tokenHash(token), Date.now()).first<Administrator & {password_hash:string}>();
+    if(!admin)return null;
+    await checkProductionPassword(admin.password_hash);
+    return {id:admin.id,username:admin.username};
   }
 
   async logout(token: string) {

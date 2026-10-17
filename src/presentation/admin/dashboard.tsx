@@ -1,7 +1,5 @@
 "use client";
 import { useEffect,useRef,useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import type { CafeInput,ManagedCafe } from "@/domain/admin/managed-cafe";
 import type { StoreCandidate } from "@/domain/admin/candidates";
 
@@ -13,7 +11,7 @@ const publicationGroups={published:{label:"公開",help:"公開設定になっ�
 type PublicationGroup=keyof typeof publicationGroups;
 const storeAreas={susukino:"すすきの",tanukikoji:"狸小路"};
 const publicationGroup=(cafe:CafeInput):PublicationGroup=>cafe.businessStatus==="closed"?"closed":publicationLabel(cafe)==="予約公開"?"scheduled":publicationLabel(cafe)==="公開"?"published":"hidden";
-const emptyCafe=():CafeInput=>({name:"",address:"",area:"tanukikoji",category:"unknown",buildingName:"",floor:"",location:null,businessStatus:"unknown",publicationStatus:"draft",sourceUrl:"",socialUrls:[],verifiedOn:"",coordinateSource:""});
+const emptyCafe=(area:CafeInput["area"]="tanukikoji"):CafeInput=>({name:"",address:"",area,category:"unknown",buildingName:"",floor:"",location:null,businessStatus:"unknown",publicationStatus:"draft",sourceUrl:"",socialUrls:[],verifiedOn:"",coordinateSource:""});
 type Editor=CafeInput&{id?:string;version?:number};
 
 async function request(url:string,options?:RequestInit){
@@ -21,8 +19,7 @@ async function request(url:string,options?:RequestInit){
   if(response.status===401)throw new Error("ログインしてください。管理者ログイン画面から入り直してください。");
   const result=await response.json();if(!response.ok)throw new Error(result.error??"処理に失敗しました");return result;
 }
-export function AdminDashboard({username}:{username:string}){
-  const router=useRouter();
+export function AdminDashboard(){
   const [cafes,setCafes]=useState<ManagedCafe[]>([]),[query,setQuery]=useState("");
   const [group,setGroup]=useState<PublicationGroup>("hidden");
   const [storeArea,setStoreArea]=useState<CafeInput["area"]>("susukino");
@@ -79,9 +76,7 @@ export function AdminDashboard({username}:{username:string}){
     finally{setBusy(false);}
   }
   async function find(event:React.FormEvent){event.preventDefault();if(searching)return;setSubmittedSearch(search.trim());setSearching(true);setError("");setSearched(false);setCandidates([]);setWarnings([]);try{const result=await request(`/api/admin/candidates?q=${encodeURIComponent(search)}&area=${area}&live=${live}`);setCandidates(result.candidates);setWarnings(result.warnings);setSearched(true);}catch(error){setError(error instanceof Error?error.message:"検索に失敗しました");setWarnings([error instanceof Error?error.message:"検索に失敗しました"]);setSearched(true);}finally{setSearching(false);}}
-  async function signOut(){try{await request("/api/admin/logout",{method:"POST"});router.replace("/admin/login");router.refresh();}catch(error){setError(error instanceof Error?error.message:"ログアウトに失敗しました");}}
-  return <main className="admin-shell">
-    <header className="admin-header"><div><p className="admin-eyebrow">さっぽろ コンカフェマップ</p><h1>掲載情報の管理</h1></div><nav><Link href="/" target="_blank">公開マップ ↗</Link><span>{username}</span><button onClick={signOut}>ログアウト</button></nav></header>
+  return <>
     <div className="admin-stats"><span>登録店舗 <strong>{cafes.length}</strong></span><span>公開設定 <strong>{cafes.filter((cafe)=>publicationLabel(cafe)==="公開").length}</strong></span><span>予約公開 <strong>{cafes.filter((cafe)=>publicationLabel(cafe)==="予約公開").length}</strong></span><span>営業未確認 <strong>{cafes.filter((cafe)=>cafe.businessStatus==="unknown").length}</strong></span></div>
     <dialog ref={saveDialog} className="admin-save-dialog" aria-labelledby="admin-save-title" aria-describedby="admin-save-description" aria-busy={busy} onCancel={(event)=>{if(busy)event.preventDefault();else setMessage("");}}>
       {busy?<span className="admin-save-spinner" aria-hidden="true"/>:<span className="admin-save-check" aria-hidden="true">✓</span>}
@@ -96,7 +91,7 @@ export function AdminDashboard({username}:{username:string}){
       <div className="admin-delete-actions"><button type="button" className="secondary" autoFocus onClick={()=>setDeleteTarget(null)}>キャンセル</button><button type="button" className="danger" onClick={remove}>削除する</button></div>
     </dialog>
     {error&&<p role="alert" className="admin-error">{error}</p>}
-    <div className="admin-grid"><section className="admin-panel admin-list"><div className="admin-panel-heading"><h2>登録店舗</h2><button onClick={()=>edit({...emptyCafe(),area:storeArea})}>手入力で追加</button></div>
+    <div className="admin-grid"><section className="admin-panel admin-list"><div className="admin-panel-heading"><h2>登録店舗</h2><button onClick={()=>edit(emptyCafe(storeArea))}>手入力で追加</button></div>
       <div className="admin-area-tabs" role="tablist" aria-label="登録店舗のエリア">{(Object.keys(storeAreas) as CafeInput["area"][]).map((key)=><button key={key} id={`admin-area-${key}`} type="button" role="tab" aria-selected={storeArea===key} aria-controls="admin-area-panel" tabIndex={storeArea===key?0:-1} onClick={()=>setStoreArea(key)} onKeyDown={(event)=>{if(!["ArrowLeft","ArrowRight","Home","End"].includes(event.key))return;event.preventDefault();const next=event.key==="Home"?"susukino":event.key==="End"?"tanukikoji":key==="susukino"?"tanukikoji":"susukino";setStoreArea(next);document.getElementById(`admin-area-${next}`)?.focus();}}>{storeAreas[key]}<span>{cafes.filter(cafe=>cafe.area===key).length}件</span></button>)}</div>
       <div id="admin-area-panel" role="tabpanel" aria-labelledby={`admin-area-${storeArea}`}>
       <div className="admin-publication-filters" role="group" aria-label="掲載状態で絞り込み">{(Object.keys(publicationGroups) as PublicationGroup[]).map((key)=><button key={key} type="button" className={`admin-publication-filter ${key}`} aria-pressed={group===key} aria-controls="admin-store-results" onClick={()=>setGroup(key)}><span>{publicationGroups[key].label}</span><strong>{areaCafes.filter(cafe=>publicationGroup(cafe)===key).length}<small>件</small></strong><span className="admin-filter-help">{publicationGroups[key].help}</span></button>)}</div>
@@ -124,7 +119,6 @@ export function AdminDashboard({username}:{username:string}){
           try{event.currentTarget.showPicker?.();}
           catch{/* Keep native date input usable when the browser disallows opening the picker. */}
         }} onChange={(event)=>field("verifiedOn",event.target.value)}/></label>
-        {editor.fetchedAt&&<p className="admin-field-help">情報取得日時：{new Date(editor.fetchedAt).toLocaleString("ja-JP",{timeZone:"Asia/Tokyo"})}</p>}
         <div className="admin-form-actions"><button type="submit" disabled={busy}>{busy?"処理中…":"店舗情報を保存"}</button><button type="button" className="secondary" onClick={()=>setEditor(null)}>閉じる</button>{editor.id&&<button type="button" className="danger admin-delete-button" disabled={busy} onClick={()=>{setDeleteError("");setDeleteTarget({...editor,name:cafes.find(cafe=>cafe.id===editor.id)?.name??editor.name});}}>店舗を削除</button>}</div>
       </form>}
     </section></div>
@@ -138,5 +132,5 @@ export function AdminDashboard({username}:{username:string}){
       {searched&&<p className="admin-search-summary" role="status">候補 {candidates.length}件（最大30件）<a href={`https://www.google.com/search?q=${encodeURIComponent(`${submittedSearch} 札幌 コンカフェ`)}`} target="_blank" rel="noreferrer">Googleでも店舗を探す ↗</a></p>}
       <div className="admin-candidate-grid">{candidates.map((candidate)=><article key={candidate.id}><h3>{candidate.name}</h3><p>{candidate.address}</p><p className="admin-field-help">{candidate.provider} · 営業未確認{candidate.duplicateIds.length>0?" · 既存店舗と重複の可能性あり":""}</p><button onClick={()=>{edit({...candidate,id:undefined,publicationStatus:"draft",officialUrl:candidate.officialUrl??""});setDuplicates(candidate.duplicateIds);document.querySelector(".admin-editor")?.scrollIntoView({behavior:"smooth",block:"start"});}}>確認・編集して登録</button></article>)}</div>
     </section>
-  </main>;
+  </>;
 }

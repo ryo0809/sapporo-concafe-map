@@ -97,7 +97,7 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
         for (const group of groups.values()) {
           const cafe = group[0];
           if (!cafe.location) continue;
-          const letter = group.length > 1 ? String(group.length) : cafe.category === "maid" ? "M" : cafe.category === "concept" ? "C" : "?";
+          const glyph = group.length > 1 ? String(group.length) : cafe.category === "unknown" ? "?" : `<span class="category-glyph ${cafe.category}-glyph" aria-hidden="true"></span>`;
           const category = group.length > 1 ? "shared" : cafe.category;
           const title = group.map((item) => `${item.name}（${labels[item.category]}）`).join("、");
           const marker = L.marker([cafe.location.latitude, cafe.location.longitude], {
@@ -105,7 +105,7 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
             alt: title,
             icon: L.divIcon({
               className: "cafe-pin-container",
-              html: `<span class="cafe-pin ${category}">${letter}</span>`,
+              html: `<span class="cafe-pin ${category}">${glyph}</span>`,
               iconSize: [36, 44], iconAnchor: [18, 44], popupAnchor: [0, -44],
             }),
           });
@@ -168,7 +168,7 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
           {status === "loading" && "地図を読み込んでいます…"}
           {status === "error" && <><span>地図を読み込めませんでした。店舗情報は一覧から確認できます。</span><button onClick={() => { setStatus("loading"); setAttempt((value) => value + 1); }}>再読み込み</button></>}
         </div>
-        <div className="legend" aria-label="ピンの凡例"><span><b className="legend-dot concept">C</b> コンカフェ</span><span><b className="legend-dot maid">M</b> メイドカフェ</span><span><b className="legend-dot shared">数</b> 近くにある候補数</span></div>
+        <div className="legend" aria-label="ピンの凡例"><span><b className="legend-dot concept"><span className="category-glyph concept-glyph" aria-hidden="true"/></b> コンカフェ</span><span><b className="legend-dot maid"><span className="category-glyph maid-glyph" aria-hidden="true"/></b> メイドカフェ</span><span><b className="legend-dot shared">数</b> 近くにある候補数</span></div>
       </div>
         {selected && <section className="selected-cafe" aria-label="選択した店舗" aria-live="polite">
           <button className="detail-close" aria-label="店舗詳細を閉じる" onClick={() => { setSelectedId(null); mapRef.current?.closePopup(); }}>×</button>
@@ -177,7 +177,7 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
           {selected.officialUrl&&<a className="source-link" href={selected.officialUrl} target="_blank" rel="noreferrer">公式サイト ↗</a>}
           <p className="detail-status">{selected.businessStatus === "operating" ? "営業情報あり" : "営業状態は未確認です。来店前に店舗へご確認ください。"}</p>
           <details className="detail-metadata"><summary>情報の取得・位置について</summary>
-            <p>取得日時：{selected.fetchedAt ? new Date(selected.fetchedAt).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }) : "未取得"}</p><p>情報確認日：{selected.verifiedOn||"未確認"}</p>
+            <p>情報確認日：{selected.verifiedOn||"未確認"}</p>
             <p>位置の確認元：{selected.coordinateSource}</p>
           </details>
         </section>}
@@ -205,7 +205,7 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
           <h4 className="floor-heading">{floor.name}<span>{floor.stores.length}件</span></h4>
           <ul className="cafe-cards">{floor.stores.map(({ cafe }) => <li key={cafe.id}>
           <button className={`cafe-card ${selectedId === cafe.id ? "selected" : ""}`} aria-pressed={selectedId === cafe.id} onClick={() => selectCafe(cafe)}>
-            <span className={`row-icon ${cafe.category}`} aria-hidden="true">{cafe.category === "maid" ? "M" : cafe.category === "concept" ? "C" : "•"}</span>
+            <span className={`row-icon ${cafe.category}`} aria-hidden="true">{cafe.category === "unknown" ? "•" : <span className={`category-glyph ${cafe.category}-glyph`}/>}</span>
             <span className="row-content"><strong>{cafe.name}</strong>{activeBuilding.key === "unknown" && <span>{cafe.address.replace(/^北海道(?:北海道)?札幌市中央区|^札幌市中央区/, "")}</span>}
               <span className="row-meta">{cafe.category !== "unknown" && `${labels[cafe.category]} · `}{cafe.location ? "地図で確認" : "位置未確認"}</span></span>
             <span className="row-arrow" aria-hidden="true">›</span>
@@ -214,7 +214,6 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
         {listedCafes.length === 0 && <p className="empty-list">{cafes.length ? "一致するお店が見つかりませんでした。" : "店舗情報は準備中です。"}</p>}
         <details className="data-note"><summary>掲載情報について</summary>
           <p>営業未確認の候補を含みます。閉店・休業・移転と判定した候補は除外しています。全店舗を網羅するものではありません。</p>
-          {cafes.some((cafe) => cafe.fetchedAt) && <p>取得日時：{new Date(cafes.map((cafe) => cafe.fetchedAt ?? "").sort().at(-1)!).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })}</p>}
         </details>
       </section>
     </div>
