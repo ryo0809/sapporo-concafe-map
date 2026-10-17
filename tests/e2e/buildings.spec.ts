@@ -50,7 +50,7 @@ test("ビル管理と店舗編集をSPAで切り替え、住所引継ぎ・SNS�
   await form.getByLabel("階数",{exact:true}).fill("3F");
   await form.getByRole("textbox",{name:"X URL",exact:true}).fill("https://x.com/first\nhttps://twitter.com/second");
   await form.getByRole("textbox",{name:"Instagram URL",exact:true}).fill("https://instagram.com/example");
-  await form.getByLabel("その他のSNS URL",{exact:true}).fill("https://unknown.example/profile");
+  await form.getByRole("textbox",{name:"その他のSNS URL",exact:true}).fill("https://unknown.example/profile");
   await navigation.getByRole("tab",{name:"ビル管理",exact:true}).click();
   await expect(page).toHaveURL(/\/admin$/);
   await navigation.getByRole("tab",{name:"店舗設定",exact:true}).click();
@@ -61,7 +61,7 @@ test("ビル管理と店舗編集をSPAで切り替え、住所引継ぎ・SNS�
   await expect(group.getByRole("button",{name:/UIビル所属店舗/})).toBeVisible();
   await group.getByRole("button",{name:/UIビル所属店舗/}).click();
   await expect(form.getByRole("textbox",{name:"X URL",exact:true})).toHaveValue("https://x.com/first\nhttps://twitter.com/second");
-  await expect(form.getByLabel("その他のSNS URL",{exact:true})).toHaveValue("https://unknown.example/profile");
+  await expect(form.getByRole("textbox",{name:"その他のSNS URL",exact:true})).toHaveValue("https://unknown.example/profile");
   await page.setViewportSize({width:375,height:812});
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
 });
