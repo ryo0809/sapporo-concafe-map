@@ -42,8 +42,12 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<LeafletMap | null>(null);
   const markers = useRef(new Map<string, Marker>());
+  const detailRef = useRef<HTMLElement>(null);
+  const popupSelection = useRef<string | null>(null);
+  const openStorePopup = useRef<(cafe: CafeSummary) => void>(() => {});
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectionVersion, setSelectionVersion] = useState(0);
   const [attempt, setAttempt] = useState(0);
   const [query, setQuery] = useState("");
   const listedCafes = cafes.filter((cafe) => `${cafe.name} ${cafe.address}`.normalize("NFKC").toLowerCase().includes(query.normalize("NFKC").trim().toLowerCase()));
@@ -55,6 +59,11 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
     name: floor || "階数未確認", stores: activeBuilding.stores.filter((store) => store.floor === floor),
   })) : [];
   const selected = cafes.find((cafe) => cafe.id === selectedId);
+
+  useEffect(() => {
+    if (!selectedId) return;
+    detailRef.current?.scrollIntoView({ block: "start", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+  }, [selectedId, selectionVersion]);
 
   useEffect(() => {
     let disposed = false;
@@ -78,6 +87,22 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
         tiles.on("tileerror", () => { failed = true; if (!disposed) setStatus("error"); });
         tiles.on("load", () => { if (!disposed) setStatus(failed ? "error" : "ready"); });
         tiles.addTo(instance);
+
+        function storeContent(item: CafeSummary) {
+          const content = document.createElement("div");
+          const heading = document.createElement("button");
+          heading.className = "popup-cafe-button";
+          heading.textContent = item.name;
+          heading.onclick = () => selectCafe(item);
+          const details = document.createElement("p");
+          details.textContent = `${labels[item.category]} · ${item.address}`;
+          content.append(heading, details);
+          return content;
+        }
+        openStorePopup.current = (item) => {
+          const marker = markerStore.get(item.id);
+          if (marker) marker.setPopupContent(storeContent(item)).openPopup();
+        };
 
         function renderMarkers() {
         if (!instance) return;
@@ -111,18 +136,31 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
             }),
           });
           const popup = document.createElement("div");
-          for (const item of group) {
-            const heading = document.createElement("button");
-            heading.className = "popup-cafe-button";
-            heading.textContent = item.name;
-            heading.onclick = () => { setSelectedId(item.id); setBuildingKey(getBuildingDetails(item.address,item.buildingName,item.floor).key); };
-            const details = document.createElement("p");
-            details.textContent = `${labels[item.category]} · ${item.address}`;
-            popup.append(heading, details);
+          for (const building of groupCafesByBuilding(group)) {
+            const section = document.createElement("section");
+            section.className = "popup-building";
+            const name = document.createElement("h4");
+            name.textContent = building.name;
+            section.append(name);
+            for (const floor of new Set(building.stores.map(store => store.floor))) {
+              const floorSection = document.createElement("section");
+              floorSection.className = "popup-floor";
+              const floorHeading = document.createElement("h5");
+              floorHeading.textContent = floor || "階数未確認";
+              floorSection.append(floorHeading);
+              for (const { cafe: item } of building.stores.filter(store => store.floor === floor)) floorSection.append(storeContent(item));
+              section.append(floorSection);
+            }
+            popup.append(section);
           }
-          marker.bindPopup(popup).on("click", () => { setSelectedId(cafe.id); setBuildingKey(getBuildingDetails(cafe.address,cafe.buildingName,cafe.floor).key); }).addTo(instance);
+          marker.bindPopup(popup, { maxHeight: 300 }).on("click", () => {
+            popupSelection.current = null;
+            marker.setPopupContent(popup).openPopup();
+          }).addTo(instance);
           for (const item of group) markerStore.set(item.id, marker);
         }
+        const chosen = cafes.find(item => item.id === popupSelection.current);
+        if (chosen) openStorePopup.current(chosen);
         }
         renderMarkers();
         instance.on("zoomend", renderMarkers);
@@ -139,18 +177,24 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
       instance?.remove();
       mapRef.current = null;
       markerStore.clear();
+      openStorePopup.current = () => {};
     };
   }, [cafes, attempt, area]);
 
   function selectCafe(cafe: CafeSummary) {
+    popupSelection.current = cafe.id;
     setSelectedId(cafe.id);
-    if (cafe.location) mapRef.current?.setView([cafe.location.latitude, cafe.location.longitude], 17);
-    markers.current.get(cafe.id)?.openPopup();
+    setSelectionVersion(value => value + 1);
+    setBuildingKey(getBuildingDetails(cafe.address,cafe.buildingName,cafe.floor).key);
+    if (cafe.location) mapRef.current?.setView([cafe.location.latitude, cafe.location.longitude], 17, { animate: false });
+    else mapRef.current?.closePopup();
+    openStorePopup.current(cafe);
   }
 
   function selectBuilding(building: (typeof buildingGroups)[number]) {
     setBuildingKey(building.key);
     setSelectedId(null);
+    popupSelection.current = null;
     mapRef.current?.closePopup();
     if (building.key === "unknown") return;
     const location = building.stores.find(({ cafe }) => cafe.location)?.cafe.location;
@@ -171,8 +215,8 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
         </div>
         <div className="legend" aria-label="ピンの凡例"><span><b className="legend-dot concept"><span className="category-glyph concept-glyph" aria-hidden="true"/></b> コンカフェ</span><span><b className="legend-dot maid"><span className="category-glyph maid-glyph" aria-hidden="true"/></b> メイドカフェ</span><span><b className="legend-dot shared">数</b> 近くにある候補数</span></div>
       </div>
-        {selected && <section className="selected-cafe" aria-label="選択した店舗" aria-live="polite">
-          <button className="detail-close" aria-label="店舗詳細を閉じる" onClick={() => { setSelectedId(null); mapRef.current?.closePopup(); }}>×</button>
+        {selected && <section ref={detailRef} className="selected-cafe" aria-label="選択した店舗" aria-live="polite">
+          <button className="detail-close" aria-label="店舗詳細を閉じる" onClick={() => { setSelectedId(null); popupSelection.current = null; mapRef.current?.closePopup(); }}>×</button>
           <span className={`category ${selected.category}`}>{labels[selected.category]}</span>
           <h3>{selected.name}</h3><p className="detail-address">{selected.address}</p>
           {selected.officialUrl&&<a className="source-link" href={selected.officialUrl} target="_blank" rel="noreferrer">公式サイト ↗</a>}
