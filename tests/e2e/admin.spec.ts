@@ -15,7 +15,7 @@ test("resource-limit save failures keep the form and do not retry the mutation",
   await form.getByLabel("店舗名",{exact:true}).fill("保存エラー時の入力保持");
   await form.getByLabel("住所",{exact:true}).fill("札幌市中央区南4条西3丁目");
   await form.getByRole("button",{name:"店舗情報を保存",exact:true}).click();
-  await expect(page.getByRole("alert")).toContainText("実行リソース上限");
+  await expect(page.locator(".admin-error[role=alert]")).toContainText("実行リソース上限");
   await expect(form.getByLabel("店舗名",{exact:true})).toHaveValue("保存エラー時の入力保持");
   await expect(form.getByRole("button",{name:"店舗情報を保存",exact:true})).toBeEnabled();
   await expect(page.getByRole("dialog")).toHaveCount(0);
