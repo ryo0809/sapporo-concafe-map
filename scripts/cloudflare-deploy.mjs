@@ -10,7 +10,7 @@ if(environment==="production"){
   const errors=checkRelease(config);
   if(errors.length)throw new Error(errors.join("\n"));
 }
-const env={...process.env,SITE_INDEXABLE:environment==="production"?"true":"false"};
+const env={...process.env,SITE_INDEXABLE:environment==="production"?"true":"false",NEXT_PUBLIC_SENTRY_ENVIRONMENT:environment};
 for (const command of ["build", "deploy"]) {
   const result = spawnSync(process.execPath, ["node_modules/@opennextjs/cloudflare/dist/cli/index.js", command,"--env",environment], { stdio: "inherit", env });
   if (result.status !== 0) process.exit(result.status ?? 1);

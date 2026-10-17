@@ -38,10 +38,13 @@
     "db:export:remote": "wrangler d1 export DB --remote --output=reports/d1-backup.sql"
   },
   "overrides": {
-    "@node-minify/core": { "glob": "10.5.0" }
+    "@node-minify/core": {
+      "glob": "10.5.0"
+    }
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.20.11",
+    "@sentry/nextjs": "^11.8.0",
     "leaflet": "^1.9.4",
     "next": "16.3.8",
     "react": "19.3.0",
