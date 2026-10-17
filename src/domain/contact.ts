@@ -45,7 +45,7 @@ export const contactUrlFields: DetailField[] = [
   { key: "youtubeUrl", label: "YouTube URL", type: "url", max: 2048 },
   { key: "lineUrl", label: "LINE公式アカウントURL", type: "url", max: 2048 },
 ];
-export type ContactMessage = { id: string; name: string; email: string; category: ContactCategory; store_name: string; reference_url: string; details_json: string; message: string; status: "new" | "done"; created_at: string };
+export type ContactMessage = { id: string; name: string; email: string; category: ContactCategory; store_name: string; reference_url: string; details_json: string; ip_address: string | null; message: string; status: "new" | "done"; created_at: string };
 export function validateContact(value: unknown) {
   if (!value || typeof value !== "object") throw new Error("入力内容を確認してください。");
   const data = value as Record<string, unknown>;

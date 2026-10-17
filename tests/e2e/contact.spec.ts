@@ -109,12 +109,17 @@ test("問い合わせAPIの入力・送信元・重複・連続送信を検証�
   expect((await request.post("/api/contact", { data: { ...data, consent: false }, headers })).status()).toBe(400);
   expect((await request.post("/api/contact", { data: { ...data, message: "あ".repeat(33000) }, headers })).status()).toBe(413);
   expect((await request.post("/api/contact", { data: { ...data, website: "bot" }, headers })).status()).toBe(200);
-  for (let i = 0; i < 5; i++) expect((await request.post("/api/contact", { data, headers })).status()).toBe(201);
+  for (let i = 0; i < 5; i++) {
+    const submitted = await request.post("/api/contact", { data: { ...data, ip_address: "192.0.2.200" }, headers });
+    expect(submitted.status()).toBe(201);
+    expect(await submitted.json()).toEqual({ ok: true });
+  }
   const limited = await request.post("/api/contact", { data, headers });
   expect(limited.status()).toBe(429); expect(Number(limited.headers()["retry-after"])).toBeGreaterThan(0);
   await request.post("/api/admin/login", { data: { username: "admin", password: "admin" } });
   const messages = (await (await request.get("/api/admin/contacts")).json()).messages;
   expect(messages.filter((message: { id: string }) => message.id === data.id)).toHaveLength(1);
+  expect(messages.find((message: { id: string }) => message.id === data.id).ip_address).toBe("192.0.2.23");
   expect((await request.delete("/api/admin/contacts", { data: { id: data.id }, headers: { Origin: "https://other.example" } })).status()).toBe(403);
   expect((await request.delete("/api/admin/contacts", { data: { id: data.id } })).status()).toBe(200);
 });
