@@ -36,13 +36,13 @@ test("最新の公開予約・削除状態・履歴を同期し、認証情報�
   }finally{source.close();target.close();}
 });
 
-test("未設定のドメイン・D1・問い合わせ先・公開設定ではリリースチェックを拒否する",()=>{
+test("未設定のドメイン・D1・公開設定ではリリースチェックを拒否する",()=>{
   const config=JSON.parse(readFileSync("wrangler.jsonc","utf8"));
   expect(checkRelease(config,{}).length).toBeGreaterThan(0);
   config.env.production.d1_databases[0].database_id="12345678-1234-1234-1234-123456789abc";
-  expect(checkRelease(config,{NEXT_PUBLIC_CONTACT_EMAIL:"owner@example.com",SITE_INDEXABLE:"true"})).toEqual([]);
+  expect(checkRelease(config,{SITE_INDEXABLE:"true"})).toEqual([]);
   config.env.staging.d1_databases[0].database_id=config.env.production.d1_databases[0].database_id;
-  expect(checkRelease(config,{NEXT_PUBLIC_CONTACT_EMAIL:"owner@example.com",SITE_INDEXABLE:"true"}).join()).toContain("同じD1");
+  expect(checkRelease(config,{SITE_INDEXABLE:"true"}).join()).toContain("同じD1");
 });
 
 test("バックアップを公開鍵で暗号化し、正しい秘密鍵でのみ復元できる",()=>{

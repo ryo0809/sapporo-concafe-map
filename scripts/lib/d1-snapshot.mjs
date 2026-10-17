@@ -1,7 +1,7 @@
 import {createHash} from "node:crypto";
 import {sqlValue} from "./wrangler.mjs";
 
-// Dependency order. Authentication and transient rate-limit data are deliberately excluded.
+// Dependency order. Authentication, private inquiries and transient rate-limit data are deliberately excluded.
 export const tables=["buildings","floors","cafes","cafe_history","collection_runs","collected_candidates","search_candidates","import_records"];
 export const identifier=value=>{if(!/^[a-z_]+$/.test(value))throw new Error("不正な列名です。");return `"${value}"`;};
 export function canonicalRows(rows){return rows.map(row=>Object.fromEntries(Object.entries(row).sort(([a],[b])=>a.localeCompare(b)))).sort((a,b)=>JSON.stringify(a).localeCompare(JSON.stringify(b)));}

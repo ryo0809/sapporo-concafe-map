@@ -12,7 +12,7 @@
 - ローカルD1からのスナップショット、初回同期SQL生成、空のリモートD1への適用・全内容照合。
 - Linux CIのテスト／Workersビルド／E2Eと、レビュー後に手動起動する配置ワークフロー。
 
-`npm run dev` で確認します。問い合わせ先が未設定の場合、ページは「公開準備中」と表示します。仮のメールアドレスへ誘導しません。公開前に環境変数 `NEXT_PUBLIC_CONTACT_EMAIL` を実際の窓口に設定し、受信・返信を確認してください。ビルド時にページへ反映されるため、変更後は再ビルドが必要です。
+`npm run dev` で確認します。お問い合わせフォームの送信内容はD1に非公開で保存され、認証済みの `/admin/contacts` から確認・対応済みへの変更・削除ができます。メール通知や自動返信は行いません。受信一覧を定期的に確認し、メールアドレスのリンクから返信してください。公開前にマイグレーション `0006_contact_messages.sql` を適用し、送信・受信・対応済み・削除を確認してください。連続送信は同じ接続元から1時間5回までに制限します。接続元のハッシュを制限用に保管し、24時間を過ぎた記録は次回の送信受付時に削除します。問い合わせ内容は店舗データ同期の対象外です。不要な内容は受信一覧から削除してください。
 
 `SITE_INDEXABLE` は既定でfalseです。プレビューのrobots.txtは全体をクロール禁止とし、ページにはnoindexを付けます。本番向けビルド時のみtrueにします。sitemapには公開の固定ページだけを載せ、管理画面や店舗の内部データを出しません。
 
@@ -33,8 +33,8 @@ npm.cmd run db:sync -- --snapshot reports/snapshots/local-review.json
 1. ドメインの取得可否・取得費・更新費を確認し、指定ドメインを取得する。採用ドメインを勝手に変更しない。
 2. CloudflareアカウントとDNSを準備し、ルートとwwwのカスタムドメイン・HTTPSを設定する。wwwはアプリの308転送で正規URLへ移動する。
 3. stagingとproductionを別のD1で作成し、`wrangler.jsonc` の各environmentの `database_id` をそれぞれ設定する。既定のゼロUUIDでは配置・同期を拒否する。
-4. 実際の問い合わせ先を決め、窓口、プライバシー案内、掲載情報の修正・削除・追加依頼の案内をレビューする。地図・画像の帰属表示と利用権も確認する。
-5. GitHubにstaging／productionのEnvironmentを用意し、productionは必須レビュアー・mainへのブランチ制限を設定する。Secretsに `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID`、Environment variablesに `CONTACT_EMAIL` と `BACKUP_PUBLIC_KEY` を登録する。
+4. 問い合わせ対応の担当者と確認頻度を決め、フォーム・受信一覧での受付と返信、プライバシー案内、掲載情報の修正・削除・追加依頼の案内をレビューする。地図・画像の帰属表示と利用権も確認する。
+5. GitHubにstaging／productionのEnvironmentを用意し、productionは必須レビュアー・mainへのブランチ制限を設定する。Secretsに `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID`、Environment variablesに `BACKUP_PUBLIC_KEY` を登録する。
 6. バックアップの公開鍵はRSA 2048bit以上のPEM形式。秘密鍵はGitHub／Cloudflareへ登録せず、所有者が安全な別の場所で保管する。紛失するとバックアップを復元できない。
 7. 手動デプロイを許可する段階でのみ、Repository variable `DEPLOY_ENABLED=true` を設定する。設定前はworkflow_dispatchを実行しても配置ジョブが起動しない。
 

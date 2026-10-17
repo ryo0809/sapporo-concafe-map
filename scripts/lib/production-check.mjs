@@ -1,4 +1,4 @@
-﻿import {domain} from "./wrangler.mjs";
+import {domain} from "./wrangler.mjs";
 /** @param {object} config @param {Record<string,string|undefined>} [env] */
 export function checkRelease(config,env=process.env){
   const errors=[];
@@ -10,7 +10,6 @@ export function checkRelease(config,env=process.env){
   if(target?.vars?.APP_ENV!=="production"||target?.vars?.SESSION_COOKIE_SECURE!=="true")errors.push("本番環境とSecure Cookieを設定してください。");
   if(!target?.routes?.some(route=>route.pattern===domain&&route.custom_domain))errors.push("採用ドメインのカスタムドメイン設定が必要です。");
   if(target?.workers_dev!==false||target?.preview_urls!==false)errors.push("本番のworkers.devとプレビューURLを無効にしてください。");
-  if(! /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(env.NEXT_PUBLIC_CONTACT_EMAIL??""))errors.push("NEXT_PUBLIC_CONTACT_EMAILに実際の問い合わせ先を設定してください。");
   if(env.SITE_INDEXABLE!=="true")errors.push("本番公開時のみSITE_INDEXABLE=trueを指定してください。");
   return errors;
 }
