@@ -33,7 +33,7 @@ npm.cmd run db:sync -- --snapshot reports/snapshots/local-review.json
 1. ドメインの取得可否・取得費・更新費を確認し、指定ドメインを取得する。採用ドメインを勝手に変更しない。
 2. CloudflareアカウントとDNSを準備し、ルートとwwwのカスタムドメイン・HTTPSを設定する。wwwはアプリの308転送で正規URLへ移動する。
 3. stagingとproductionを別のD1で作成し、`wrangler.jsonc` の各environmentの `database_id` をそれぞれ設定する。既定のゼロUUIDでは配置・同期を拒否する。
-4. 実際の問い合わせ先を決め、窓口、プライバシー案内、サービス名を権利者名として記したコピーライトをレビューする。地図・画像の帰属表示と利用権も確認する。
+4. 実際の問い合わせ先を決め、窓口、プライバシー案内、Ryo Fujiwara（メンヘラくらげ）名義のコピーライトをレビューする。地図・画像の帰属表示と利用権も確認する。
 5. GitHubにstaging／productionのEnvironmentを用意し、productionは必須レビュアー・mainへのブランチ制限を設定する。Secretsに `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID`、Environment variablesに `CONTACT_EMAIL` と `BACKUP_PUBLIC_KEY` を登録する。
 6. バックアップの公開鍵はRSA 2048bit以上のPEM形式。秘密鍵はGitHub／Cloudflareへ登録せず、所有者が安全な別の場所で保管する。紛失するとバックアップを復元できない。
 7. 手動デプロイを許可する段階でのみ、Repository variable `DEPLOY_ENABLED=true` を設定する。設定前はworkflow_dispatchを実行しても配置ジョブが起動しない。

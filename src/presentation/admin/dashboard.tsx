@@ -124,7 +124,6 @@ export function AdminDashboard({username}:{username:string}){
           try{event.currentTarget.showPicker?.();}
           catch{/* Keep native date input usable when the browser disallows opening the picker. */}
         }} onChange={(event)=>field("verifiedOn",event.target.value)}/></label>
-        {editor.fetchedAt&&<p className="admin-field-help">情報取得日時：{new Date(editor.fetchedAt).toLocaleString("ja-JP",{timeZone:"Asia/Tokyo"})}</p>}
         <div className="admin-form-actions"><button type="submit" disabled={busy}>{busy?"処理中…":"店舗情報を保存"}</button><button type="button" className="secondary" onClick={()=>setEditor(null)}>閉じる</button>{editor.id&&<button type="button" className="danger admin-delete-button" disabled={busy} onClick={()=>{setDeleteError("");setDeleteTarget({...editor,name:cafes.find(cafe=>cafe.id===editor.id)?.name??editor.name});}}>店舗を削除</button>}</div>
       </form>}
     </section></div>

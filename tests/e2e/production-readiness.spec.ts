@@ -15,7 +15,7 @@ test("公開ページのメタデータ・アイコン・案内と機密APIヘ�
   const sitemapText=await sitemap.text();
   expect(sitemapText).not.toContain("/admin");
   if(!indexing)expect(sitemapText).not.toContain("<loc>");
-  await expect(page.locator("footer")).toContainText("©");
+  await expect(page.locator("footer")).toContainText("Ryo Fujiwara（メンヘラくらげ）");
   await page.getByRole("link",{name:"お問い合わせ・掲載情報の修正"}).click();
   await expect(page.getByRole("heading",{name:"お問い合わせ・掲載情報の修正"})).toBeVisible();
   const response=await request.get("/api/admin/cafes");

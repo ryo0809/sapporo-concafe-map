@@ -177,7 +177,7 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
           {selected.officialUrl&&<a className="source-link" href={selected.officialUrl} target="_blank" rel="noreferrer">公式サイト ↗</a>}
           <p className="detail-status">{selected.businessStatus === "operating" ? "営業情報あり" : "営業状態は未確認です。来店前に店舗へご確認ください。"}</p>
           <details className="detail-metadata"><summary>情報の取得・位置について</summary>
-            <p>取得日時：{selected.fetchedAt ? new Date(selected.fetchedAt).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }) : "未取得"}</p><p>情報確認日：{selected.verifiedOn||"未確認"}</p>
+            <p>情報確認日：{selected.verifiedOn||"未確認"}</p>
             <p>位置の確認元：{selected.coordinateSource}</p>
           </details>
         </section>}
@@ -214,7 +214,6 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
         {listedCafes.length === 0 && <p className="empty-list">{cafes.length ? "一致するお店が見つかりませんでした。" : "店舗情報は準備中です。"}</p>}
         <details className="data-note"><summary>掲載情報について</summary>
           <p>営業未確認の候補を含みます。閉店・休業・移転と判定した候補は除外しています。全店舗を網羅するものではありません。</p>
-          {cafes.some((cafe) => cafe.fetchedAt) && <p>取得日時：{new Date(cafes.map((cafe) => cafe.fetchedAt ?? "").sort().at(-1)!).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })}</p>}
         </details>
       </section>
     </div>
