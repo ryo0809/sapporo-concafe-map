@@ -1,5 +1,5 @@
 import { createHash, randomUUID } from "node:crypto";
-import type { CafeInput, ManagedCafe } from "../../domain/admin/managed-cafe";
+import {InputError,type CafeInput,type ManagedCafe} from "../../domain/admin/managed-cafe";
 
 interface CafeRow {
   id: string; name: string; area: CafeInput["area"]; category: CafeInput["category"];
@@ -9,16 +9,18 @@ interface CafeRow {
   source_url: string; social_urls: string; fetched_at: string | null; verified_on: string;
   coordinate_source: string; version: number; created_at: string; updated_at: string;
   publish_at: string | null; official_url: string;
+  building_address:string|null;building_latitude:number|null;building_longitude:number|null;
 }
 
-const selectCafe = `SELECT c.*, b.name AS building_name, f.name AS floor_name FROM cafes c
+const selectCafe = `SELECT c.*, b.name AS building_name, b.address AS building_address, b.latitude AS building_latitude, b.longitude AS building_longitude, f.name AS floor_name FROM cafes c
   LEFT JOIN buildings b ON b.id=c.building_id LEFT JOIN floors f ON f.id=c.floor_id`;
 
 function fromRow(row: CafeRow): ManagedCafe {
   return {
-    id: row.id, name: row.name, area: row.area, category: row.category, address: row.address,
+    id: row.id, name: row.name, area: row.area, category: row.category, address: row.building_address || row.address,
+    buildingId:row.building_id??"",
     buildingName: row.building_name ?? "", floor: row.floor_name ?? row.floor_label,
-    location: row.latitude === null || row.longitude === null ? null : { latitude: row.latitude, longitude: row.longitude },
+    location: (row.building_latitude??row.latitude) === null || (row.building_longitude??row.longitude) === null ? null : { latitude: (row.building_latitude??row.latitude)!, longitude: (row.building_longitude??row.longitude)! },
     businessStatus: row.business_status, publicationStatus: row.publication_status === "published" && row.publish_at ? "scheduled" : row.publication_status,
     publishAt: row.publish_at ?? undefined, officialUrl: row.official_url,
     sourceUrl: row.source_url, socialUrls: JSON.parse(row.social_urls), fetchedAt: row.fetched_at ?? undefined,
@@ -75,16 +77,22 @@ export class D1CafeStore {
     if (expectedVersion !== undefined && (!existing || existing.version !== expectedVersion)) throw conflict();
     const statements: D1PreparedStatement[] = [];
     let buildingId: string | null = null, floorId: string | null = null;
-    if (input.buildingName.trim()) {
+    if(input.buildingId){
+      const building=await db.prepare("SELECT id,name,area,address,latitude,longitude FROM buildings WHERE id=?").bind(input.buildingId).first<{id:string;name:string;area:string;address:string;latitude:number|null;longitude:number|null}>();
+      if(!building)throw new InputError("選択したビルが見つかりません。ビルを選択し直してください。");
+      if(building.area!==input.area)throw new InputError("ビルと店舗のエリアを一致させてください。");
+      buildingId=building.id;
+      input={...input,buildingName:building.name,address:building.address||input.address,location:building.latitude===null||building.longitude===null?input.location:{latitude:building.latitude,longitude:building.longitude}};
+    }else if (input.buildingName.trim()) {
       const street = input.address.normalize("NFKC").replace(/[一二三四五六七八九]/g, value => String("一二三四五六七八九".indexOf(value) + 1)).match(/南\d+条[東西]\d+/)?.[0] ?? "";
       const building = await db.prepare("SELECT id FROM buildings WHERE area=? AND name=? AND street=?").bind(input.area, input.buildingName.trim(), street).first<{ id: string }>();
       buildingId = building?.id ?? stableId(JSON.stringify([input.area, input.buildingName.trim(), street]));
-      statements.push(db.prepare("INSERT OR IGNORE INTO buildings VALUES(?,?,?,?)").bind(buildingId, input.area, input.buildingName.trim(), street));
-      if (input.floor.trim()) {
+      statements.push(db.prepare("INSERT OR IGNORE INTO buildings(id,area,name,street) VALUES(?,?,?,?)").bind(buildingId, input.area, input.buildingName.trim(), street));
+    }
+    if(buildingId&&input.floor.trim()) {
         const floor = await db.prepare("SELECT id FROM floors WHERE building_id=? AND name=?").bind(buildingId, input.floor.trim()).first<{ id: string }>();
         floorId = floor?.id ?? stableId(JSON.stringify([buildingId, input.floor.trim()]));
         statements.push(db.prepare("INSERT OR IGNORE INTO floors VALUES(?,?,?)").bind(floorId, buildingId, input.floor.trim()));
-      }
     }
     const now = new Date().toISOString();
     const version = (existing?.version ?? 0) + 1;

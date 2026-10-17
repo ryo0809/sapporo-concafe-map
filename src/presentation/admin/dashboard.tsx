@@ -3,6 +3,10 @@ import { useEffect,useRef,useState } from "react";
 import type { CafeInput,ManagedCafe } from "@/domain/admin/managed-cafe";
 import type { StoreCandidate } from "@/domain/admin/candidates";
 import {readAdminResponse} from "./api-response";
+import type {ManagedBuilding} from "@/domain/admin/building";
+import {socialFields as splitSocialFields,socialUrls,socialPlatforms,type SocialPlatform} from "@/domain/admin/social-links";
+import {BuildingDialog} from "./building-dialog";
+import {groupManagedCafes} from "./building-groups";
 
 const businessLabels={unknown:"未確認",operating:"営業中",temporarily_closed:"一時休業",closed:"閉店",moved:"移転"};
 const publicationLabels={draft:"下書き",published:"公開",hidden:"非公開",scheduled:"予約公開"};
@@ -19,11 +23,12 @@ async function request(url:string,options?:RequestInit){
   const response=await fetch(url,options);
   return readAdminResponse(response);
 }
-export function AdminDashboard(){
+export function AdminDashboard({buildings,revision,onBuildingSaved,onStoreChanged}:{buildings:ManagedBuilding[];revision:number;onBuildingSaved:(building:ManagedBuilding)=>void;onStoreChanged:()=>void}){
   const [cafes,setCafes]=useState<ManagedCafe[]>([]),[query,setQuery]=useState("");
   const [group,setGroup]=useState<PublicationGroup>("hidden");
   const [storeArea,setStoreArea]=useState<CafeInput["area"]>("susukino");
   const [editor,setEditor]=useState<Editor|null>(null),[busy,setBusy]=useState(false),[message,setMessage]=useState(""),[error,setError]=useState("");
+  const [social,setSocial]=useState(()=>splitSocialFields([])),[buildingQuery,setBuildingQuery]=useState(""),[addingBuilding,setAddingBuilding]=useState(false);
   const saveDialog=useRef<HTMLDialogElement>(null);
   const deleteDialog=useRef<HTMLDialogElement>(null);
   const [deleteTarget,setDeleteTarget]=useState<Editor|null>(null),[deleteError,setDeleteError]=useState("");
@@ -53,15 +58,19 @@ export function AdminDashboard(){
     else if(dialog.open)dialog.close();
   },[searching]);
   const [candidates,setCandidates]=useState<StoreCandidate[]>([]),[warnings,setWarnings]=useState<string[]>([]),[searched,setSearched]=useState(false),[duplicates,setDuplicates]=useState<string[]>([]);
-  useEffect(()=>{let disposed=false;request("/api/admin/cafes").then((result)=>{if(!disposed)setCafes(result.cafes);}).catch((error)=>{if(!disposed)setError(error.message);});return()=>{disposed=true;};},[]);
+  useEffect(()=>{let disposed=false;request("/api/admin/cafes").then((result)=>{if(!disposed)setCafes(result.cafes);}).catch((error)=>{if(!disposed)setError(error.message);});return()=>{disposed=true;};},[revision]);
   const areaCafes=cafes.filter((cafe)=>cafe.area===storeArea);
   const matched=areaCafes.filter((cafe)=>`${cafe.name} ${cafe.address} ${cafe.buildingName}`.normalize("NFKC").toLowerCase().includes(query.normalize("NFKC").toLowerCase()));
   const listed=matched.filter((cafe)=>publicationGroup(cafe)===group);
-  function edit(value:Editor){setEditor({...value,socialUrls:[...value.socialUrls]});setLatitude(value.location?String(value.location.latitude):"");setLongitude(value.location?String(value.location.longitude):"");setError("");setMessage("");setDuplicates([]);requestAnimationFrame(()=>{const heading=document.getElementById("admin-editor-title");heading?.focus({preventScroll:true});heading?.scrollIntoView({behavior:"smooth",block:"start"});});}
+  const grouped=groupManagedCafes(listed);
+  const selectedBuilding=buildings.find(building=>building.id===editor?.buildingId);
+  const matchingBuildings=buildings.filter(building=>building.area===editor?.area&&(building.id===editor?.buildingId||`${building.name} ${building.address}`.normalize("NFKC").toLowerCase().includes(buildingQuery.normalize("NFKC").toLowerCase())));
+  function selectBuilding(building?:ManagedBuilding){if(!editor)return;setEditor({...editor,buildingId:building?.id??"",buildingName:building?.name??"",address:building?.address||editor.address});if(building?.location){setLatitude(String(building.location.latitude));setLongitude(String(building.location.longitude));}else if(building&&building.id!==editor.buildingId){setLatitude("");setLongitude("");}}
+  function edit(value:Editor){setEditor({...value,buildingId:value.buildingId??"",socialUrls:[...value.socialUrls]});setSocial(splitSocialFields(value.socialUrls));setBuildingQuery("");setLatitude(value.location?String(value.location.latitude):"");setLongitude(value.location?String(value.location.longitude):"");setError("");setMessage("");setDuplicates([]);requestAnimationFrame(()=>{const heading=document.getElementById("admin-editor-title");heading?.focus({preventScroll:true});heading?.scrollIntoView({behavior:"smooth",block:"start"});});}
   function field<K extends keyof CafeInput>(key:K,value:CafeInput[K]){setEditor((old)=>old?{...old,[key]:value}:old);}
   async function save(event:React.FormEvent<HTMLFormElement>){
     event.preventDefault();if(!editor||busy)return;setOperation("save");setBusy(true);setError("");setMessage("");
-    try{if(Boolean(latitude)!==Boolean(longitude))throw new Error("緯度・経度を両方入力してください。");const location=latitude&&longitude?{latitude:Number(latitude),longitude:Number(longitude)}:null;const result=await request(editor.id?`/api/admin/cafes/${editor.id}`:"/api/admin/cafes",{method:editor.id?"PUT":"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...editor,location})});setCafes((old)=>[result.cafe,...old.filter((cafe)=>cafe.id!==result.cafe.id)]);setEditor(result.cafe);setMessage("店舗情報を保存しました。");setDuplicates([]);}
+    try{if(Boolean(latitude)!==Boolean(longitude))throw new Error("緯度・経度を両方入力してください。");const location=latitude&&longitude?{latitude:Number(latitude),longitude:Number(longitude)}:null;const result=await request(editor.id?`/api/admin/cafes/${editor.id}`:"/api/admin/cafes",{method:editor.id?"PUT":"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...editor,buildingName:editor.buildingId?editor.buildingName:"",address:selectedBuilding?.address||editor.address,socialUrls:socialUrls(social),location})});setCafes((old)=>[result.cafe,...old.filter((cafe)=>cafe.id!==result.cafe.id)]);setEditor(result.cafe);setSocial(splitSocialFields(result.cafe.socialUrls));setMessage("店舗情報を保存しました。");setDuplicates([]);onStoreChanged();}
     catch(error){setError(error instanceof Error?error.message:"保存に失敗しました");}finally{setBusy(false);}
   }
   async function remove(){
@@ -72,11 +81,13 @@ export function AdminDashboard(){
       await request(`/api/admin/cafes/${target.id}`,{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({version:target.version})});
       setCafes(old=>old.filter(cafe=>cafe.id!==target.id));setEditor(null);setDeleteTarget(null);setDuplicates([]);setError("");
       setMessage(`「${target.name}」を削除しました。`);
+      onStoreChanged();
     }catch(error){setDeleteError(error instanceof Error?error.message:"削除に失敗しました。");}
     finally{setBusy(false);}
   }
   async function find(event:React.FormEvent){event.preventDefault();if(searching)return;setSubmittedSearch(search.trim());setSearching(true);setError("");setSearched(false);setCandidates([]);setWarnings([]);try{const result=await request(`/api/admin/candidates?q=${encodeURIComponent(search)}&area=${area}&live=${live}`);setCandidates(result.candidates);setWarnings(result.warnings);setSearched(true);}catch(error){setError(error instanceof Error?error.message:"検索に失敗しました");setWarnings([error instanceof Error?error.message:"検索に失敗しました"]);setSearched(true);}finally{setSearching(false);}}
   return <>
+    {addingBuilding&&editor&&<BuildingDialog area={editor.area} suggestion={{name:editor.buildingName,address:editor.address}} onClose={()=>setAddingBuilding(false)} onSaved={building=>{onBuildingSaved(building);selectBuilding(building);setAddingBuilding(false);setBuildingQuery("");}}/>}
     <div className="admin-stats"><span>登録店舗 <strong>{cafes.length}</strong></span><span>公開設定 <strong>{cafes.filter((cafe)=>publicationLabel(cafe)==="公開").length}</strong></span><span>予約公開 <strong>{cafes.filter((cafe)=>publicationLabel(cafe)==="予約公開").length}</strong></span><span>営業未確認 <strong>{cafes.filter((cafe)=>cafe.businessStatus==="unknown").length}</strong></span></div>
     <dialog ref={saveDialog} className="admin-save-dialog" aria-labelledby="admin-save-title" aria-describedby="admin-save-description" aria-busy={busy} onCancel={(event)=>{if(busy)event.preventDefault();else setMessage("");}}>
       {busy?<span className="admin-save-spinner" aria-hidden="true"/>:<span className="admin-save-check" aria-hidden="true">✓</span>}
@@ -96,7 +107,11 @@ export function AdminDashboard(){
       <div id="admin-area-panel" role="tabpanel" aria-labelledby={`admin-area-${storeArea}`}>
       <div className="admin-publication-filters" role="group" aria-label="掲載状態で絞り込み">{(Object.keys(publicationGroups) as PublicationGroup[]).map((key)=><button key={key} type="button" className={`admin-publication-filter ${key}`} aria-pressed={group===key} aria-controls="admin-store-results" onClick={()=>setGroup(key)}><span>{publicationGroups[key].label}</span><strong>{areaCafes.filter(cafe=>publicationGroup(cafe)===key).length}<small>件</small></strong><span className="admin-filter-help">{publicationGroups[key].help}</span></button>)}</div>
       <label>登録店舗を検索<input type="search" value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="店舗名・住所・ビル名"/></label>
-      <div id="admin-store-results"><div className="admin-results-heading"><h3>{publicationGroups[group].label}の店舗</h3><span aria-live="polite">{listed.length}件{query&&"（検索結果）"}</span></div><div className="admin-store-list">{listed.map((cafe)=><button key={cafe.id} className={editor?.id===cafe.id?"active":""} onClick={()=>edit(cafe)}><strong>{cafe.name}</strong><span>{cafe.area==="tanukikoji"?"狸小路":"すすきの"} · {cafe.buildingName||"ビル名未確認"} {cafe.floor}</span><span className="admin-badges"><b className={`publication-${publicationGroup(cafe)}`}>{publicationLabel(cafe)}</b><b>{businessLabels[cafe.businessStatus]}</b></span>{cafe.publishAt&&<span>公開日時：{tokyoDateTime(cafe.publishAt).replace("T"," ")}（日本時間）</span>}<span className="admin-edit-link">店舗情報を編集 ↓</span></button>)}{!listed.length&&<p className="admin-empty">{query?"検索条件に一致する店舗がありません。":`${publicationGroups[group].label}の店舗はありません。`}</p>}</div></div>
+      <div id="admin-store-results"><div className="admin-results-heading"><h3>{publicationGroups[group].label}の店舗</h3><span aria-live="polite">{listed.length}件{query&&"（検索結果）"}</span></div><div className="admin-store-list">
+        {grouped.map(building=><section className="admin-building-group" key={building.key}><header><h4>{building.name}</h4><span>{building.cafes.length}店舗</span>{building.address&&<p>{building.address}</p>}</header><div className="admin-building-stores">
+          {building.cafes.map(cafe=><button type="button" key={cafe.id} className={`admin-store-card ${editor?.id===cafe.id?"active":""}`} onClick={()=>edit(cafe)}><strong>{cafe.name}</strong><span>{cafe.floor||"階数未登録"}</span><span className="admin-badges"><b className={`publication-${publicationGroup(cafe)}`}>{publicationLabel(cafe)}</b><b>{businessLabels[cafe.businessStatus]}</b></span>{cafe.publishAt&&<span>公開日時：{tokyoDateTime(cafe.publishAt).replace("T"," ")}（日本時間）</span>}<span className="admin-edit-link">店舗情報を編集 ↓</span></button>)}
+        </div></section>)}
+        {!listed.length&&<p className="admin-empty">{query?"検索条件に一致する店舗がありません。":`${publicationGroups[group].label}の店舗はありません。`}</p>}</div></div>
       </div>
     </section>
     <section className="admin-panel admin-editor" aria-labelledby="admin-editor-title"><h2 id="admin-editor-title" tabIndex={-1}>{editor?.id?"店舗情報を編集":editor?"掲載店舗を追加":"店舗を選択してください"}</h2>
@@ -104,17 +119,19 @@ export function AdminDashboard(){
       {editor&&<form onSubmit={save}>
         {duplicates.length>0&&<div className="admin-warning">既存店舗と重複する可能性があります。{duplicates.map((id)=><button key={id} type="button" onClick={()=>{const cafe=cafes.find((item)=>item.id===id);if(cafe)edit(cafe);}}>既存の「{cafes.find((item)=>item.id===id)?.name}」を編集</button>)}</div>}
         <label>店舗名<input required maxLength={160} value={editor.name} onChange={(event)=>field("name",event.target.value)}/></label>
-        <div className="admin-form-row"><label>エリア<select value={editor.area} onChange={(event)=>field("area",event.target.value as CafeInput["area"])}><option value="tanukikoji">狸小路</option><option value="susukino">すすきの</option></select></label><label>店舗種別<select value={editor.category} onChange={(event)=>field("category",event.target.value as CafeInput["category"])}><option value="unknown">未確認</option><option value="concept">コンカフェ</option><option value="maid">メイドカフェ</option></select></label></div>
-        <label>住所<input required maxLength={500} value={editor.address} onChange={(event)=>field("address",event.target.value)}/></label>
-        <div className="admin-form-row"><label>ビル名<input maxLength={200} value={editor.buildingName} onChange={(event)=>field("buildingName",event.target.value)}/></label><label>階数<input maxLength={40} placeholder="例：B1F / 3F" value={editor.floor} onChange={(event)=>field("floor",event.target.value)}/></label></div>
+        <div className="admin-form-row"><label>エリア<select value={editor.area} onChange={(event)=>{setEditor({...editor,area:event.target.value as CafeInput["area"],buildingId:"",buildingName:""});setBuildingQuery("");}}><option value="tanukikoji">狸小路</option><option value="susukino">すすきの</option></select></label><label>店舗種別<select value={editor.category} onChange={(event)=>field("category",event.target.value as CafeInput["category"])}><option value="unknown">未確認</option><option value="concept">コンカフェ</option><option value="maid">メイドカフェ</option></select></label></div>
+        <fieldset className="admin-building-select"><legend>入居ビル</legend><label>ビルを絞り込む<input type="search" value={buildingQuery} onChange={event=>setBuildingQuery(event.target.value)} placeholder="ビル名・住所"/></label><label>ビルを選択<select value={editor.buildingId??""} onChange={event=>selectBuilding(buildings.find(building=>building.id===event.target.value))}><option value="">ビル未登録（住所を直接入力）</option>{editor.buildingId&&!selectedBuilding&&<option value={editor.buildingId}>{editor.buildingName}（読み込み中）</option>}{matchingBuildings.map(building=><option value={building.id} key={building.id}>{building.name} — {building.address||"住所未登録"}</option>)}</select></label><button type="button" className="secondary" onClick={()=>setAddingBuilding(true)}>新しいビルを追加</button></fieldset>
+        <label>住所<input required maxLength={500} readOnly={!!selectedBuilding?.address} value={selectedBuilding?.address||editor.address} onChange={(event)=>field("address",event.target.value)}/></label>
+        {selectedBuilding?.address&&<p className="admin-field-help">ビルの登録住所を使用しています。住所の修正は「ビル管理」から行えます。</p>}
+        <label>階数<input maxLength={40} placeholder="例：B1F / 3F" value={editor.floor} onChange={(event)=>field("floor",event.target.value)}/></label>
         <div className="admin-form-row"><label>営業状態<select value={editor.businessStatus} onChange={(event)=>field("businessStatus",event.target.value as CafeInput["businessStatus"])}>{Object.entries(businessLabels).map(([value,label])=><option key={value} value={value}>{label}</option>)}</select></label><label>掲載状態<select value={editor.publicationStatus} onChange={(event)=>{const status=event.target.value as CafeInput["publicationStatus"];setEditor({...editor,publicationStatus:status,publishAt:undefined});}}>{Object.entries(publicationLabels).map(([value,label])=><option key={value} value={value}>{label}</option>)}</select></label></div>
         {editor.publicationStatus==="scheduled"&&<label>予約公開日時（日本時間）<input required type="datetime-local" value={tokyoDateTime(editor.publishAt)} onChange={(event)=>field("publishAt",event.target.value?new Date(`${event.target.value}:00+09:00`).toISOString():undefined)}/></label>}
         <p className="admin-field-help">閉店・一時休業・移転の店舗は、公開設定でもマップに表示されません。</p>
-        <div className="admin-form-row"><label>緯度<input name="latitude" type="number" step="any" min={-90} max={90} value={latitude} onChange={(event)=>setLatitude(event.target.value)}/></label><label>経度<input name="longitude" type="number" step="any" min={-180} max={180} value={longitude} onChange={(event)=>setLongitude(event.target.value)}/></label></div>
+        <div className="admin-form-row"><label>緯度<input name="latitude" type="number" step="any" min={-90} max={90} readOnly={!!selectedBuilding?.location} value={selectedBuilding?.location?String(selectedBuilding.location.latitude):latitude} onChange={(event)=>setLatitude(event.target.value)}/></label><label>経度<input name="longitude" type="number" step="any" min={-180} max={180} readOnly={!!selectedBuilding?.location} value={selectedBuilding?.location?String(selectedBuilding.location.longitude):longitude} onChange={(event)=>setLongitude(event.target.value)}/></label></div>
         <p className="admin-field-help">座標を登録しない店舗は一覧だけに表示されます。</p>
         <label>位置情報の確認元<input maxLength={500} value={editor.coordinateSource} onChange={(event)=>field("coordinateSource",event.target.value)}/></label>
         <label>公式サイト<input type="url" maxLength={2000} value={editor.officialUrl??""} onChange={(event)=>field("officialUrl",event.target.value)}/></label>
-        <label>SNS URL（1行に1つ）<textarea rows={3} value={editor.socialUrls.join("\n")} onChange={(event)=>field("socialUrls",event.target.value.split("\n"))}/></label>
+        <fieldset className="admin-social-fields"><legend>SNS</legend><p className="admin-field-help">利用している媒体だけ入力してください。複数のURLは改行で分けられます。</p><div className="admin-form-row">{(Object.keys(socialPlatforms) as SocialPlatform[]).map(key=><label key={key}>{socialPlatforms[key]} URL<textarea rows={2} value={social[key]} onChange={event=>setSocial(previous=>({...previous,[key]:event.target.value}))} placeholder={key==="other"?"その他の媒体のURL":"https://"}/></label>)}</div></fieldset>
         <label>情報確認日<input type="date" value={editor.verifiedOn} onClick={(event)=>{
           try{event.currentTarget.showPicker?.();}
           catch{/* Keep native date input usable when the browser disallows opening the picker. */}
