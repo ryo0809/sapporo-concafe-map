@@ -123,3 +123,15 @@ Next.jsのセットアップは [公式インストールガイド](https://next
 ## 依存関係の監査
 
 初期セットアップ時の `npm audit` は、開発用ESLintの間接依存 `braces` に由来するhighの報告を5件検出しました（[アドバイザリ](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm)）。監査時点で自動修正は提供されていません。依存更新時に再確認してください。
+
+## Sentry
+
+エラー一覧: https://ryo-fujiwara.sentry.io/issues/?project=4512273751736320
+
+ブラウザー・Next.jsサーバー・管理APIの予期しないエラーを収集します。開発サーバーでは送信せず、本番ビルドで有効になります。性能トレースは10%を収集し、ログ・セッション録画、Cookie・HTTPヘッダー・リクエスト本文・クエリーパラメーター・DB値の収集を無効にしています。エラーメッセージ自体への機密情報の埋め込みは避けてください。
+
+`npm run deploy -- --env production` はSentryの環境名も設定します。ステージングは `staging` として区別します。手動ビルド時は `NEXT_PUBLIC_SENTRY_ENVIRONMENT` で指定できます。
+
+ソースマップのアップロードにはローカルの `.env.sentry-build-plugin` またはビルド環境の `SENTRY_AUTH_TOKEN` を使用します。認証トークンをGitに追加しないでください。CIでソースマップを送信する場合はCIのシークレットに専用トークンを登録してください。
+
+Sentryへの送信と外形監視は別です。CPU制限によるWorkerの強制終了などはSDKが送信できない場合があるため、Cloudflareのエラー率と `/api/health` の監視も併用します。
