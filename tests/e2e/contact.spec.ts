@@ -61,6 +61,7 @@ test("フォーム送信から管理画面の確認・対応済み・削除ま�
   await page.getByLabel("正しい内容").fill("18:00〜翌2:00");
   await page.getByLabel("公式サイトURL（任意）", { exact: true }).fill("https://official.example.com/");
   await page.getByLabel("X（旧Twitter）URL（任意）", { exact: true }).fill("https://x.com/example");
+  await page.getByText("詳しい情報を追加（任意）", { exact: true }).click();
   await page.locator('textarea[name="message"]').fill("修正のお願い\n<script>alert('test')</script>");
   await page.getByRole("checkbox").check();
   const release: (() => void)[] = [];

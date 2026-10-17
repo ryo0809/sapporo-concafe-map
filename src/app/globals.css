@@ -105,6 +105,9 @@ summary { cursor: pointer; }
 .contact-field-section { display: grid; gap: 22px; min-width: 0; }
 .contact-field-section h2 { margin: 8px 0 0; }
 .contact-field-section > p { margin: -12px 0 0; font-size: .8rem; color: var(--muted); }
+.contact-optional { padding: 14px 16px; border: 1px solid #d6e1d6; border-radius: 8px; }
+.contact-optional summary { color: var(--accent); font-size: .9rem; }
+.contact-optional[open] > .contact-field-section { margin-top: 20px; }
 .contact-details { display: grid; gap: 16px; }
 .contact-details dt { font-weight: 700; }
 .contact-details dd { margin: 4px 0 0; white-space: pre-wrap; }
