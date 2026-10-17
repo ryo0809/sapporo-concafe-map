@@ -1,6 +1,39 @@
 import {expect,test} from "@playwright/test";
 
 const buildingInput={name:"共通住所検証ビル",area:"susukino",address:"札幌市中央区南4条西3丁目1-1",location:null};
+test("空のビルを削除でき、古いバージョンと所属店舗のあるビルは保護する",async({page})=>{
+  await page.request.post("/api/admin/login",{data:{username:"admin",password:"admin"}});
+  const response=await page.request.post("/api/admin/buildings",{data:{...buildingInput,name:"削除検証ビル"}});
+  expect(response.status()).toBe(201);
+  const {building}=await response.json();
+  expect((await page.request.delete(`/api/admin/buildings/${building.id}`,{data:{version:building.version+1}})).status()).toBe(409);
+  await page.goto("/admin?tab=buildings");
+  await page.getByLabel("ビルを検索",{exact:true}).fill("削除検証ビル");
+  page.once("dialog",dialog=>dialog.accept());
+  await page.getByRole("button",{name:"ビルを削除"}).click();
+  await expect(page.locator(".admin-building-card")).toHaveCount(0);
+  const {buildings}=await(await page.request.get("/api/admin/buildings")).json();
+  const occupied=buildings.find((item:{storeCount:number})=>item.storeCount>0);
+  expect(occupied).toBeTruthy();
+  expect((await page.request.delete(`/api/admin/buildings/${occupied.id}`,{data:{version:occupied.version}})).status()).toBe(400);
+});
+
+test("住所検索で座標を自動入力し失敗時は保持する",async({page})=>{
+  await page.request.post("/api/admin/login",{data:{username:"admin",password:"admin"}});
+  await page.goto("/admin?tab=buildings");
+  await page.getByRole("button",{name:"ビルを追加",exact:true}).click();
+  const form=page.locator(".admin-building-editor");
+  await form.getByLabel("住所",{exact:true}).fill(buildingInput.address);
+  await page.route("**/api/admin/buildings/geocode",route=>route.fulfill({json:{location:{latitude:43.055,longitude:141.353},formattedAddress:buildingInput.address}}));
+  await form.getByRole("button",{name:"住所から緯度・経度を自動入力"}).click();
+  await expect(form.getByLabel("緯度",{exact:true})).toHaveValue("43.055");
+  await expect(form.getByLabel("経度",{exact:true})).toHaveValue("141.353");
+  await page.route("**/api/admin/buildings/geocode",route=>route.fulfill({status:400,json:{error:"住所が見つかりません。"}}));
+  await form.getByRole("button",{name:"住所から緯度・経度を自動入力"}).click();
+  await expect(form.getByRole("alert")).toContainText("住所が見つかりません");
+  await form.locator("summary").click();
+  await expect(form.getByLabel("緯度",{exact:true})).toHaveValue("43.055");
+});
 const cafeInput={name:"ビル所属検証店舗",area:"susukino",address:"ignored address",category:"concept",floor:"2F",buildingName:"ignored name",location:null,businessStatus:"unknown",publicationStatus:"hidden",sourceUrl:"",socialUrls:["https://x.com/first","https://twitter.com/second","https://unknown.example/profile"],verifiedOn:"",coordinateSource:""};
 
 test("ビル一覧は1カラムで10件ずつ表示し、検索・エリア変更で先頭ページに戻る",async({page})=>{
