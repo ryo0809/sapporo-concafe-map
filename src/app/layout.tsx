@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import "./globals.css";
 import "leaflet/dist/leaflet.css";
 import { site } from "@/config/site";
+import {PageAnalytics} from "@/presentation/analytics/page-analytics";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -14,5 +15,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  return <html lang="ja"><body>{children}</body></html>;
+  return <html lang="ja"><body><PageAnalytics/>{children}</body></html>;
 }

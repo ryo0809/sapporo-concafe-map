@@ -13,7 +13,7 @@ function SocialIcon({ platform }: { platform: SocialPlatform }) {
   return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">{paths[platform]}</svg>;
 }
 
-export function SocialLinks({ urls, cafeName }: { urls: readonly string[]; cafeName: string }) {
+export function SocialLinks({ urls, cafeName, onVisit }: { urls: readonly string[]; cafeName: string; onVisit?: (platform: SocialPlatform) => void }) {
   const links = [...new Set(urls.map(url => url.trim()))].filter(url => {
     try { return ["https:", "http:"].includes(new URL(url).protocol); } catch { return false; }
   });
@@ -21,7 +21,7 @@ export function SocialLinks({ urls, cafeName }: { urls: readonly string[]; cafeN
   return <nav className="cafe-social-links" aria-label={`${cafeName}のSNS`}>
     {links.map(url => {
       const platform = socialPlatform(url), label = socialPlatforms[platform];
-      return <a key={url} href={url} target="_blank" rel="noopener noreferrer" aria-label={`${label}（別タブで開く）`} title={`${label}（別タブで開く）`}><SocialIcon platform={platform}/></a>;
+      return <a key={url} onClick={() => onVisit?.(platform)} href={url} target="_blank" rel="noopener noreferrer" aria-label={`${label}（別タブで開く）`} title={`${label}（別タブで開く）`}><SocialIcon platform={platform}/></a>;
     })}
   </nav>;
 }
