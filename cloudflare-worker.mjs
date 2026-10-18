@@ -1,11 +1,14 @@
 import handler from "./.open-next/worker.js";
 import {httpsRedirect} from "./worker/https-redirect.mjs";
+import {analyticsResponse} from "./worker/analytics.mjs";
 export * from "./.open-next/worker.js";
 
 const worker={
   async fetch(request,env,ctx){
     const redirect=httpsRedirect(request);
     if(redirect)return redirect;
+    const analytics=await analyticsResponse(request,env);
+    if(analytics)return analytics;
     return handler.fetch(request,env,ctx);
   },
 };

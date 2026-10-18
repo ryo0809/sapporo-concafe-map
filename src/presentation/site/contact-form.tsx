@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { track } from "@/presentation/analytics/track";
 import { useRef, useState } from "react";
 import { contactCategories, contactFields, contactDetailFields, contactUrlFields, isStoreContact, type ContactCategory } from "@/domain/contact";
 
@@ -26,13 +27,14 @@ export function ContactForm() {
       const response = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...Object.fromEntries(fields), id: submissionId.current, consent: fields.get("consent") === "on" }) });
       const result = await response.json();
       if (!response.ok) throw new Error(result.error ?? "送信できませんでした。");
+      track("contact_success", {source: "form"});
       setReplyAvailable(Boolean(String(fields.get("email") ?? "").trim()));
       form.reset(); setCategory("correction"); submissionId.current = "";
       dialog.current?.showModal();
-    } catch (error) { setError(error instanceof Error ? error.message : "通信に失敗しました。時間をおいて再度お試しください。"); }
+    } catch (error) { track("contact_error", {source: "form"}); setError(error instanceof Error ? error.message : "通信に失敗しました。時間をおいて再度お試しください。"); }
     finally { pending.current = false; setBusy(false); }
   }
-  return <><form className="contact-form" onSubmit={submit} aria-busy={busy} onInvalidCapture={event => { const details = (event.target as HTMLElement).closest("details"); if (details) details.open = true; }} onChange={() => { if (!pending.current) submissionId.current = ""; }}>
+  return <><form className="contact-form" onSubmit={submit} aria-busy={busy} onInvalidCapture={event => { track("contact_invalid", {source: "form"}); const details = (event.target as HTMLElement).closest("details"); if (details) details.open = true; }} onChange={() => { if (!pending.current) submissionId.current = ""; }}>
     <fieldset disabled={busy}>
       <label>お問い合わせの種類<select name="category" value={category} onChange={e => { setCategory(e.target.value as ContactCategory); setError(""); }}>{Object.entries(contactCategories).map(([key, label]) => <option key={key} value={key}>{label}</option>)}</select></label>
       {category === "addition" ? <>
