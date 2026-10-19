@@ -1,4 +1,4 @@
-import { createCandidateSearch } from "@/composition/admin";
+import { createCandidateSearch } from "@/composition/candidate-search";
 import { requireAdministrator,apiError } from "@/infrastructure/admin/http-session";
 import {D1SearchRateLimiter} from "@/infrastructure/admin/search-rate-limiter";
 import {getD1} from "@/infrastructure/database/d1";

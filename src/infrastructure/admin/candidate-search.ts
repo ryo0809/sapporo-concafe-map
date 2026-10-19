@@ -2,10 +2,8 @@
 import { createHash } from "node:crypto";
 import { getD1 } from "../database/d1";
 import { D1CafeStore } from "../database/d1-cafe-store";
-import { createPageFetcher } from "../../../batch/lib/fetch-page.mjs";
 import { getBuildingDetails } from "@/domain/cafes/building-details";
 import { candidateSearchScore,normalizeSearch } from "@/domain/admin/candidate-matching";
-import { searchLiveCandidates } from "./live-candidate-search";
 import supplementalCandidates from "./data/supplemental-candidates.json";
 import { sameSearchCandidate,candidateFloor } from "./search-candidate-identity";
 import type { CandidateSearchGateway,StoreCandidate } from "@/domain/admin/candidates";
@@ -32,6 +30,10 @@ export class D1CandidateSearch implements CandidateSearchGateway {
     });
     records.push(...cached.results.map(row=>{const cafe=JSON.parse(row.payload) as StoreCandidate;return fromSaved(cafe,cafe.provider);}));
     if(live){
+      const [{createPageFetcher},{searchLiveCandidates}]=await Promise.all([
+        import("../../../batch/lib/fetch-page.mjs"),
+        import("./live-candidate-search"),
+      ]);
       const signal=AbortSignal.timeout(30000);
       const result=await searchLiveCandidates(query,area,createPageFetcher({signal}),signal);
       records.unshift(...result.records as RawCandidate[]);warnings.push(...result.warnings);
