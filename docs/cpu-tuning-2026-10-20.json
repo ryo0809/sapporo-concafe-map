@@ -1,0 +1,2495 @@
+{
+  "checkedOn": "2026-10-20",
+  "environment": "staging only",
+  "url": "https://sapporo-concafe-map-staging.f-app.workers.dev",
+  "baselineVersion": "73dcfcf1-4995-4680-bc02-a3a51c00f3a6",
+  "measuredVersion": "dac5426d-110a-4373-9eaa-83854d845347",
+  "deployedVersion": "a5248574-282e-42e7-b86c-f4b96394fd1d",
+  "deploymentNote": "Final version only adds extra Flight/prefetch header guards; CPU probes ran on the preceding version. Browser verification is repeated on the final version.",
+  "changes": [
+    "Reuse the default-password verdict for the most recent hash; retain DB session checks and actual login hashing",
+    "Serve nine allowlisted build-time pages/images without entering Next.js; preserve noindex, private login headers and Flight routing",
+    "Serve immutable assets, health checks and clearly unauthenticated API rejection before Next.js",
+    "Batch the five schema health checks in one D1 call",
+    "Separate HTML parsing from saved-candidate address identity",
+    "Compile search terms once; bucket duplicate candidates; compute sort scores once",
+    "Memoize map search/grouping and use neighbouring pixel cells for marker clustering",
+    "Add seven query indexes for publication/building lists, inbox, candidate sorting and transient-record cleanup"
+  ],
+  "localKernels": {
+    "runtime": "v24.15.0",
+    "platform": "win32",
+    "scope": "synthetic local CPU kernels, not HTTP/remote CPU; zero CPU readings are below OS timer resolution, not zero cost",
+    "search": {
+      "records": 5000,
+      "iterationsPerRun": 3,
+      "runs": [
+        {
+          "before": 338.6666666666667,
+          "after": 20.666666666666668
+        },
+        {
+          "after": 21,
+          "before": 328
+        },
+        {
+          "before": 359.3333333333333,
+          "after": 21
+        },
+        {
+          "after": 15.666666666666666,
+          "before": 359
+        },
+        {
+          "before": 359.3333333333333,
+          "after": 15.666666666666666
+        }
+      ],
+      "beforeMedianCpuMs": 359,
+      "afterMedianCpuMs": 20.666666666666668,
+      "reductionPercent": 94.24326833797586,
+      "sameOutput": true
+    },
+    "mapClusters": {
+      "points": 3000,
+      "iterationsPerRun": 20,
+      "runs": [
+        {
+          "before": 136.75,
+          "after": 3.15
+        },
+        {
+          "after": 1.55,
+          "before": 138.25
+        },
+        {
+          "before": 135.15,
+          "after": 1.6
+        },
+        {
+          "after": 1.55,
+          "before": 132
+        },
+        {
+          "before": 139.1,
+          "after": 2.35
+        }
+      ],
+      "beforeMedianCpuMs": 136.75,
+      "afterMedianCpuMs": 1.6,
+      "reductionPercent": 98.82998171846435,
+      "sameOutput": true
+    },
+    "coldAddressDependency": {
+      "beforeCpuMs": 156,
+      "afterCpuMs": 0
+    }
+  },
+  "validation": {
+    "unitTests": 70,
+    "integrationTests": 1,
+    "e2eTests": 27,
+    "passwordPolicyRequests": 9,
+    "stagingBrowser": [
+      "native static login page hydrated",
+      "login and authenticated dynamic page",
+      "admin SPA tab state",
+      "logout invalidates session",
+      "dynamic public map and noindex",
+      "Next Flight navigation preserved",
+      "eight static routes and security headers",
+      "mobile public map",
+      "no browser runtime errors"
+    ],
+    "existingData": [
+      {
+        "table": "buildings",
+        "before": 30,
+        "after": 30,
+        "unchanged": true
+      },
+      {
+        "table": "floors",
+        "before": 41,
+        "after": 41,
+        "unchanged": true
+      },
+      {
+        "table": "cafes",
+        "before": 64,
+        "after": 64,
+        "unchanged": true
+      },
+      {
+        "table": "cafe_history",
+        "before": 156,
+        "after": 156,
+        "unchanged": true
+      },
+      {
+        "table": "contact_messages",
+        "before": 0,
+        "after": 0,
+        "unchanged": true
+      },
+      {
+        "table": "collection_runs",
+        "before": 3,
+        "after": 3,
+        "unchanged": true
+      },
+      {
+        "table": "collected_candidates",
+        "before": 197,
+        "after": 197,
+        "unchanged": true
+      },
+      {
+        "table": "import_records",
+        "before": 73,
+        "after": 73,
+        "unchanged": true
+      }
+    ]
+  },
+  "probes": [
+    {
+      "label": "before",
+      "phases": 31,
+      "requests": 132,
+      "serverFailures": 19,
+      "resourceErrors": 19,
+      "operations": [
+        {
+          "operation": "home",
+          "method": "GET",
+          "path": "/",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:43.902Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 15,
+            "sentRequests": 8,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 15,
+                "errors": 0,
+                "p50Ms": 50.269,
+                "p95Ms": 128.158,
+                "p99Ms": 128.158
+              }
+            ]
+          }
+        },
+        {
+          "operation": "login-page",
+          "method": "GET",
+          "path": "/admin/login",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:43.903Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 8,
+            "sentRequests": 8,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 8,
+                "errors": 0,
+                "p50Ms": 49.456,
+                "p95Ms": 68.099,
+                "p99Ms": 68.099
+              }
+            ]
+          }
+        },
+        {
+          "operation": "contact-page",
+          "method": "GET",
+          "path": "/contact",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:43.903Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 4,
+            "sentRequests": 8,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "exceededResources",
+                "requests": 1,
+                "errors": 1,
+                "p50Ms": 33.246,
+                "p95Ms": 33.246,
+                "p99Ms": 33.246
+              },
+              {
+                "status": "clientDisconnected",
+                "requests": 1,
+                "errors": 0,
+                "p50Ms": 9.18,
+                "p95Ms": 9.18,
+                "p99Ms": 9.18
+              },
+              {
+                "status": "success",
+                "requests": 2,
+                "errors": 0,
+                "p50Ms": 34.523,
+                "p95Ms": 34.627,
+                "p99Ms": 34.627
+              }
+            ]
+          }
+        },
+        {
+          "operation": "privacy",
+          "method": "GET",
+          "path": "/privacy",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:43.903Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 9,
+            "sentRequests": 5,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 9,
+                "errors": 0,
+                "p50Ms": 24.574,
+                "p95Ms": 81.037,
+                "p99Ms": 81.037
+              }
+            ]
+          }
+        },
+        {
+          "operation": "listing",
+          "method": "GET",
+          "path": "/listing-information",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:43.903Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 5,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 5,
+                "errors": 0,
+                "p50Ms": 11.29,
+                "p95Ms": 36.009,
+                "p99Ms": 36.009
+              }
+            ]
+          }
+        },
+        {
+          "operation": "robots",
+          "method": "GET",
+          "path": "/robots.txt",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:44.745Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 5,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 5,
+                "errors": 0,
+                "p50Ms": 7.491,
+                "p95Ms": 8.471,
+                "p99Ms": 8.471
+              }
+            ]
+          }
+        },
+        {
+          "operation": "sitemap",
+          "method": "GET",
+          "path": "/sitemap.xml",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:44.745Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 2,
+            "sentRequests": 5,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 2,
+                "errors": 0,
+                "p50Ms": 245.67,
+                "p95Ms": 1155.995,
+                "p99Ms": 1155.995
+              }
+            ]
+          }
+        },
+        {
+          "operation": "social-card",
+          "method": "GET",
+          "path": "/social-card.png",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:44.745Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 6,
+            "sentRequests": 5,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 6,
+                "errors": 0,
+                "p50Ms": 6.092,
+                "p95Ms": 137.781,
+                "p99Ms": 137.781
+              }
+            ]
+          }
+        },
+        {
+          "operation": "icon",
+          "method": "GET",
+          "path": "/icon.svg",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:44.745Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 5,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 5,
+                "errors": 0,
+                "p50Ms": 8.083,
+                "p95Ms": 11.553,
+                "p99Ms": 11.553
+              }
+            ]
+          }
+        },
+        {
+          "operation": "health",
+          "method": "GET",
+          "path": "/api/health",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:44.745Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 5,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 5,
+                "errors": 0,
+                "p50Ms": 17.958,
+                "p95Ms": 20.213,
+                "p99Ms": 20.213
+              }
+            ]
+          }
+        },
+        {
+          "operation": "not-found",
+          "method": "GET",
+          "path": "/__cpu_probe_missing",
+          "statuses": [
+            404,
+            404,
+            404,
+            404,
+            404
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:45.104Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 1,
+            "sentRequests": 5,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 1,
+                "errors": 0,
+                "p50Ms": 140.898,
+                "p95Ms": 140.898,
+                "p99Ms": 140.898
+              }
+            ]
+          }
+        },
+        {
+          "operation": "unauthorized",
+          "method": "GET",
+          "path": "/api/admin/cafes",
+          "statuses": [
+            401,
+            401,
+            401,
+            401,
+            401
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:45.104Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 5,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 5,
+                "errors": 0,
+                "p50Ms": 0.325,
+                "p95Ms": 0.364,
+                "p99Ms": 0.364
+              }
+            ]
+          }
+        },
+        {
+          "operation": "analytics-disabled",
+          "method": "POST",
+          "path": "/api/analytics",
+          "statuses": [
+            204,
+            204,
+            204,
+            204,
+            204
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:45.104Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 4,
+            "sentRequests": 5,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 4,
+                "errors": 0,
+                "p50Ms": 4.579,
+                "p95Ms": 10.2,
+                "p99Ms": 10.2
+              }
+            ]
+          }
+        },
+        {
+          "operation": "contact-invalid",
+          "method": "POST",
+          "path": "/api/contact",
+          "statuses": [
+            400,
+            400,
+            400,
+            400,
+            400
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:45.104Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 3,
+            "sentRequests": 5,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 3,
+                "errors": 0,
+                "p50Ms": 78.954,
+                "p95Ms": 100.381,
+                "p99Ms": 100.381
+              }
+            ]
+          }
+        },
+        {
+          "operation": "login",
+          "method": "POST",
+          "path": "/api/admin/login",
+          "statuses": [
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:45.104Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 3,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 5,
+                "errors": 0,
+                "p50Ms": 45.769,
+                "p95Ms": 106.46,
+                "p99Ms": 106.46
+              }
+            ]
+          }
+        },
+        {
+          "operation": "admin-page",
+          "method": "GET",
+          "path": "/admin",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:45.406Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 5,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 5,
+                "errors": 0,
+                "p50Ms": 39.875,
+                "p95Ms": 120.21,
+                "p99Ms": 120.21
+              }
+            ]
+          }
+        },
+        {
+          "operation": "cafes-list",
+          "method": "GET",
+          "path": "/api/admin/cafes",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:45.406Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 5,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 5,
+                "errors": 0,
+                "p50Ms": 38.632,
+                "p95Ms": 49.146,
+                "p99Ms": 49.146
+              }
+            ]
+          }
+        },
+        {
+          "operation": "buildings-list",
+          "method": "GET",
+          "path": "/api/admin/buildings",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:45.406Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 5,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 5,
+                "errors": 0,
+                "p50Ms": 39.789,
+                "p95Ms": 47.372,
+                "p99Ms": 47.372
+              }
+            ]
+          }
+        },
+        {
+          "operation": "contacts-list",
+          "method": "GET",
+          "path": "/api/admin/contacts",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:45.406Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 2,
+            "sentRequests": 5,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "exceededResources",
+                "requests": 1,
+                "errors": 1,
+                "p50Ms": 27.831,
+                "p95Ms": 27.831,
+                "p99Ms": 27.831
+              },
+              {
+                "status": "success",
+                "requests": 1,
+                "errors": 0,
+                "p50Ms": 457.739,
+                "p95Ms": 457.739,
+                "p99Ms": 457.739
+              }
+            ]
+          }
+        },
+        {
+          "operation": "candidates-offline",
+          "method": "GET",
+          "path": "/api/admin/candidates",
+          "statuses": [
+            503,
+            200,
+            503,
+            200,
+            503
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:45.406Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 8,
+            "sentRequests": 5,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "exceededResources",
+                "requests": 5,
+                "errors": 5,
+                "p50Ms": 10,
+                "p95Ms": 10,
+                "p99Ms": 10
+              },
+              {
+                "status": "success",
+                "requests": 3,
+                "errors": 0,
+                "p50Ms": 57.158,
+                "p95Ms": 95.852,
+                "p99Ms": 95.852
+              }
+            ]
+          }
+        },
+        {
+          "operation": "cafe-validation",
+          "method": "POST",
+          "path": "/api/admin/cafes",
+          "statuses": [
+            503,
+            400,
+            503,
+            400,
+            503
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:45.862Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 5,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "exceededResources",
+                "requests": 3,
+                "errors": 3,
+                "p50Ms": 10,
+                "p95Ms": 10,
+                "p99Ms": 10
+              },
+              {
+                "status": "success",
+                "requests": 2,
+                "errors": 0,
+                "p50Ms": 43.809,
+                "p95Ms": 78.293,
+                "p99Ms": 78.293
+              }
+            ]
+          }
+        },
+        {
+          "operation": "building-validation",
+          "method": "POST",
+          "path": "/api/admin/buildings",
+          "statuses": [
+            503,
+            400,
+            503,
+            400,
+            503
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:45.862Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 3,
+            "sentRequests": 5,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "exceededResources",
+                "requests": 2,
+                "errors": 2,
+                "p50Ms": 10,
+                "p95Ms": 10,
+                "p99Ms": 10
+              },
+              {
+                "status": "success",
+                "requests": 1,
+                "errors": 0,
+                "p50Ms": 52.1,
+                "p95Ms": 52.1,
+                "p99Ms": 52.1
+              }
+            ]
+          }
+        },
+        {
+          "operation": "geocode-validation",
+          "method": "POST",
+          "path": "/api/admin/buildings/geocode",
+          "statuses": [
+            503,
+            400,
+            503
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:45.862Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 1,
+            "sentRequests": 3,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 1,
+                "errors": 0,
+                "p50Ms": 7.633,
+                "p95Ms": 7.633,
+                "p99Ms": 7.633
+              }
+            ]
+          }
+        },
+        {
+          "operation": "logout",
+          "method": "POST",
+          "path": "/api/admin/logout",
+          "statuses": [
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:45.862Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 0,
+            "sentRequests": 1,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": []
+          }
+        },
+        {
+          "operation": "login",
+          "method": "POST",
+          "path": "/api/admin/login",
+          "statuses": [
+            503,
+            200,
+            503
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:45.862Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 2,
+            "sentRequests": 3,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "exceededResources",
+                "requests": 2,
+                "errors": 2,
+                "p50Ms": 10,
+                "p95Ms": 10,
+                "p99Ms": 10
+              }
+            ]
+          }
+        },
+        {
+          "operation": "cafe-create",
+          "method": "POST",
+          "path": "/api/admin/cafes",
+          "statuses": [
+            503
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:46.330Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 1,
+            "sentRequests": 1,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "exceededResources",
+                "requests": 1,
+                "errors": 1,
+                "p50Ms": 10,
+                "p95Ms": 10,
+                "p99Ms": 10
+              }
+            ]
+          }
+        },
+        {
+          "operation": "building-create",
+          "method": "POST",
+          "path": "/api/admin/buildings",
+          "statuses": [
+            503
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:46.330Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 1,
+            "sentRequests": 1,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 1,
+                "errors": 0,
+                "p50Ms": 9.501,
+                "p95Ms": 9.501,
+                "p99Ms": 9.501
+              }
+            ]
+          }
+        },
+        {
+          "operation": "contact-create",
+          "method": "POST",
+          "path": "/api/contact",
+          "statuses": [
+            201
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:46.330Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 0,
+            "sentRequests": 1,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": []
+          }
+        },
+        {
+          "operation": "contact-update",
+          "method": "PATCH",
+          "path": "/api/admin/contacts",
+          "statuses": [
+            503,
+            200,
+            503
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:46.330Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 4,
+            "sentRequests": 3,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "exceededResources",
+                "requests": 3,
+                "errors": 3,
+                "p50Ms": 10,
+                "p95Ms": 10,
+                "p99Ms": 10
+              },
+              {
+                "status": "success",
+                "requests": 1,
+                "errors": 0,
+                "p50Ms": 92.082,
+                "p95Ms": 92.082,
+                "p99Ms": 92.082
+              }
+            ]
+          }
+        },
+        {
+          "operation": "candidates-live",
+          "method": "GET",
+          "path": "/api/admin/candidates",
+          "statuses": [
+            503
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:46.330Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 1,
+            "sentRequests": 1,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "exceededResources",
+                "requests": 1,
+                "errors": 1,
+                "p50Ms": 10,
+                "p95Ms": 10,
+                "p99Ms": 10
+              }
+            ]
+          }
+        },
+        {
+          "operation": "contact-delete",
+          "method": "DELETE",
+          "path": "/api/admin/contacts",
+          "statuses": [
+            503
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:50:46.684Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 0,
+            "sentRequests": 1,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": []
+          }
+        }
+      ]
+    },
+    {
+      "label": "after",
+      "phases": 35,
+      "requests": 133,
+      "serverFailures": 0,
+      "resourceErrors": 0,
+      "operations": [
+        {
+          "operation": "home",
+          "method": "GET",
+          "path": "/",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:21.314Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 5,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 5,
+                "errors": 0,
+                "p50Ms": 0.857,
+                "p95Ms": 0.921,
+                "p99Ms": 0.921
+              }
+            ]
+          }
+        },
+        {
+          "operation": "static-script",
+          "method": "GET",
+          "path": "/_next/static/chunks/0gpgdpvofl9lx.js",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:21.315Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 5,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 5,
+                "errors": 0,
+                "p50Ms": 0.71,
+                "p95Ms": 0.739,
+                "p99Ms": 0.739
+              }
+            ]
+          }
+        },
+        {
+          "operation": "login-page",
+          "method": "GET",
+          "path": "/admin/login",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:21.315Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 7,
+            "sentRequests": 5,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 7,
+                "errors": 0,
+                "p50Ms": 0.464,
+                "p95Ms": 0.708,
+                "p99Ms": 0.708
+              }
+            ]
+          }
+        },
+        {
+          "operation": "contact-page",
+          "method": "GET",
+          "path": "/contact",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:21.315Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 3,
+            "sentRequests": 5,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 3,
+                "errors": 0,
+                "p50Ms": 0.418,
+                "p95Ms": 0.528,
+                "p99Ms": 0.528
+              }
+            ]
+          }
+        },
+        {
+          "operation": "privacy",
+          "method": "GET",
+          "path": "/privacy",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:21.315Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 5,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 5,
+                "errors": 0,
+                "p50Ms": 0.434,
+                "p95Ms": 0.525,
+                "p99Ms": 0.525
+              }
+            ]
+          }
+        },
+        {
+          "operation": "listing",
+          "method": "GET",
+          "path": "/listing-information",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:21.717Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 2,
+            "sentRequests": 5,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 2,
+                "errors": 0,
+                "p50Ms": 0.526,
+                "p95Ms": 1.459,
+                "p99Ms": 1.459
+              }
+            ]
+          }
+        },
+        {
+          "operation": "robots",
+          "method": "GET",
+          "path": "/robots.txt",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:21.717Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 8,
+            "sentRequests": 5,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 8,
+                "errors": 0,
+                "p50Ms": 0.565,
+                "p95Ms": 0.921,
+                "p99Ms": 0.921
+              }
+            ]
+          }
+        },
+        {
+          "operation": "sitemap",
+          "method": "GET",
+          "path": "/sitemap.xml",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:21.717Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 4,
+            "sentRequests": 5,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 4,
+                "errors": 0,
+                "p50Ms": 0.56,
+                "p95Ms": 1.138,
+                "p99Ms": 1.138
+              }
+            ]
+          }
+        },
+        {
+          "operation": "social-card",
+          "method": "GET",
+          "path": "/social-card.png",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:21.717Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 6,
+            "sentRequests": 5,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 6,
+                "errors": 0,
+                "p50Ms": 0.421,
+                "p95Ms": 0.456,
+                "p99Ms": 0.456
+              }
+            ]
+          }
+        },
+        {
+          "operation": "icon",
+          "method": "GET",
+          "path": "/icon.svg",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:21.717Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 5,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 5,
+                "errors": 0,
+                "p50Ms": 2.297,
+                "p95Ms": 3.986,
+                "p99Ms": 3.986
+              }
+            ]
+          }
+        },
+        {
+          "operation": "health",
+          "method": "GET",
+          "path": "/api/health",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:22.040Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 5,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 5,
+                "errors": 0,
+                "p50Ms": 31.199,
+                "p95Ms": 63.528,
+                "p99Ms": 63.528
+              }
+            ]
+          }
+        },
+        {
+          "operation": "not-found",
+          "method": "GET",
+          "path": "/__cpu_probe_missing",
+          "statuses": [
+            404,
+            404,
+            404,
+            404,
+            404
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:22.041Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 5,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 5,
+                "errors": 0,
+                "p50Ms": 0.48,
+                "p95Ms": 0.755,
+                "p99Ms": 0.755
+              }
+            ]
+          }
+        },
+        {
+          "operation": "unauthorized",
+          "method": "GET",
+          "path": "/api/admin/cafes",
+          "statuses": [
+            401,
+            401,
+            401,
+            401,
+            401
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:22.041Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 5,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 5,
+                "errors": 0,
+                "p50Ms": 0.386,
+                "p95Ms": 1.204,
+                "p99Ms": 1.204
+              }
+            ]
+          }
+        },
+        {
+          "operation": "analytics-disabled",
+          "method": "POST",
+          "path": "/api/analytics",
+          "statuses": [
+            204,
+            204,
+            204,
+            204,
+            204
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:22.041Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 2,
+            "sentRequests": 5,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 2,
+                "errors": 0,
+                "p50Ms": 96.821,
+                "p95Ms": 784.422,
+                "p99Ms": 784.422
+              }
+            ]
+          }
+        },
+        {
+          "operation": "contact-invalid",
+          "method": "POST",
+          "path": "/api/contact",
+          "statuses": [
+            400,
+            400,
+            400,
+            400,
+            400
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:22.041Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 6,
+            "sentRequests": 5,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 6,
+                "errors": 0,
+                "p50Ms": 16.16,
+                "p95Ms": 93.922,
+                "p99Ms": 93.922
+              }
+            ]
+          }
+        },
+        {
+          "operation": "login",
+          "method": "POST",
+          "path": "/api/admin/login",
+          "statuses": [
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:22.501Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 3,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 5,
+                "errors": 0,
+                "p50Ms": 14.983,
+                "p95Ms": 87.767,
+                "p99Ms": 87.767
+              }
+            ]
+          }
+        },
+        {
+          "operation": "admin-page",
+          "method": "GET",
+          "path": "/admin",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:22.501Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 5,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 5,
+                "errors": 0,
+                "p50Ms": 10.157,
+                "p95Ms": 30.759,
+                "p99Ms": 30.759
+              }
+            ]
+          }
+        },
+        {
+          "operation": "cafes-list",
+          "method": "GET",
+          "path": "/api/admin/cafes",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:22.501Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 5,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 5,
+                "errors": 0,
+                "p50Ms": 9.913,
+                "p95Ms": 17.904,
+                "p99Ms": 17.904
+              }
+            ]
+          }
+        },
+        {
+          "operation": "buildings-list",
+          "method": "GET",
+          "path": "/api/admin/buildings",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:22.501Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 5,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 5,
+                "errors": 0,
+                "p50Ms": 7.068,
+                "p95Ms": 8.768,
+                "p99Ms": 8.768
+              }
+            ]
+          }
+        },
+        {
+          "operation": "contacts-list",
+          "method": "GET",
+          "path": "/api/admin/contacts",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:22.501Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 5,
+            "sentRequests": 5,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 5,
+                "errors": 0,
+                "p50Ms": 19.907,
+                "p95Ms": 78.364,
+                "p99Ms": 78.364
+              }
+            ]
+          }
+        },
+        {
+          "operation": "candidates-offline",
+          "method": "GET",
+          "path": "/api/admin/candidates",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:22.826Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 2,
+            "sentRequests": 5,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 2,
+                "errors": 0,
+                "p50Ms": 8.997,
+                "p95Ms": 338.912,
+                "p99Ms": 338.912
+              }
+            ]
+          }
+        },
+        {
+          "operation": "cafe-validation",
+          "method": "POST",
+          "path": "/api/admin/cafes",
+          "statuses": [
+            400,
+            400,
+            400,
+            400,
+            400
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:22.826Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 8,
+            "sentRequests": 5,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 8,
+                "errors": 0,
+                "p50Ms": 8.568,
+                "p95Ms": 41.266,
+                "p99Ms": 41.266
+              }
+            ]
+          }
+        },
+        {
+          "operation": "building-validation",
+          "method": "POST",
+          "path": "/api/admin/buildings",
+          "statuses": [
+            400,
+            400,
+            400,
+            400,
+            400
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:22.826Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 2,
+            "sentRequests": 5,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 2,
+                "errors": 0,
+                "p50Ms": 7.315,
+                "p95Ms": 11.848,
+                "p99Ms": 11.848
+              }
+            ]
+          }
+        },
+        {
+          "operation": "geocode-validation",
+          "method": "POST",
+          "path": "/api/admin/buildings/geocode",
+          "statuses": [
+            400,
+            400,
+            400
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:22.826Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 1,
+            "sentRequests": 3,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 1,
+                "errors": 0,
+                "p50Ms": 10.659,
+                "p95Ms": 10.659,
+                "p99Ms": 10.659
+              }
+            ]
+          }
+        },
+        {
+          "operation": "cafe-create",
+          "method": "POST",
+          "path": "/api/admin/cafes",
+          "statuses": [
+            201
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:22.826Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 2,
+            "sentRequests": 1,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 2,
+                "errors": 0,
+                "p50Ms": 9.481,
+                "p95Ms": 11.014,
+                "p99Ms": 11.014
+              }
+            ]
+          }
+        },
+        {
+          "operation": "cafe-update",
+          "method": "PUT",
+          "path": "cafe-update",
+          "statuses": [
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:23.118Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 1,
+            "sentRequests": 3,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 1,
+                "errors": 0,
+                "p50Ms": 7.924,
+                "p95Ms": 7.924,
+                "p99Ms": 7.924
+              }
+            ]
+          }
+        },
+        {
+          "operation": "building-create",
+          "method": "POST",
+          "path": "/api/admin/buildings",
+          "statuses": [
+            201
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:23.118Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 3,
+            "sentRequests": 1,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 3,
+                "errors": 0,
+                "p50Ms": 9.355,
+                "p95Ms": 10.558,
+                "p99Ms": 10.558
+              }
+            ]
+          }
+        },
+        {
+          "operation": "building-update",
+          "method": "PUT",
+          "path": "building-update",
+          "statuses": [
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:23.118Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 1,
+            "sentRequests": 3,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 1,
+                "errors": 0,
+                "p50Ms": 8.248,
+                "p95Ms": 8.248,
+                "p99Ms": 8.248
+              }
+            ]
+          }
+        },
+        {
+          "operation": "contact-create",
+          "method": "POST",
+          "path": "/api/contact",
+          "statuses": [
+            201
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:23.118Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 3,
+            "sentRequests": 1,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 3,
+                "errors": 0,
+                "p50Ms": 6.582,
+                "p95Ms": 7.057,
+                "p99Ms": 7.057
+              }
+            ]
+          }
+        },
+        {
+          "operation": "contact-update",
+          "method": "PATCH",
+          "path": "/api/admin/contacts",
+          "statuses": [
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:23.118Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 0,
+            "sentRequests": 3,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": []
+          }
+        },
+        {
+          "operation": "candidates-live",
+          "method": "GET",
+          "path": "/api/admin/candidates",
+          "statuses": [
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:23.451Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 1,
+            "sentRequests": 1,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 1,
+                "errors": 0,
+                "p50Ms": 8.546,
+                "p95Ms": 8.546,
+                "p99Ms": 8.546
+              }
+            ]
+          }
+        },
+        {
+          "operation": "cafe-delete",
+          "method": "DELETE",
+          "path": "cafe-delete",
+          "statuses": [
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:23.451Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 1,
+            "sentRequests": 1,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 1,
+                "errors": 0,
+                "p50Ms": 579.572,
+                "p95Ms": 579.572,
+                "p99Ms": 579.572
+              }
+            ]
+          }
+        },
+        {
+          "operation": "building-delete",
+          "method": "DELETE",
+          "path": "building-delete",
+          "statuses": [
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:23.451Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 1,
+            "sentRequests": 1,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 1,
+                "errors": 0,
+                "p50Ms": 23.309,
+                "p95Ms": 23.309,
+                "p99Ms": 23.309
+              }
+            ]
+          }
+        },
+        {
+          "operation": "contact-delete",
+          "method": "DELETE",
+          "path": "/api/admin/contacts",
+          "statuses": [
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:23.451Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 1,
+            "sentRequests": 1,
+            "countMatches": true,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 1,
+                "errors": 0,
+                "p50Ms": 9.875,
+                "p95Ms": 9.875,
+                "p99Ms": 9.875
+              }
+            ]
+          }
+        },
+        {
+          "operation": "logout",
+          "method": "POST",
+          "path": "/api/admin/logout",
+          "statuses": [
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:52:23.451Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 0,
+            "sentRequests": 1,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": []
+          }
+        }
+      ]
+    },
+    {
+      "label": "isolated",
+      "phases": 7,
+      "requests": 104,
+      "serverFailures": 0,
+      "resourceErrors": 0,
+      "operations": [
+        {
+          "operation": "home",
+          "method": "GET",
+          "path": "/",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:56:11.129Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 18,
+            "sentRequests": 20,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 18,
+                "errors": 0,
+                "p50Ms": 17.962,
+                "p95Ms": 71.851,
+                "p99Ms": 71.851
+              }
+            ]
+          }
+        },
+        {
+          "operation": "login-page",
+          "method": "GET",
+          "path": "/admin/login",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:56:11.130Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 19,
+            "sentRequests": 20,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 19,
+                "errors": 0,
+                "p50Ms": 0.883,
+                "p95Ms": 1.679,
+                "p99Ms": 1.679
+              }
+            ]
+          }
+        },
+        {
+          "operation": "health",
+          "method": "GET",
+          "path": "/api/health",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:56:11.130Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 41,
+            "sentRequests": 20,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 41,
+                "errors": 0,
+                "p50Ms": 0.918,
+                "p95Ms": 103.273,
+                "p99Ms": 480.177
+              }
+            ]
+          }
+        },
+        {
+          "operation": "login",
+          "method": "POST",
+          "path": "/api/admin/login",
+          "statuses": [
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:56:11.130Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 19,
+            "sentRequests": 3,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "clientDisconnected",
+                "requests": 1,
+                "errors": 0,
+                "p50Ms": 6.157,
+                "p95Ms": 6.157,
+                "p99Ms": 6.157
+              },
+              {
+                "status": "success",
+                "requests": 18,
+                "errors": 0,
+                "p50Ms": 0.654,
+                "p95Ms": 46.705,
+                "p99Ms": 46.705
+              }
+            ]
+          }
+        },
+        {
+          "operation": "cafes-list",
+          "method": "GET",
+          "path": "/api/admin/cafes",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:56:11.130Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 12,
+            "sentRequests": 20,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 12,
+                "errors": 0,
+                "p50Ms": 7.663,
+                "p95Ms": 13.842,
+                "p99Ms": 13.842
+              }
+            ]
+          }
+        },
+        {
+          "operation": "candidates-offline",
+          "method": "GET",
+          "path": "/api/admin/candidates",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:56:11.429Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 22,
+            "sentRequests": 20,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 22,
+                "errors": 0,
+                "p50Ms": 14.633,
+                "p95Ms": 18.469,
+                "p99Ms": 22.846
+              }
+            ]
+          }
+        },
+        {
+          "operation": "logout",
+          "method": "POST",
+          "path": "/api/admin/logout",
+          "statuses": [
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:56:11.429Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 0,
+            "sentRequests": 1,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": []
+          }
+        }
+      ]
+    },
+    {
+      "label": "isolated-health",
+      "phases": 3,
+      "requests": 24,
+      "serverFailures": 0,
+      "resourceErrors": 0,
+      "operations": [
+        {
+          "operation": "health",
+          "method": "GET",
+          "path": "/api/health",
+          "statuses": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:57:00.464Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 19,
+            "sentRequests": 20,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": [
+              {
+                "status": "success",
+                "requests": 19,
+                "errors": 0,
+                "p50Ms": 1.395,
+                "p95Ms": 1.847,
+                "p99Ms": 1.847
+              }
+            ]
+          }
+        },
+        {
+          "operation": "login",
+          "method": "POST",
+          "path": "/api/admin/login",
+          "statuses": [
+            200,
+            200,
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:57:00.465Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 0,
+            "sentRequests": 3,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": []
+          }
+        },
+        {
+          "operation": "logout",
+          "method": "POST",
+          "path": "/api/admin/logout",
+          "statuses": [
+            200
+          ],
+          "cpuWindow": {
+            "queriedAt": "2026-10-20T00:57:00.465Z",
+            "attribution": "time-window estimate; includes ambient traffic and adaptive sampling",
+            "observedRequests": 0,
+            "sentRequests": 1,
+            "countMatches": false,
+            "units": "milliseconds (API microseconds converted)",
+            "rows": []
+          }
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "The before and after workloads differ because pre-change failures prevented some CRUD updates; these are controlled observations, not a matched production error-rate experiment.",
+    "Cloudflare GraphQL CPU distributions are attributed by time window, not Ray ID. Adaptive sampling, self invocations and background traffic can affect attribution even if counts match. Treat all per-operation CPU windows as estimates.",
+    "The isolated health and login windows overlap the browser check and are excluded from comparisons; isolated-health is the replacement health measurement.",
+    "Local kernel benchmarks use synthetic 5000-candidate and 3000-point datasets and compare identical outputs. They do not represent full HTTP or production CPU reductions. Zero cold-import CPU readings are below Windows timer resolution.",
+    "Detailed Workers Logs API remains 403. Cold starts, real password hashing, SSR and live HTML parsing can still exceed the Workers Free 10ms budget; short successful probes do not guarantee stability.",
+    "Successful external geocoding was not exercised without a configured staging key; its success/failure behavior is covered by mocked unit tests. Live candidate HTTP 200 can include upstream warnings or fallback results.",
+    "Only staging was deployed and migrated. Production deployment and account billing were not changed. Runtime session/rate-limit/search-cache tables intentionally change during tests."
+  ],
+  "rollback": {
+    "workerVersion": "73dcfcf1-4995-4680-bc02-a3a51c00f3a6",
+    "database": "0010 only adds indexes; a Worker rollback can retain them. Do not restore a full backup over later edits."
+  },
+  "sources": [
+    "https://developers.cloudflare.com/workers/platform/limits/",
+    "https://developers.cloudflare.com/analytics/graphql-api/tutorials/querying-workers-metrics/"
+  ]
+}

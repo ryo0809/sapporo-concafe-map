@@ -1,18 +1,14 @@
 import { createHash } from "node:crypto";
 import { load } from "cheerio";
 import { extractBusinesses } from "./extract-businesses.mjs";
+import { canonicalAddress } from "./canonical-address.mjs";
+export { canonicalAddress } from "./canonical-address.mjs";
 
 export const normalize = (text) => String(text ?? "").normalize("NFKC").replace(/\s+/g, " ").trim();
 const nameKey = (name) => normalize(name).toLowerCase()
   .replace(/\([^)]*\)/g, "")
   .replace(/^(?:コスプレ酒場|和装こんせぷとばー|猫耳メイドカフェバー|にゃんこメイドカフェ)/, "")
   .replace(/[\s\p{P}\p{S}]/gu, "");
-
-export function canonicalAddress(address) {
-  return normalize(address).replace(/[一二三四五六七八九]/g, (value) => String("一二三四五六七八九".indexOf(value) + 1))
-    .replace(/北海道|\s/g, "").replace(/[‐−ー－–]/g, "-")
-    .replace(/丁目|番地?|号/g, "-").replace(/地下(\d+)(?:階|F)/g, "B$1F").replace(/(\d+)階/g, "$1F").replace(/-+/g, "-");
-}
 
 export function classifyArea(name, address) {
   const text = normalize(address).replace(/[一二三四五六七八九]/g, (value) => String("一二三四五六七八九".indexOf(value) + 1));
