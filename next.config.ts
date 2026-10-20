@@ -9,6 +9,7 @@ initOpenNextCloudflareForDev({
 });
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ["127.0.0.1"],
   // Workers does not support Next.js staged Cache Components rendering reliably.
   // Pages read D1 dynamically through connection() and use normal streaming SSR.
   cacheComponents: false,

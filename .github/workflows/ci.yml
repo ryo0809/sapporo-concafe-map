@@ -24,6 +24,7 @@ jobs:
       - run: npm run test:unit
       - run: npm run test:integration
       - run: npm run build:cloudflare
+      - run: node scripts/verify-admin-password-policy.mjs
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
       - uses: actions/upload-artifact@v4

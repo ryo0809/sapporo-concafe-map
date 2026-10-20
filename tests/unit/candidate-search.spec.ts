@@ -1,9 +1,22 @@
 import { expect,test } from "@playwright/test";
-import { candidateSearchScore,normalizeSearch } from "../../src/domain/admin/candidate-matching";
+import { candidateSearchScore,normalizeSearch,compileCandidateSearch } from "../../src/domain/admin/candidate-matching";
 import { searchLiveCandidates } from "../../src/infrastructure/admin/live-candidate-search";
 import { createPageFetcher } from "../../batch/lib/fetch-page.mjs";
 import supplemental from "../../src/infrastructure/admin/data/supplemental-candidates.json";
-import {sameSearchCandidate} from "../../src/infrastructure/admin/search-candidate-identity";
+import {sameSearchCandidate,candidatePlaceKey} from "../../src/infrastructure/admin/search-candidate-identity";
+
+test("compiled queries preserve ranking and matching places share an index key",()=>{
+  const match=compileCandidateSearch("札幌 メイド 公式");
+  expect(match("札幌 メイド 公式")).toBe(100);
+  expect(match("メイド店舗","札幌市中央区")).toBeGreaterThan(0);
+  expect(match("店舗","東京都")).toBe(0);
+  expect(compileCandidateSearch("https://x.com/cafe_test")("カフェ","","https://twitter.com/cafe_test")).toBeGreaterThan(0);
+  const left={area:"susukino",name:"猫耳メイドカフェバー テスト",address:"北海道札幌市中央区南四条西3丁目1-1 2階"};
+  const right={...left,name:"テスト",address:"札幌市中央区南4条西3-1-1 2F"};
+  expect(sameSearchCandidate(left,right)).toBe(true);
+  expect(candidatePlaceKey(left)).toBe(candidatePlaceKey(right));
+  expect(candidatePlaceKey({...left,address:""})).toBeNull();
+});
 
 test("かな・英字・全角・記号と複数語を照合し、店舗名の一致を優先する",()=>{
   expect(normalizeSearch("Ｍａｋｅ Ｕ Ｃｕｔｅ♡")).toBe("makeucute");

@@ -1,8 +1,14 @@
-import { canonicalAddress } from "../../../batch/lib/collection.mjs";
+import { canonicalAddress } from "../../../batch/lib/canonical-address.mjs";
 import { normalizeSearch } from "../../domain/admin/candidate-matching";
 
 type Place={name:string;address:string;area:string};
 const nameKey=(name:string)=>normalizeSearch(name).replace(/^(?:こすぷれ酒場|和装こんせぷとばー|猫耳めいどかふぇばー|にゃんこめいどかふぇ)/,"");
+export function candidatePlaceKey(place:Place){
+  const address=canonicalAddress(place.address);
+  if(!address)return null;
+  const street=address.match(/南\d+条[東西]\d+(?:-\d+){0,2}/)?.[0]??address;
+  return JSON.stringify([place.area,nameKey(place.name),street]);
+}
 export const candidateFloor=(address:string)=>canonicalAddress(address).match(/(?:B\d+|\d+)F/i)?.[0]?.toUpperCase();
 export function sameSearchCandidate(a:Place,b:Place){
   if(a.area!==b.area||nameKey(a.name)!==nameKey(b.name))return false;

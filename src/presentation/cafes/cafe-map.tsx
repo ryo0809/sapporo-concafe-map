@@ -1,11 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Map as LeafletMap, Marker } from "leaflet";
 import type { CafeSummary } from "@/application/cafes/list-cafes";
 import { getBuildingDetails, groupCafesByBuilding } from "./building-groups";
 import { SocialLinks } from "./social-links";
 import { track } from "@/presentation/analytics/track";
+import {clusterMapPoints} from "./cluster-markers";
 
 const labels = { concept: "コンカフェ", maid: "メイドカフェ", unknown: "種別未確認" };
 type Area = CafeSummary["area"];
@@ -16,6 +17,7 @@ const areas: Record<Area, { label: string; bounds: [[number, number], [number, n
 
 export function CafeMap({ cafes }: { cafes: readonly CafeSummary[] }) {
   const [area, setArea] = useState<Area>("susukino");
+  const byArea=useMemo(()=>({susukino:cafes.filter(cafe=>cafe.area==="susukino"),tanukikoji:cafes.filter(cafe=>cafe.area==="tanukikoji")}),[cafes]);
   function switchArea(next: Area) { if (next !== area) track("area_select", {area: next}); setArea(next); }
   return <>
     <div className="area-tabs" role="tablist" aria-label="地図のエリア">
@@ -31,10 +33,10 @@ export function CafeMap({ cafes }: { cafes: readonly CafeSummary[] }) {
             document.getElementById(`tab-${next}`)?.focus();
           }
         }}
-      >{areas[key].label}<span>{cafes.filter((cafe) => cafe.area === key).length}件</span></button>)}
+      >{areas[key].label}<span>{byArea[key].length}件</span></button>)}
     </div>
     <div id="area-map-panel" role="tabpanel" aria-labelledby={`tab-${area}`}>
-      <CafeAreaMap key={area} area={area} cafes={cafes.filter((cafe) => cafe.area === area)} />
+      <CafeAreaMap key={area} area={area} cafes={byArea[area]} />
     </div>
   </>;
 }
@@ -51,8 +53,9 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
   const [selectionVersion, setSelectionVersion] = useState(0);
   const [attempt, setAttempt] = useState(0);
   const [query, setQuery] = useState("");
-  const listedCafes = cafes.filter((cafe) => `${cafe.name} ${cafe.address}`.normalize("NFKC").toLowerCase().includes(query.normalize("NFKC").trim().toLowerCase()));
-  const buildingGroups = groupCafesByBuilding(listedCafes);
+  const searchIndex=useMemo(()=>cafes.map(cafe=>({cafe,text:`${cafe.name} ${cafe.address}`.normalize("NFKC").toLowerCase()})),[cafes]);
+  const listedCafes=useMemo(()=>{const term=query.normalize("NFKC").trim().toLowerCase();return searchIndex.filter(entry=>entry.text.includes(term)).map(entry=>entry.cafe);},[searchIndex,query]);
+  const buildingGroups = useMemo(()=>groupCafesByBuilding(listedCafes),[listedCafes]);
   const [buildingKey, setBuildingKey] = useState<string | null>(null);
   const activeBuilding = buildingGroups.find((building) => building.key === buildingKey) ?? buildingGroups[0];
   const activeBuildingIndex = activeBuilding ? buildingGroups.indexOf(activeBuilding) : 0;
@@ -134,19 +137,12 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
         if (!instance) return;
         for (const marker of new Set(markerStore.values())) instance.removeLayer(marker);
         markerStore.clear();
-        const groups = new Map<string, CafeSummary[]>();
-        for (const cafe of cafes) {
-          if (!cafe.location) continue;
-          const nearby = [...groups].find(([, members]) => {
-            const location = members[0].location!;
-            const point = instance!.latLngToLayerPoint([location.latitude, location.longitude]);
-            const candidate = instance!.latLngToLayerPoint([cafe.location!.latitude, cafe.location!.longitude]);
-            return point.distanceTo(candidate) < 60;
-          });
-          const key = nearby?.[0] ?? cafe.locationGroup;
-          groups.set(key, [...(groups.get(key) ?? []), cafe]);
-        }
-        for (const group of groups.values()) {
+        const points=cafes.flatMap(cafe=>{
+          if(!cafe.location)return [];
+          const point=instance!.latLngToLayerPoint([cafe.location.latitude,cafe.location.longitude]);
+          return [{item:cafe,group:cafe.locationGroup,x:point.x,y:point.y}];
+        });
+        for (const group of clusterMapPoints(points)) {
           const cafe = group[0];
           if (!cafe.location) continue;
           const glyph = group.length > 1 ? String(group.length) : cafe.category === "unknown" ? "?" : `<span class="category-glyph ${cafe.category}-glyph" aria-hidden="true"></span>`;
