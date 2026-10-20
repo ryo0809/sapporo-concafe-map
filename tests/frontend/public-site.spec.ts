@@ -59,3 +59,23 @@ test("地図タイルの通信失敗から再読み込みで復旧できる", as
   await expect(page.locator(".map-status")).toBeEmpty();
   await expect(page.locator(".leaflet-tile-loaded").first()).toBeVisible();
 });
+
+test("カードを選ぶたびに地図へスクロールし、地図内の店舗選択では詳細へ移動する", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await expect(page.locator(".leaflet-container")).toBeVisible();
+  const card = page.locator(".cafe-card").filter({ hasText: "地図で確認" }).first();
+  const name = await card.locator("strong").innerText();
+  for (let attempt = 0; attempt < 2; attempt++) {
+    await card.click();
+    await expect(page.locator(".leaflet-popup")).toContainText(name);
+    // Browser scroll offsets round to whole pixels; layout coordinates can be fractional.
+    await expect.poll(async () => (await page.locator(".map-canvas").boundingBox())!.y).toBeGreaterThanOrEqual(-1);
+    await expect.poll(async () => (await page.locator(".map-canvas").boundingBox())!.y).toBeLessThan(100);
+  }
+  await page.locator(".leaflet-popup .popup-cafe-button").click();
+  const detail = page.getByRole("region", { name: "選択した店舗" });
+  await expect(detail).toContainText(name);
+  await expect.poll(async () => (await detail.boundingBox())!.y).toBeGreaterThanOrEqual(0);
+  await expect.poll(async () => (await detail.boundingBox())!.y).toBeLessThan(100);
+});

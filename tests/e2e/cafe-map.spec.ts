@@ -153,11 +153,12 @@ test("地図はビル・階ごとにまとめ、店舗選択は単独ポップ�
   await expect(detail).toContainText(name);
   await expect.poll(async () => (await detail.boundingBox())?.y ?? -1000).toBeGreaterThanOrEqual(0);
   await expect.poll(async () => (await detail.boundingBox())?.y ?? 1000).toBeLessThan(100);
-  // Selecting the same store again must scroll back to its details too.
+  // Selecting a card returns to its map location, including the same store again.
   const card = page.locator(".cafe-cards .cafe-card").filter({ hasText: name }).first();
   await card.click();
   await expect(popup.locator(".popup-cafe-button")).toHaveCount(1);
-  await expect.poll(async () => (await detail.boundingBox())?.y ?? 1000).toBeLessThan(100);
+  await expect.poll(async () => (await page.locator(".map-canvas").boundingBox())?.y ?? -1000).toBeGreaterThanOrEqual(-1);
+  await expect.poll(async () => (await page.locator(".map-canvas").boundingBox())?.y ?? 1000).toBeLessThan(100);
   const marker = page.locator(".leaflet-marker-icon").filter({ has: page.locator(".cafe-pin") }).and(page.locator(`[title*=${JSON.stringify(name)}]`)).first();
   await marker.click();
   await expect(popup.locator(".popup-building h4").first()).toBeVisible();
