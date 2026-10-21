@@ -46,6 +46,7 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
   const mapRef = useRef<LeafletMap | null>(null);
   const markers = useRef(new Map<string, Marker>());
   const detailRef = useRef<HTMLElement>(null);
+  const selectionScrollTarget = useRef<"map" | "detail">("detail");
   const popupSelection = useRef<string | null>(null);
   const openStorePopup = useRef<(cafe: CafeSummary) => void>(() => {});
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
@@ -66,6 +67,7 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
 
   const selectCafe = useCallback((cafe: CafeSummary, source: "map" | "list" = "list") => {
     track("detail_open", {area, cafeId: cafe.id, source});
+    selectionScrollTarget.current = source === "list" && cafe.location ? "map" : "detail";
     popupSelection.current = cafe.id;
     setSelectedId(cafe.id);
     setSelectionVersion(value => value + 1);
@@ -88,7 +90,8 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
 
   useEffect(() => {
     if (!selectedId) return;
-    detailRef.current?.scrollIntoView({ block: "start", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+    const target = selectionScrollTarget.current === "map" ? container.current : detailRef.current;
+    target?.scrollIntoView({ block: "start", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
   }, [selectedId, selectionVersion]);
 
   useEffect(() => {
