@@ -56,14 +56,17 @@ test("native public cafe endpoint excludes private, scheduled and closed stores"
       CREATE TABLE floors(id TEXT,name TEXT);`);
     sqlite.prepare("INSERT INTO buildings VALUES(?,?,?,?,?)").run("b","Test Building","Sapporo 1",43.05,141.35);
     const insert=sqlite.prepare("INSERT INTO cafes VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-    for(const [id,status,business,publishAt,deleted] of [["visible","published","operating",null,null],["hidden","hidden","operating",null,null],["future","published","operating","2999-01-01T00:00:00.000Z",null],["closed","published","closed",null,null],["deleted","published","operating",null,"2026-01-01"]]){
-      insert.run(id,id,"susukino","concept","Sapporo 1",id==="visible"?"b":null,null,"2F",null,null,business,"",'[]',"2026-10-01","",null,deleted,status,publishAt);
+    for(const [id,status,business,publishAt,deleted] of [["visible","published","operating",null,null],["no-floor","published","operating",null,null],["hidden","hidden","operating",null,null],["future","published","operating","2999-01-01T00:00:00.000Z",null],["closed","published","closed",null,null],["deleted","published","operating",null,"2026-01-01"]]){
+      insert.run(id,id,"susukino","concept","Sapporo 1",id==="visible"?"b":null,null,id==="no-floor"?"":"2F",null,null,business,"",'[]',"2026-10-01","",null,deleted,status,publishAt);
     }
     const db={prepare:(sql:string)=>({bind:(...args:string[])=>({all:async()=>({results:sqlite.prepare(sql).all(...args)})})})};
     const response=await fastResponse(new Request("https://example.com/api/public/cafes"),{DB:db,SITE_INDEXABLE:"true"});
     expect(response?.status).toBe(200);
     expect(response?.headers.get("cache-control")).toContain("no-store");
-    expect(await response?.json()).toEqual({cafes:[expect.objectContaining({id:"visible",address:"Sapporo 1",buildingName:"Test Building",floor:"2F",location:{latitude:43.05,longitude:141.35}})]});
+    expect(await response?.json()).toEqual({cafes:[
+      expect.objectContaining({id:"no-floor",floor:""}),
+      expect.objectContaining({id:"visible",address:"Sapporo 1",buildingName:"Test Building",floor:"2F",location:{latitude:43.05,longitude:141.35}}),
+    ]});
     expect((await fastResponse(new Request("https://example.com/api/public/cafes"),{}))?.status).toBe(503);
   }finally{sqlite.close();}
 });

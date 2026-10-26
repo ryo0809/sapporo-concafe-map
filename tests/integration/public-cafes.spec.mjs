@@ -20,6 +20,7 @@ test('native public cafe query works with the migrated D1 schema', async () => {
     await db.prepare("UPDATE cafes SET publication_status='published', version=version+1 WHERE deleted_at IS NULL").run();
     const cafes = await readPublicCafes(db);
     expect(cafes.some(cafe => cafe.id === fixture.id && cafe.name === fixture.name)).toBe(true);
+    expect(cafes.every(cafe => typeof cafe.floor === 'string')).toBe(true);
   } finally {
     await proxy.dispose();
   }

@@ -20,7 +20,7 @@ export async function readPublicCafes(db, now = new Date().toISOString()) {
     id: row.id, name: row.name, area: row.area, category: row.category,
     address: row.building_id ? row.building_address || row.address : row.address,
     tenantAddress: row.address,
-    buildingName: row.building_name || '', floor: row.floor_name || row.floor_label || null,
+    buildingName: row.building_name || '', floor: row.floor_name || row.floor_label || '',
     location: (row.building_latitude ?? row.latitude) === null || (row.building_longitude ?? row.longitude) === null
       ? null : {latitude: row.building_latitude ?? row.latitude, longitude: row.building_longitude ?? row.longitude},
     businessStatus: row.business_status === 'operating' ? 'operating' : 'unknown',

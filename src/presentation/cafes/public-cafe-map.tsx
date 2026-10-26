@@ -5,8 +5,8 @@ import type { CafeSummary } from "@/application/cafes/list-cafes";
 import { addressFloor, cafeAddress } from "@/domain/cafes/building-address";
 import { CafeMap } from "./cafe-map";
 
-type PublicCafeRecord = CafeSummary & { tenantAddress?: string; floor?: string | null };
-type Result = { cafes: PublicCafeRecord[] };
+type PublicCafeRecord = Omit<CafeSummary, "floor"> & { tenantAddress?: string; floor?: string | null };
+type Result = { cafes: CafeSummary[] };
 
 export function PublicCafeMap() {
   const [result, setResult] = useState<Result | null>(null);
@@ -19,11 +19,12 @@ export function PublicCafeMap() {
     fetch("/api/public/cafes", { cache: "no-store", signal: controller.signal })
       .then(async response => {
         if (!response.ok) throw new Error("Public cafes unavailable");
-        const data = await response.json() as Result;
+        const data = await response.json() as { cafes: PublicCafeRecord[] };
         if (!Array.isArray(data.cafes)) throw new Error("Invalid public cafes response");
-        return { cafes: data.cafes.map(cafe => ({ ...cafe,
-          address: cafeAddress(cafe.address, cafe.buildingName, cafe.floor ?? addressFloor(cafe.tenantAddress ?? cafe.address)),
-        })) };
+        return { cafes: data.cafes.map(cafe => {
+          const floor = cafe.floor || addressFloor(cafe.tenantAddress ?? cafe.address);
+          return { ...cafe, floor, address: cafeAddress(cafe.address, cafe.buildingName, floor) };
+        }) };
       })
       .then(data => { if (!controller.signal.aborted) setResult(data); })
       .catch(() => { if (!controller.signal.aborted) setError(true); });
