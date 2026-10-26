@@ -1,6 +1,22 @@
 import { expect,test } from "@playwright/test";
 import { spawnSync } from "node:child_process";
 
+test("ログイン画面の読み込み前にパスワードをURLへ送らない",async({browser})=>{
+  const context=await browser.newContext({javaScriptEnabled:false,baseURL:test.info().project.use.baseURL});
+  try{
+    const page=await context.newPage();
+    await page.goto("/admin/login");
+    const form=page.locator(".admin-login form");
+    await expect(form).toHaveAttribute("method","post");
+    await expect(form).toHaveAttribute("action","/api/admin/login");
+    await expect(form.locator('button[type="submit"]')).toBeDisabled();
+    await form.locator('input[name="username"]').fill("diagnostic-user");
+    await form.locator('input[name="password"]').fill("diagnostic-password");
+    await form.locator('input[name="password"]').press("Enter");
+    expect(new URL(page.url()).searchParams.has("password")).toBe(false);
+  }finally{await context.close();}
+});
+
 test("resource-limit save failures keep the form and do not retry the mutation",async({page})=>{
   await page.request.post("/api/admin/login",{data:{username:"admin",password:"admin"}});
   let attempts=0;
