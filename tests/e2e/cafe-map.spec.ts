@@ -26,6 +26,10 @@ test.beforeAll(async ({ playwright }) => {
 
 test("店舗データの取得失敗後に再読み込みできる", async ({ page }) => {
   let first = true;
+  const pageErrors:string[]=[];
+  const responses:number[]=[];
+  page.on('pageerror',error=>pageErrors.push(error.message));
+  page.on('response',response=>{if(new URL(response.url()).pathname==='/api/public/cafes')responses.push(response.status());});
   await page.route("**/api/public/cafes", route => {
     if (first) { first = false; return route.fulfill({ status: 503, contentType: "application/json", body: '{"error":"unavailable"}' }); }
     return route.continue();
@@ -33,7 +37,12 @@ test("店舗データの取得失敗後に再読み込みできる", async ({ pa
   await page.goto("/");
   await expect(page.getByRole("alert").filter({hasText:"店舗データを読み込めませんでした"})).toBeVisible();
   await page.getByRole("button", { name: "再読み込み" }).click();
-  await expect(page.getByRole("tab", { name: /^すすきの/ })).toBeVisible();
+  try{
+    await expect(page.getByRole("tab", { name: /^すすきの/ })).toBeVisible();
+  }catch(error){
+    console.error('Public map retry diagnostics',JSON.stringify({responses,pageErrors,body:(await page.locator('body').innerText()).slice(0,500)}));
+    throw error;
+  }
 });
 
 test("最新バッチの件数を表示し、座標なしの店舗も選択できる", async ({ page }) => {
