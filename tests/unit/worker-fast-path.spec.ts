@@ -1,5 +1,6 @@
 import {expect,test} from "@playwright/test";
 import {fastResponse,healthCheck} from "../../worker/fast-path.mjs";
+import {DatabaseSync} from "node:sqlite";
 
 test("native paths preserve canonical host and security headers",async()=>{
   const response=await fastResponse(new Request("https://www.sapporo-concafe-map.com/api/health?q=1"),{});
@@ -43,8 +44,28 @@ test("immutable assets retain content and cache headers while private pages neve
   const asset=await fastResponse(new Request("https://example.com/_next/static/app.js"),env);
   expect(await asset?.text()).toBe("asset");expect(asset?.headers.get("cache-control")).toContain("immutable");
   expect(asset?.headers.get("strict-transport-security")).toBe("max-age=31536000");
-  for(const path of ["/admin","/","/api/admin/login"]){expect(await fastResponse(new Request(`https://example.com${path}`),env)).toBeNull();}
+  for(const path of ["/admin","/api/admin/login"]){expect(await fastResponse(new Request(`https://example.com${path}`),env)).toBeNull();}
   expect(paths).toEqual(["/_next/static/app.js"]);
+});
+
+test("native public cafe endpoint excludes private, scheduled and closed stores",async()=>{
+  const sqlite=new DatabaseSync(":memory:");
+  try{
+    sqlite.exec(`CREATE TABLE cafes(id TEXT,name TEXT,area TEXT,category TEXT,address TEXT,building_id TEXT,floor_id TEXT,floor_label TEXT,latitude REAL,longitude REAL,business_status TEXT,official_url TEXT,social_urls TEXT,verified_on TEXT,coordinate_source TEXT,fetched_at TEXT,deleted_at TEXT,publication_status TEXT,publish_at TEXT);
+      CREATE TABLE buildings(id TEXT,name TEXT,address TEXT,latitude REAL,longitude REAL);
+      CREATE TABLE floors(id TEXT,name TEXT);`);
+    sqlite.prepare("INSERT INTO buildings VALUES(?,?,?,?,?)").run("b","Test Building","Sapporo 1",43.05,141.35);
+    const insert=sqlite.prepare("INSERT INTO cafes VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+    for(const [id,status,business,publishAt,deleted] of [["visible","published","operating",null,null],["hidden","hidden","operating",null,null],["future","published","operating","2999-01-01T00:00:00.000Z",null],["closed","published","closed",null,null],["deleted","published","operating",null,"2026-01-01"]]){
+      insert.run(id,id,"susukino","concept","Sapporo 1",id==="visible"?"b":null,null,"2F",null,null,business,"",'[]',"2026-10-01","",null,deleted,status,publishAt);
+    }
+    const db={prepare:(sql:string)=>({bind:(...args:string[])=>({all:async()=>({results:sqlite.prepare(sql).all(...args)})})})};
+    const response=await fastResponse(new Request("https://example.com/api/public/cafes"),{DB:db,SITE_INDEXABLE:"true"});
+    expect(response?.status).toBe(200);
+    expect(response?.headers.get("cache-control")).toContain("no-store");
+    expect(await response?.json()).toEqual({cafes:[expect.objectContaining({id:"visible",address:"Sapporo 1",buildingName:"Test Building",floor:"2F",location:{latitude:43.05,longitude:141.35}})]});
+    expect((await fastResponse(new Request("https://example.com/api/public/cafes"),{}))?.status).toBe(503);
+  }finally{sqlite.close();}
 });
 
 test("prerendered responses use environment-specific files, with Flight and private cache rules preserved",async()=>{
@@ -61,5 +82,9 @@ test("prerendered responses use environment-specific files, with Flight and priv
   const login=await fastResponse(new Request("https://example.com/admin/login"),env);
   expect(login?.headers.get("cache-control")).toContain("no-store");
   expect(login?.headers.get("x-robots-tag")).toBe("noindex, nofollow");
+  const home=await fastResponse(new Request("https://example.com/"),env);
+  expect(home?.status).toBe(200);
+  expect(paths).toContain("/_worker-static/noindex/index.html");
+  expect(await fastResponse(new Request("https://example.com/",{headers:{rsc:"1"}}),env)).toBeNull();
   expect(await fastResponse(new Request("https://example.com/privacy"),{ASSETS:{fetch:async()=>new Response(null,{status:404})}})).toBeNull();
 });

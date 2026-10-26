@@ -20,6 +20,18 @@ test.beforeAll(async ({ playwright }) => {
   } finally { await request.dispose(); }
 });
 
+test("店舗データの取得失敗後に再読み込みできる", async ({ page }) => {
+  let first = true;
+  await page.route("**/api/public/cafes", route => {
+    if (first) { first = false; return route.fulfill({ status: 503, contentType: "application/json", body: '{"error":"unavailable"}' }); }
+    return route.continue();
+  });
+  await page.goto("/");
+  await expect(page.getByRole("alert")).toContainText("店舗データを読み込めませんでした");
+  await page.getByRole("button", { name: "再読み込み" }).click();
+  await expect(page.getByRole("tab", { name: /^すすきの/ })).toBeVisible();
+});
+
 test("最新バッチの件数を表示し、座標なしの店舗も選択できる", async ({ page }) => {
   await page.route("https://tile.openstreetmap.org/**", (route) => route.fulfill({ contentType: "image/png", body: png }));
   await page.goto("/");

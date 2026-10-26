@@ -47,7 +47,7 @@ jobs:
       - name: Build before any remote changes
         env:
           TARGET_ENV: ${{ inputs.environment }}
-        run: npx opennextjs-cloudflare build --env "$TARGET_ENV"
+        run: npm run build:cloudflare -- --env "$TARGET_ENV"
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
       - name: Backup database before schema changes

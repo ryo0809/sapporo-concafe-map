@@ -10,6 +10,7 @@ export function checkRelease(config,env=process.env){
   if(target?.vars?.APP_ENV!=="production"||target?.vars?.SESSION_COOKIE_SECURE!=="true")errors.push("本番環境とSecure Cookieを設定してください。");
   if(!target?.routes?.some(route=>route.pattern===domain&&route.custom_domain))errors.push("採用ドメインのカスタムドメイン設定が必要です。");
   if(target?.workers_dev!==false||target?.preview_urls!==false)errors.push("本番のworkers.devとプレビューURLを無効にしてください。");
+  if((target?.limits?.cpu_ms??0)<30000)errors.push("本番WorkerにはWorkers PaidのCPU上限30秒以上を設定してください。");
   if(env.SITE_INDEXABLE!=="true")errors.push("本番公開時のみSITE_INDEXABLE=trueを指定してください。");
   if(target?.vars?.SITE_INDEXABLE!=="true")errors.push("本番WorkerのSITE_INDEXABLE=trueを設定してください。");
   return errors;

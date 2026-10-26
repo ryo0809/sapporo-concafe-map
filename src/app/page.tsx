@@ -1,8 +1,5 @@
-import { createListCafes } from "@/composition/cafes";
-import { CafeMap } from "@/presentation/cafes/cafe-map";
+import { PublicCafeMap } from "@/presentation/cafes/public-cafe-map";
 import Link from "next/link";
-import { Suspense } from "react";
-import { connection } from "next/server";
 import { SiteFooter } from "@/presentation/site/footer";
 import { site } from "@/config/site";
 
@@ -22,14 +19,8 @@ export default function Home() {
         </Link>
         <span className="area-label">狸小路・すすきの</span>
       </header>
-      <Suspense fallback={<p role="status">最新の店舗データを読み込んでいます…</p>}><LatestCafeMap /></Suspense>
+      <PublicCafeMap />
       <SiteFooter />
     </main>
   );
-}
-
-async function LatestCafeMap() {
-  await connection();
-  const cafes = await createListCafes().execute();
-  return <CafeMap cafes={cafes} />;
 }

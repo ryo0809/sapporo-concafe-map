@@ -38,10 +38,21 @@ export async function fastResponse(request,env){
     const headers=workerHeaders(env,{privateResponse:true});headers.set('Content-Type','application/json');
     return new Response(request.method==='HEAD'?null:JSON.stringify({status:ok?'ok':'unavailable'}),{status:ok?200:503,headers});
   }
+  if(url.pathname==='/api/public/cafes'&&['GET','HEAD'].includes(request.method)){
+    const headers=workerHeaders(env,{privateResponse:true});
+    headers.set('Content-Type','application/json; charset=utf-8');
+    if(request.method==='HEAD')return new Response(null,{status:200,headers});
+    try{
+      const cafes=await readPublicCafes(env.DB);
+      return new Response(JSON.stringify({cafes}),{status:200,headers});
+    }catch{
+      return new Response(JSON.stringify({error:'unavailable'}),{status:503,headers});
+    }
+  }
   const page=staticRoutes[url.pathname];
   // Flight/prefetch requests and server actions retain the Next.js protocol path.
   if(page&&env.ASSETS&&['GET','HEAD'].includes(request.method)&&!request.headers.has('rsc')&&!request.headers.has('next-router-state-tree')&&!request.headers.has('next-router-prefetch')&&!request.headers.has('next-router-segment-prefetch')&&!request.headers.get('accept')?.includes('text/x-component')&&!url.searchParams.has('_rsc')){
-    const assetUrl=new URL(request.url);assetUrl.pathname=`/_worker-static/${env.SITE_INDEXABLE==='true'?'indexable':'noindex'}${url.pathname}`;assetUrl.search='';
+    const assetUrl=new URL(request.url);assetUrl.pathname=`/_worker-static/${env.SITE_INDEXABLE==='true'?'indexable':'noindex'}${url.pathname==='/'?'/index.html':url.pathname}`;assetUrl.search='';
     const asset=await env.ASSETS.fetch(new Request(assetUrl,{method:request.method}));
     if(asset.status===200){
       const headers=workerHeaders(env,{privateResponse:page.private});headers.set('Content-Type',page.type);
@@ -63,3 +74,4 @@ export async function fastResponse(request,env){
   return null;
 }
 import {staticRoutes} from './static-routes.mjs';
+import {readPublicCafes} from './public-cafes.mjs';

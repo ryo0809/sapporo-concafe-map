@@ -1,5 +1,6 @@
-// Only build-time pages with no D1/session data. Dynamic home/admin pages must never be exported here.
+// Only build-time pages with no D1/session data. The home shell loads cafes separately.
 export const staticRoutes={
+  '/':{source:'index.html',type:'text/html; charset=utf-8'},
   '/contact':{source:'contact.html',type:'text/html; charset=utf-8'},
   '/privacy':{source:'privacy.html',type:'text/html; charset=utf-8'},
   '/listing-information':{source:'listing-information.html',type:'text/html; charset=utf-8'},
