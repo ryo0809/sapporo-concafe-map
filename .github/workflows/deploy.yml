@@ -50,6 +50,8 @@ jobs:
         run: npx opennextjs-cloudflare build --env "$TARGET_ENV"
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
+        env:
+          SITE_INDEXABLE: 'false'
       - name: Backup database before schema changes
         env:
           TARGET_ENV: ${{ inputs.environment }}
