@@ -48,6 +48,10 @@ jobs:
         env:
           TARGET_ENV: ${{ inputs.environment }}
         run: npx opennextjs-cloudflare build --env "$TARGET_ENV"
+      - name: Build isolated local E2E preview
+        env:
+          SITE_INDEXABLE: 'false'
+        run: npm run build:cloudflare
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
         env:
