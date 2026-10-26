@@ -45,7 +45,8 @@ export async function fastResponse(request,env){
     try{
       const cafes=await readPublicCafes(env.DB);
       return new Response(JSON.stringify({cafes}),{status:200,headers});
-    }catch{
+    }catch(error){
+      console.error('Public cafes query failed',error);
       return new Response(JSON.stringify({error:'unavailable'}),{status:503,headers});
     }
   }

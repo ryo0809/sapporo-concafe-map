@@ -17,6 +17,10 @@ test.beforeAll(async ({ playwright }) => {
     for(const cafe of stores.filter((item:{id:string})=>cafes.some(seed=>seed.id===item.id))) {
       expect((await request.put(`/api/admin/cafes/${cafe.id}`,{data:{...cafe,publicationStatus:"published",...(cafe.name.includes("めいどりーみん")?{socialUrls:["https://x.com/spr_maidreamin","https://www.instagram.com/spr_maidreamin2/","https://www.tiktok.com/@sapporo_maidreamin"]}:{})}})).ok()).toBe(true);
     }
+    const publicResponse=await request.get('/api/public/cafes');
+    const publicBody=await publicResponse.text();
+    expect(publicResponse.status(),publicBody).toBe(200);
+    expect(JSON.parse(publicBody).cafes.length).toBeGreaterThan(0);
   } finally { await request.dispose(); }
 });
 
@@ -27,7 +31,7 @@ test("店舗データの取得失敗後に再読み込みできる", async ({ pa
     return route.continue();
   });
   await page.goto("/");
-  await expect(page.getByRole("alert")).toContainText("店舗データを読み込めませんでした");
+  await expect(page.getByRole("alert").filter({hasText:"店舗データを読み込めませんでした"})).toBeVisible();
   await page.getByRole("button", { name: "再読み込み" }).click();
   await expect(page.getByRole("tab", { name: /^すすきの/ })).toBeVisible();
 });
