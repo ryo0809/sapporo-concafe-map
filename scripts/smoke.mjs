@@ -23,11 +23,6 @@ for(const [path,status,content] of checks){
   if(path.startsWith("/api/")&&!response.headers.get("cache-control")?.includes("no-store"))throw new Error("API no-store header missing");
   console.log(`OK ${path} (${status})`);
 }
-const cafesResponse=await fetch(new URL('/api/public/cafes',base),{signal:AbortSignal.timeout(20000)});
-if(cafesResponse.status!==200||!cafesResponse.headers.get('cache-control')?.includes('no-store'))throw new Error(`Public cafes unavailable (${cafesResponse.status})`);
-const publicData=await cafesResponse.json();
-if(!Array.isArray(publicData.cafes))throw new Error('Public cafes response is invalid');
-console.log(`OK /api/public/cafes (${publicData.cafes.length} published cafes)`);
 for(const path of ["/icon.svg","/apple-icon","/social-card.png"]){
   const response=await fetch(new URL(path,base),{signal:AbortSignal.timeout(20000)});
   if(!response.ok||!response.headers.get("content-type")?.startsWith("image/"))throw new Error(`${path}: image missing`);

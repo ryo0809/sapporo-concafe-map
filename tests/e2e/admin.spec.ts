@@ -1,6 +1,22 @@
 import { expect,test } from "@playwright/test";
 import { spawnSync } from "node:child_process";
 
+test("ログイン画面の読み込み前にパスワードをURLへ送らない",async({browser})=>{
+  const context=await browser.newContext({javaScriptEnabled:false,baseURL:test.info().project.use.baseURL});
+  try{
+    const page=await context.newPage();
+    await page.goto("/admin/login");
+    const form=page.locator(".admin-login form");
+    await expect(form).toHaveAttribute("method","post");
+    await expect(form).toHaveAttribute("action","/api/admin/login");
+    await expect(form.locator('button[type="submit"]')).toBeDisabled();
+    await form.locator('input[name="username"]').fill("diagnostic-user");
+    await form.locator('input[name="password"]').fill("diagnostic-password");
+    await form.locator('input[name="password"]').press("Enter");
+    expect(new URL(page.url()).searchParams.has("password")).toBe(false);
+  }finally{await context.close();}
+});
+
 test("resource-limit save failures keep the form and do not retry the mutation",async({page})=>{
   await page.request.post("/api/admin/login",{data:{username:"admin",password:"admin"}});
   let attempts=0;
@@ -79,16 +95,13 @@ test("登録・公開・ビル階の更新・閉店除外・競合検知・移�
   const unnamedBuilding=await request.post("/api/admin/cafes",{data:{...cafeInput,name:"ビル名未確認の検証店舗",buildingName:"",floor:"B1F"}});
   expect(unnamedBuilding.status()).toBe(201);expect((await unnamedBuilding.json()).cafe).toMatchObject({buildingName:"",floor:"B1F"});
   let cafe=(await created.json()).cafe;
-  const beforePublic=(await(await request.get("/api/public/cafes")).json()).cafes;
-  expect(beforePublic.some((item:{id:string})=>item.id===cafe.id)).toBe(false);
+  expect(await (await request.get("/")).text()).not.toContain("管理機能検証店舗");
   let response=await request.put(`/api/admin/cafes/${cafe.id}`,{data:{...cafe,buildingId:undefined,publicationStatus:"published",buildingName:"管理機能検証更新ビル",floor:"7F"}});
   expect(response.status()).toBe(200);const oldVersion=cafe.version;cafe=(await response.json()).cafe;
-  const publicCafes=(await(await request.get("/api/public/cafes")).json()).cafes;
-  expect(publicCafes.find((item:{id:string})=>item.id===cafe.id)).toMatchObject({buildingName:cafe.buildingName,floor:"7F"});
+  const html=await(await request.get("/")).text();expect(html).toContain("管理機能検証店舗");expect(html).toContain("管理機能検証更新ビル");expect(html).toContain("7F");
   expect((await request.put(`/api/admin/cafes/${cafe.id}`,{data:{...cafe,version:oldVersion}})).status()).toBe(409);
   response=await request.put(`/api/admin/cafes/${cafe.id}`,{data:{...cafe,businessStatus:"closed"}});cafe=(await response.json()).cafe;
-  const afterClosed=(await(await request.get("/api/public/cafes")).json()).cafes;
-  expect(afterClosed.some((item:{id:string})=>item.id===cafe.id)).toBe(false);
+  expect(await(await request.get("/")).text()).not.toContain("管理機能検証店舗");
   const before=(await(await request.get("/api/admin/cafes")).json()).cafes;
   const migration=spawnSync(process.execPath,["scripts/d1-setup.mjs","--local","--from-json"],{env:{...process.env,D1_PERSIST_PATH:process.env.PLAYWRIGHT_D1_PATH},encoding:"utf8"});
   expect(migration.status,migration.stderr).toBe(0);

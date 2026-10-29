@@ -7,7 +7,7 @@ export function prepareWorkerStatic(root=process.cwd()){
   const indexable=readFileSync(path.join(app,'robots.txt.body'),'utf8').includes('Allow: /$');
   const directory=path.join(root,'.open-next/assets/_worker-static',indexable?'indexable':'noindex');
   for(const [route,config]of Object.entries(staticRoutes)){
-    const target=path.join(directory,route==='/'?'index.html':route.slice(1));
+    const target=path.join(directory,route.slice(1));
     mkdirSync(path.dirname(target),{recursive:true});
     copyFileSync(path.join(app,config.source),target);
   }
