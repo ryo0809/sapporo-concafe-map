@@ -17,7 +17,7 @@ The public home page keeps its existing request-time rendering and D1-backed sto
 
 ## Verification and merge decision
 
-After updating from `main`, lint, typecheck, 76 unit tests, two D1 integration tests, and the Next.js production build passed locally. The build marks `/` as dynamic. The Windows OpenNext bundle still stops when its dependency copier attempts to create a symlink; the Linux GitHub Actions build and browser tests remain the deployment-shaped gate.
+After updating from `main` and narrowing the change, lint, typecheck, 75 unit tests, one D1 integration test, and the Next.js production build passed locally. The build marks `/` as dynamic. The Windows OpenNext bundle still stops when its dependency copier attempts to create a symlink; the Linux GitHub Actions build and browser tests remain the deployment-shaped gate.
 
 Merge this configuration-only change once the refreshed GitHub Actions validation passes. It aligns source control with the last confirmed live CPU setting without changing the public page's rendering. Investigate any further 1102 events separately using Workers Logs or invocation outcomes (`exceededCpu` versus `exceededMemory`), including the route and CPU or memory measurements. If the current live limit differs from 30000 ms, reconcile that difference before deployment.
 
