@@ -7,6 +7,7 @@ import { getBuildingDetails, groupCafesByBuilding } from "./building-groups";
 import { SocialLinks } from "./social-links";
 import { track } from "@/presentation/analytics/track";
 import {clusterMapPoints} from "./cluster-markers";
+import { PrivateRating } from "@/presentation/members/private-rating";
 
 const labels = { concept: "コンカフェ", maid: "メイドカフェ", unknown: "種別未確認" };
 type Area = CafeSummary["area"];
@@ -238,8 +239,10 @@ function CafeAreaMap({ cafes, area }: { cafes: readonly CafeSummary[]; area: Are
           <span className={`category ${selected.category}`}>{labels[selected.category]}</span>
           <h3>{selected.name}</h3><p className="detail-address">{selected.address}</p>
           {selected.officialUrl&&<a className="source-link" onClick={() => track("outbound_click", {area, cafeId: selected.id, source: "detail", medium: "official"})} href={selected.officialUrl} target="_blank" rel="noreferrer">公式サイト ↗</a>}
+          <a className="source-link google-map-link" onClick={() => track("outbound_click", {area, cafeId: selected.id, source: "detail", medium: "google_maps"})} href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${selected.name} ${selected.address}`)}`} target="_blank" rel="noopener noreferrer">Google マップで見る ↗</a>
           <SocialLinks urls={selected.socialUrls ?? []} cafeName={selected.name} onVisit={medium => track("outbound_click", {area, cafeId: selected.id, source: "detail", medium})}/>
           <p className="detail-status">{selected.businessStatus === "operating" ? "営業情報あり" : "営業状態は未確認です。来店前に店舗へご確認ください。"}</p>
+          <PrivateRating key={selected.id} cafeId={selected.id}/>
         </section>}
       <section className="cafe-sidebar" aria-label="店舗一覧">
         <div className="sidebar-heading"><h2>ビルからお店を探す</h2><span>{listedCafes.length}件</span></div>

@@ -31,6 +31,7 @@ test("最新バッチの件数を表示し、座標なしの店舗も選択で�
   await page.getByRole("searchbox", { name: "店舗名・住所で検索" }).fill("めいどりーみん");
   await page.getByRole("button", { name: /めいどりーみん/ }).click();
   await expect(page.getByRole("region", { name: "選択した店舗" })).toContainText("清水ビル6F");
+  await expect(page.getByRole("link",{name:"Google マップで見る ↗"})).toHaveAttribute("href",/https:\/\/www\.google\.com\/maps\/search\/\?api=1&query=/);
   await page.getByRole("tab", { name: /^すすきの/ }).click();
   await expect(page.getByRole("tab", { name: /^すすきの/ })).toContainText(`${count("susukino")}件`);
   await expect(page.locator(".cafe-pin").first()).toBeVisible();

@@ -4,9 +4,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {readAdminResponse} from "./api-response";
 
-export type AdminTab = "stores" | "buildings" | "contacts";
-const tabs:AdminTab[]=["stores","buildings","contacts"];
-const labels={stores:"店舗設定",buildings:"ビル管理",contacts:"お問い合わせ"};
+export type AdminTab = "stores" | "buildings" | "contacts" | "banners";
+const tabs:AdminTab[]=["stores","buildings","banners","contacts"];
+const labels={stores:"店舗設定",buildings:"ビル管理",banners:"イベント",contacts:"お問い合わせ"};
 export function AdminNavigation({ current, onChange }: { current: AdminTab; onChange: (tab: AdminTab) => void }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false), [error, setError] = useState("");

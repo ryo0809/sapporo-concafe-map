@@ -1,0 +1,10 @@
+"use client";
+import Link from "next/link";
+import { useEffect,useState } from "react";
+type Rating={cafe_id:string;rating:number;note:string;updated_at:string};
+export function PrivateRating({cafeId}:{cafeId:string}){
+  const [authenticated,setAuthenticated]=useState<boolean|null>(null),[rating,setRating]=useState(0),[note,setNote]=useState(""),[busy,setBusy]=useState(false),[message,setMessage]=useState("");
+  useEffect(()=>{let active=true;fetch("/api/account/ratings",{cache:"no-store"}).then(async response=>{if(response.status===401){if(active)setAuthenticated(false);return;}if(!response.ok)throw new Error();const data=await response.json() as {ratings:Rating[]};if(active){const own=data.ratings.find(item=>item.cafe_id===cafeId);setRating(own?.rating??0);setNote(own?.note??"");setAuthenticated(true);}}).catch(()=>{if(active)setMessage("評価を読み込めませんでした。");});return()=>{active=false;};},[cafeId]);
+  async function save(){setBusy(true);setMessage("");try{const response=await fetch("/api/account/ratings",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({cafeId,rating,note})});const data=await response.json();if(!response.ok)throw new Error(data.error||"保存に失敗しました。");setMessage("自分だけの評価を保存しました。");}catch(error){setMessage(error instanceof Error?error.message:"保存に失敗しました。");}finally{setBusy(false);}}
+  return <section className="private-rating"><h4>自分だけの評価</h4>{authenticated===false?<p><Link href="/account">ログインして評価を記録</Link></p>:authenticated===true?<><label>評価<select value={rating} onChange={event=>setRating(Number(event.target.value))}><option value="0">選択してください</option>{[1,2,3,4,5].map(value=><option key={value} value={value}>{value} / 5</option>)}</select></label><label>非公開メモ<textarea maxLength={1000} rows={3} value={note} onChange={event=>setNote(event.target.value)}/></label><button type="button" disabled={busy||rating===0} onClick={save}>{busy?"保存中…":"評価を保存"}</button></>:<p>評価を確認中…</p>}{message&&<p role="status">{message}</p>}</section>;
+}
