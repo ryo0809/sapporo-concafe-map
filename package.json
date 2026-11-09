@@ -6,6 +6,7 @@
     "node": ">=24.0.0"
   },
   "scripts": {
+    "predev": "npm run db:migrate:local",
     "dev": "next dev",
     "build": "next build",
     "start": "node --env-file-if-exists=.env --env-file-if-exists=.env.local scripts/cloudflare-preview.mjs",
@@ -35,6 +36,7 @@
     "db:setup:remote": "node --env-file-if-exists=.env --env-file-if-exists=.env.local scripts/d1-setup.mjs --remote",
     "db:prepare-import": "node --env-file-if-exists=.env --env-file-if-exists=.env.local scripts/d1-setup.mjs --prepare-only",
     "db:migrate:local": "node --env-file-if-exists=.env --env-file-if-exists=.env.local scripts/d1-setup.mjs --local --migrate-only",
+    "db:seed:local": "node --env-file-if-exists=.env --env-file-if-exists=.env.local scripts/seed-local-member.mjs",
     "db:migrate:remote": "node --env-file-if-exists=.env --env-file-if-exists=.env.local scripts/d1-setup.mjs --remote --migrate-only",
     "db:export:remote": "wrangler d1 export DB --remote --output=reports/d1-backup.sql"
   },

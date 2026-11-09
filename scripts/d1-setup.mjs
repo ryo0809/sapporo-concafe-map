@@ -23,8 +23,16 @@ function wrangler(args, capture = false) {
   if (result.status !== 0) throw new Error(`Wranglerが終了コード${result.status}で失敗しました。${capture ? result.stderr : ""}`);
   return capture ? JSON.parse(result.stdout) : null;
 }
+function seedLocalMember() {
+  if(remote)return;
+  const result=spawnSync(process.execPath,["scripts/seed-local-member.mjs"],{
+    env:{...process.env,WRANGLER_LOG_PATH:path.resolve("reports/wrangler"),WRANGLER_SEND_METRICS:"false"},
+    stdio:"inherit",
+  });
+  if(result.status!==0)throw new Error(`ローカルテスト会員の準備に失敗しました（終了コード${result.status}）。`);
+}
 if (!prepareOnly) wrangler(["d1", "migrations", "apply", "DB", ...mode]);
-if (migrateOnly) process.exit(0);
+if (migrateOnly) {seedLocalMember();process.exit(0);}
 const { filename, counts } = await prepareD1Import({ fromJson: process.argv.includes("--from-json") });
 console.log(JSON.stringify({ importFile: filename, sourceCounts: counts, target: remote ? "remote D1" : "local D1" }, null, 2));
 if (!prepareOnly) {
@@ -32,4 +40,5 @@ if (!prepareOnly) {
   console.log(`D1への取り込みが完了しました（${results.length} SQL文）。既存の掲載情報は保持しています。`);
   const summary = wrangler(["d1", "execute", "DB", ...mode, "--command", "SELECT area,COUNT(*) AS count FROM cafes GROUP BY area; SELECT COUNT(*) AS count FROM collected_candidates;", "--json"], true);
   console.log(JSON.stringify({ databaseCounts: summary.map(result => result.results) }, null, 2));
+  seedLocalMember();
 }

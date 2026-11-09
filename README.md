@@ -17,6 +17,8 @@ npm run dev
 
 http://localhost:3000 を開きます。Windows PowerShellで実行ポリシーによりnpmが起動できない場合は `npm.cmd` を使用してください。
 
+ローカルの会員テストには、`http://localhost:3000/account/login` で **`local-test@example.test` / `LocalMember!2026`** を使用できます。`db:setup` 実行時と `npm run dev` 起動前にこの会員をローカルD1へ投入し、ログイン情報を再設定します。手動で再投入する場合は `npm run db:seed:local` を実行してください。リモートD1には投入しません。
+
 ```bash
 npm run lint
 npm run typecheck
