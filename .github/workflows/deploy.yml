@@ -1,5 +1,7 @@
 name: Deploy reviewed release
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       environment:
@@ -12,17 +14,18 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: deploy-${{ inputs.environment }}
+  group: deploy-${{ github.event_name == 'push' && 'production' || inputs.environment }}
   cancel-in-progress: false
 jobs:
   deploy:
-    if: vars.DEPLOY_ENABLED == 'true' && github.ref == 'refs/heads/main' && inputs.confirm_domain == 'sapporo-concafe-map.com'
+    if: vars.DEPLOY_ENABLED == 'true' && github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.confirm_domain == 'sapporo-concafe-map.com'))
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment: ${{ github.event_name == 'push' && 'production' || inputs.environment }}
     env:
+      TARGET_ENV: ${{ github.event_name == 'push' && 'production' || inputs.environment }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      SITE_INDEXABLE: ${{ inputs.environment == 'production' && 'true' || 'false' }}
+      SITE_INDEXABLE: ${{ (github.event_name == 'push' || inputs.environment == 'production') && 'true' || 'false' }}
       WRANGLER_SEND_METRICS: 'false'
       BACKUP_PUBLIC_KEY: ${{ vars.BACKUP_PUBLIC_KEY }}
     steps:
@@ -38,27 +41,22 @@ jobs:
       - run: npm run test:unit
       - run: npm run test:integration
       - name: Validate target before remote access
-        env:
-          TARGET_ENV: ${{ inputs.environment }}
         run: npm run deploy:check -- --env "$TARGET_ENV" --confirm-domain sapporo-concafe-map.com
       - run: npm run release:check
-        if: inputs.environment == 'production'
+        if: env.TARGET_ENV == 'production'
       - run: npm run backup:encrypt -- --check-key
       - name: Build before any remote changes
-        env:
-          TARGET_ENV: ${{ inputs.environment }}
         run: npx opennextjs-cloudflare build --env "$TARGET_ENV"
       - name: Build isolated local E2E preview
         env:
           SITE_INDEXABLE: 'false'
         run: npm run build:cloudflare
+      - run: node scripts/verify-admin-password-policy.mjs
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
         env:
           SITE_INDEXABLE: 'false'
       - name: Backup database before schema changes
-        env:
-          TARGET_ENV: ${{ inputs.environment }}
         run: npx wrangler d1 export DB --remote --env "$TARGET_ENV" --output reports/pre-deploy-backup.sql
       - name: Encrypt database backup
         id: encrypt_backup
@@ -66,17 +64,13 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always() && steps.encrypt_backup.outcome == 'success'
         with:
-          name: encrypted-d1-backup-${{ inputs.environment }}-${{ github.run_id }}
+          name: encrypted-d1-backup-${{ env.TARGET_ENV }}-${{ github.run_id }}
           path: reports/pre-deploy-backup.encrypted.json
           retention-days: 30
       - name: Apply reviewed migrations
-        env:
-          TARGET_ENV: ${{ inputs.environment }}
         run: npx wrangler d1 migrations apply DB --remote --env "$TARGET_ENV"
       - name: Build and deploy
-        env:
-          TARGET_ENV: ${{ inputs.environment }}
         run: npm run deploy -- --env "$TARGET_ENV" --confirm-domain sapporo-concafe-map.com
       - name: Production smoke test
-        if: inputs.environment == 'production'
+        if: env.TARGET_ENV == 'production'
         run: npm run smoke -- --url https://sapporo-concafe-map.com

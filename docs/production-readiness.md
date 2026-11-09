@@ -10,7 +10,7 @@
 - 管理者ごとの外部候補検索は1分間に5回。保存済み候補の検索は制限対象外。
 - staging／productionでは初期パスワード `admin` を拒否。パスワード変更／紛失時は管理用CLIで再設定し、既存セッションを失効。
 - ローカルD1からのスナップショット、初回同期SQL生成、空のリモートD1への適用・全内容照合。
-- Linux CIのテスト／Workersビルド／E2Eと、レビュー後に手動起動する配置ワークフロー。
+- Linux CIのテスト／Workersビルド／E2Eと、mainへのマージ後に自動起動する本番配置ワークフロー。stagingは手動起動できます。
 
 `npm run dev` で確認します。お問い合わせフォームの送信内容はD1に非公開で保存され、認証済みの `/admin` 内の「お問い合わせ」タブから確認・対応済みへの変更・削除ができます。メール通知や自動返信は行いません。受信一覧を定期的に確認し、メールアドレスのリンクから返信してください。公開前にマイグレーション `0006_contact_messages.sql`〜`0008_contact_ip_address.sql` を適用し、送信・受信・対応済み・削除を確認してください。連続送信は同じ接続元から1時間5回までに制限します。接続元のハッシュを制限用に保管し、24時間を過ぎた記録は次回の送信受付時に削除します。問い合わせ内容は店舗データ同期の対象外です。不要な内容は受信一覧から削除してください。
 
@@ -36,9 +36,9 @@ npm.cmd run db:sync -- --snapshot reports/snapshots/local-review.json
 2. CloudflareアカウントとDNSを準備し、ルートとwwwのカスタムドメイン・HTTPSを設定する。wwwはアプリの308転送で正規URLへ移動する。
 3. stagingとproductionを別のD1で作成し、`wrangler.jsonc` の各environmentの `database_id` をそれぞれ設定する。既定のゼロUUIDでは配置・同期を拒否する。
 4. 問い合わせ対応の担当者と確認頻度を決め、フォーム・受信一覧での受付と返信、プライバシー案内、掲載情報の修正・削除・追加依頼の案内をレビューする。地図・画像の帰属表示と利用権も確認する。
-5. GitHubにstaging／productionのEnvironmentを用意し、productionは必須レビュアー・mainへのブランチ制限を設定する。Secretsに `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID`、Environment variablesに `BACKUP_PUBLIC_KEY` を登録する。
+5. GitHubにstaging／productionのEnvironmentを用意し、productionはmainへのブランチ制限を設定する。必須レビュアーを設定した場合、自動配置は承認待ちになる。Secretsに `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID`、Environment variablesに `BACKUP_PUBLIC_KEY` を登録する。
 6. バックアップの公開鍵はRSA 2048bit以上のPEM形式。秘密鍵はGitHub／Cloudflareへ登録せず、所有者が安全な別の場所で保管する。紛失するとバックアップを復元できない。
-7. 手動デプロイを許可する段階でのみ、Repository variable `DEPLOY_ENABLED=true` を設定する。設定前はworkflow_dispatchを実行しても配置ジョブが起動しない。
+7. 本番への自動デプロイを許可する段階でのみ、Repository variable `DEPLOY_ENABLED=true` を設定する。`true` の間はmainへのpushで本番配置が起動し、手動配置も実行できます。配置を一時停止するときは`false`にする。
 
 本番設定だけを確認するコマンドは `npm run release:check`。D1のID・本番インデックス設定が未入力なら失敗するのが正常です。このチェックはドメインの所有確認や法的レビュー、復旧テストの代わりではありません。
 
@@ -69,7 +69,7 @@ npm run admin:password -- --remote --env staging --confirm-domain sapporo-concaf
 
 PR／mainのCIはNode 24とLinux上でlint、型チェック、単体・専用D1統合テスト、Workersビルド、E2Eを実行します。本番用のSecretsは検証ジョブでは不要です。
 
-手動のDeploy reviewed releaseはmainのみ対象。環境・ドメイン確認に加え、GitHub Environmentの承認を使います。検証とビルド後、DBをバックアップして公開鍵で暗号化し、暗号化ファイルだけを30日間のArtifactとして保存します。その後マイグレーション・配置・本番スモークテストを実行します。生SQLやパスワードをArtifactへ入れません。
+Deploy reviewed releaseはmainへのpushでproductionに自動起動します。手動起動はmainのみを対象とし、環境とドメインの入力を要求します。配置ジョブは独自にlint・型チェック・単体・統合・E2Eを再実行し、環境設定とビルドを確認します。その後、DBをバックアップして公開鍵で暗号化し、暗号化ファイルだけを30日間のArtifactとして保存します。マイグレーション・配置・本番スモークテストまで成功して完了します。生SQLやパスワードをArtifactへ入れません。
 
 本番操作を伴う配置コマンドは `npm run deploy -- --env production --confirm-domain sapporo-concafe-map.com`。`SITE_INDEXABLE=true`、本番DB設定が必要です。コードの配置はDBの初回同期とは別工程です。
 
@@ -96,7 +96,7 @@ node scripts/backup-crypto.mjs --decrypt --input reports/pre-deploy-backup.encry
 - ログイン・保存・削除・予約公開・検索制限・モーダルのフォーカス。
 - スナップショットに認証情報が含まれず、公開状態・削除状態を保持していること。
 - CIが成功し、未設定のまま本番へ配置できないこと。
-- 本番デプロイを実行していないこと。
+- 本番デプロイがmainへのマージ後に起動し、全工程とスモークテストが成功すること。
 
 管理画面はSPA形式で店舗設定・お問い合わせのコンテンツを切り替えます。タブ切り替えではURLを変更せず、一度表示したパネルを保持するため、店舗の入力途中の内容と問い合わせの対応状況フィルターが維持されます。旧 /admin/contacts は /admin?tab=contacts へ転送します。
 
