@@ -4,7 +4,7 @@ import {useRouter} from "next/navigation";
 import {useState} from "react";
 import {postAccount} from "./post-account";
 
-export function MemberLoginForm({onRegister}:{onRegister:()=>void}){
+export function MemberLoginForm(){
   const router=useRouter();
   const [email,setEmail]=useState(""),[password,setPassword]=useState(""),[pending,setPending]=useState(false),[error,setError]=useState("");
   async function submit(event:React.FormEvent){
@@ -17,5 +17,5 @@ export function MemberLoginForm({onRegister}:{onRegister:()=>void}){
     <label>パスワード<input type="password" required maxLength={128} autoComplete="current-password" value={password} onChange={event=>setPassword(event.target.value)}/></label>
     {error&&<p role="alert" className="contact-error">{error}</p>}
     <button disabled={pending}>{pending?"ログイン中…":"ログイン"}</button>
-  </form><div className="member-links"><button type="button" onClick={onRegister}>新規会員登録へ</button><Link href="/account/reset">パスワードを忘れた方</Link></div></>;
+  </form><div className="member-links"><Link href="/account/reset">パスワードを忘れた方</Link></div></>;
 }

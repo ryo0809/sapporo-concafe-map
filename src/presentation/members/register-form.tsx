@@ -3,7 +3,7 @@ import {useRouter} from "next/navigation";
 import {useState} from "react";
 import {postAccount} from "./post-account";
 
-export function MemberRegisterForm({onLogin}:{onLogin:()=>void}){
+export function MemberRegisterForm(){
   const router=useRouter();
   const [stage,setStage]=useState<"details"|"code">("details"),[nickname,setNickname]=useState(""),[email,setEmail]=useState(""),[password,setPassword]=useState(""),[passwordConfirmation,setPasswordConfirmation]=useState(""),[code,setCode]=useState(""),[pending,setPending]=useState(false),[error,setError]=useState("");
   async function request(event:React.FormEvent){
@@ -31,5 +31,5 @@ export function MemberRegisterForm({onLogin}:{onLogin:()=>void}){
     <label>確認コード<input required inputMode="numeric" pattern="[0-9]{6}" minLength={6} maxLength={6} autoComplete="one-time-code" value={code} onChange={event=>setCode(event.target.value)}/></label>
     {error&&<p role="alert" className="contact-error">{error}</p>}<button disabled={pending}>{pending?"確認中…":"登録を完了する"}</button>
     <button type="button" className="member-secondary" onClick={()=>{setStage("details");setError("");}}>入力に戻る</button>
-  </form>}<div className="member-links"><button type="button" onClick={onLogin}>ログインへ</button></div></>;
+  </form>}</>;
 }

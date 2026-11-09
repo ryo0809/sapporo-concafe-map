@@ -18,7 +18,7 @@ export function AuthTabs({initialTab="login"}:{initialTab?:Tab}){
         select(next);
       }}>{labels[item]}</button>)}
     </div>
-    <div id="member-panel-login" role="tabpanel" aria-labelledby="member-tab-login" hidden={tab!=="login"}><MemberLoginForm onRegister={()=>select("register")}/></div>
-    <div id="member-panel-register" role="tabpanel" aria-labelledby="member-tab-register" hidden={tab!=="register"}><MemberRegisterForm onLogin={()=>select("login")}/></div>
+    <div id="member-panel-login" role="tabpanel" aria-labelledby="member-tab-login" hidden={tab!=="login"}><MemberLoginForm/></div>
+    <div id="member-panel-register" role="tabpanel" aria-labelledby="member-tab-register" hidden={tab!=="register"}><MemberRegisterForm/></div>
   </div>;
 }
