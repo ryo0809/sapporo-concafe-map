@@ -48,6 +48,8 @@ export function AdminDashboard({buildings,revision,onBuildingSaved,onStoreChange
     }else if(dialog.open)dialog.close();
   },[busy,message]);
   const [search,setSearch]=useState(""),[area,setArea]=useState("all"),[live,setLive]=useState(true),[searching,setSearching]=useState(false);
+  const [searchReady,setSearchReady]=useState(false);
+  useEffect(()=>{const timer=window.setTimeout(()=>setSearchReady(true),0);return()=>window.clearTimeout(timer);},[]);
   const [submittedSearch,setSubmittedSearch]=useState("");
   const searchDialog=useRef<HTMLDialogElement>(null);
   useEffect(()=>{
@@ -84,7 +86,7 @@ export function AdminDashboard({buildings,revision,onBuildingSaved,onStoreChange
     }catch(error){setDeleteError(error instanceof Error?error.message:"削除に失敗しました。");}
     finally{setBusy(false);}
   }
-  async function find(event:React.FormEvent){event.preventDefault();if(searching)return;setSubmittedSearch(search.trim());setSearching(true);setError("");setSearched(false);setCandidates([]);setWarnings([]);try{const result=await request(`/api/admin/candidates?q=${encodeURIComponent(search)}&area=${area}&live=${live}`);setCandidates(result.candidates);setWarnings(result.warnings);setSearched(true);}catch(error){setError(error instanceof Error?error.message:"検索に失敗しました");setWarnings([error instanceof Error?error.message:"検索に失敗しました"]);setSearched(true);}finally{setSearching(false);}}
+  async function find(event:React.FormEvent){event.preventDefault();if(!searchReady||searching)return;setSubmittedSearch(search.trim());setSearching(true);setError("");setSearched(false);setCandidates([]);setWarnings([]);try{const result=await request(`/api/admin/candidates?q=${encodeURIComponent(search)}&area=${area}&live=${live}`);setCandidates(result.candidates);setWarnings(result.warnings);setSearched(true);}catch(error){setError(error instanceof Error?error.message:"検索に失敗しました");setWarnings([error instanceof Error?error.message:"検索に失敗しました"]);setSearched(true);}finally{setSearching(false);}}
   return <>
     {addingBuilding&&editor&&<BuildingDialog area={editor.area} suggestion={{name:editor.buildingName,address:editor.address}} onClose={()=>setAddingBuilding(false)} onSaved={building=>{onBuildingSaved(building);selectBuilding(building);setAddingBuilding(false);setBuildingQuery("");}}/>}
     <div className="admin-stats"><span>登録店舗 <strong>{cafes.length}</strong></span><span>公開設定 <strong>{cafes.filter((cafe)=>publicationLabel(cafe)==="公開").length}</strong></span><span>予約公開 <strong>{cafes.filter((cafe)=>publicationLabel(cafe)==="予約公開").length}</strong></span><span>営業未確認 <strong>{cafes.filter((cafe)=>cafe.businessStatus==="unknown").length}</strong></span></div>
@@ -138,8 +140,8 @@ export function AdminDashboard({buildings,revision,onBuildingSaved,onStoreChange
     </section></div>
     <dialog ref={searchDialog} className="admin-save-dialog" aria-labelledby="admin-search-title" aria-describedby="admin-search-description" aria-busy="true" onCancel={event=>event.preventDefault()}><span className="admin-save-spinner" aria-hidden="true"/><h2 id="admin-search-title">店舗候補を検索中</h2><p id="admin-search-description" role="status">「{submittedSearch}」を検索しています。{live?"外部サイトも確認するため、最大30秒ほどかかります。":"保存済みの店舗情報を確認しています。"}</p></dialog>
     <section className="admin-panel admin-search"><h2>検索候補から店舗を追加</h2><p>候補を選び、情報を確認・編集してから登録します。保存するまで掲載情報は変更されません。</p>
-      <form onSubmit={find} className="admin-search-form"><label>候補を検索<input required minLength={2} maxLength={100} value={search} onChange={(event)=>setSearch(event.target.value)} placeholder="店舗名・住所"/></label><label>検索エリア<select value={area} onChange={(event)=>setArea(event.target.value)}><option value="all">すべて</option><option value="tanukikoji">狸小路</option><option value="susukino">すすきの</option></select></label><button disabled={searching}>{searching?"検索中…":"候補を検索"}</button></form>
-      <label className="admin-checkbox"><input type="checkbox" checked={live} onChange={(event)=>setLive(event.target.checked)}/>外部サイトも検索</label>
+      <form onSubmit={find} className="admin-search-form"><label>候補を検索<input required minLength={2} maxLength={100} value={search} disabled={!searchReady} onChange={(event)=>setSearch(event.target.value)} placeholder="店舗名・住所"/></label><label>検索エリア<select value={area} disabled={!searchReady} onChange={(event)=>setArea(event.target.value)}><option value="all">すべて</option><option value="tanukikoji">狸小路</option><option value="susukino">すすきの</option></select></label><button disabled={!searchReady||searching}>{searching?"検索中…":"候補を検索"}</button></form>
+      <label className="admin-checkbox"><input type="checkbox" checked={live} disabled={!searchReady} onChange={(event)=>setLive(event.target.checked)}/>外部サイトも検索</label>
       <p className="admin-field-help">登録店舗・過去の取得候補・検索履歴・補完候補を検索します。ひらがな・カタカナや記号の違い、複数キーワード、保存済みのXアカウント名・URLに対応します。外部検索はポケパラ・かふぇこんの一覧を各3ページ、詳細を各5件まで確認します。</p>
       {warnings.map((warning)=><p key={warning} className="admin-warning">{warning}</p>)}
       {searched&&!candidates.length&&<p>候補が見つかりませんでした。別の検索語をお試しください。</p>}
