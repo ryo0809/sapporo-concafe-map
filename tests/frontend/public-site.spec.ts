@@ -66,16 +66,20 @@ test("カードを選ぶたびに地図へスクロールし、地図内の店�
   await expect(page.locator(".leaflet-container")).toBeVisible();
   const card = page.locator(".cafe-card").filter({ hasText: "地図で確認" }).first();
   const name = await card.locator("strong").innerText();
+  const detail = page.getByRole("region", { name: "選択した店舗" });
   for (let attempt = 0; attempt < 2; attempt++) {
     await card.click();
-    await expect(page.locator(".leaflet-popup")).toContainText(name);
+    await expect(detail).toContainText(name);
+    await expect(page.locator(".leaflet-popup")).toHaveCount(0);
     // Browser scroll offsets round to whole pixels; layout coordinates can be fractional.
     await expect.poll(async () => (await page.locator(".map-canvas").boundingBox())!.y).toBeGreaterThanOrEqual(-1);
     await expect.poll(async () => (await page.locator(".map-canvas").boundingBox())!.y).toBeLessThan(100);
+    await detail.getByRole("button", { name: "店舗詳細を閉じる" }).click();
   }
-  await page.locator(".leaflet-popup .popup-cafe-button").click();
-  const detail = page.getByRole("region", { name: "選択した店舗" });
-  await expect(detail).toContainText(name);
+  await page.locator(".cafe-pin.shared").first().click();
+  await page.locator(".leaflet-popup .popup-cafe-button").first().click();
+  await expect(detail).toBeVisible();
+  await expect(page.locator(".leaflet-popup")).toHaveCount(0);
   await expect.poll(async () => (await detail.boundingBox())!.y).toBeGreaterThanOrEqual(0);
-  await expect.poll(async () => (await detail.boundingBox())!.y).toBeLessThan(100);
+  await expect.poll(async () => (await detail.boundingBox())!.y).toBeLessThan(844);
 });

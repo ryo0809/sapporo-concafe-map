@@ -29,6 +29,7 @@ const nextConfig: NextConfig = {
     return [
       {source:"/:path*",headers:security},
       {source:"/admin/:path*",headers:privateHeaders},
+      {source:"/account/:path*",headers:[...privateHeaders,{key:"Referrer-Policy",value:"no-referrer"}]},
       {source:"/api/:path*",headers:privateHeaders},
     ];
   },

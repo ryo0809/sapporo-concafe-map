@@ -1,7 +1,7 @@
 const events = new Set(["page_view", "area_select", "detail_open", "detail_close", "outbound_click", "building_select", "map_reset", "map_ready", "map_error", "search", "contact_success", "contact_error", "contact_invalid"]);
 const pages = new Set(["/", "/contact", "/privacy", "/listing-information"]);
 const sources = new Set(["map", "list", "detail", "form", "page"]);
-const media = new Set(["official", "x", "instagram", "tiktok", "facebook", "youtube", "line", "other"]);
+const media = new Set(["official", "google_maps", "x", "instagram", "tiktok", "facebook", "youtube", "line", "other"]);
 
 // Deliberately reject unknown fields: queries, URLs and form contents must never reach storage.
 export function validEvent(value) {

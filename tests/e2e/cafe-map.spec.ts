@@ -31,6 +31,7 @@ test("最新バッチの件数を表示し、座標なしの店舗も選択で�
   await page.getByRole("searchbox", { name: "店舗名・住所で検索" }).fill("めいどりーみん");
   await page.getByRole("button", { name: /めいどりーみん/ }).click();
   await expect(page.getByRole("region", { name: "選択した店舗" })).toContainText("清水ビル6F");
+  await expect(page.getByRole("link",{name:"Google マップで見る ↗"})).toHaveAttribute("href",/https:\/\/www\.google\.com\/maps\/search\/\?api=1&query=/);
   await page.getByRole("tab", { name: /^すすきの/ }).click();
   await expect(page.getByRole("tab", { name: /^すすきの/ })).toContainText(`${count("susukino")}件`);
   await expect(page.locator(".cafe-pin").first()).toBeVisible();
@@ -135,7 +136,7 @@ test("タイル取得失敗後に再試行できる", async ({ page }) => {
   await expect(page.locator(".cafe-pin").first()).toBeVisible();
 });
 
-test("地図はビル・階ごとにまとめ、店舗選択は単独ポップアップと詳細スクロールに切り替える", async ({ page }) => {
+test("地図はビル・階ごとにまとめ、店舗選択後は地図上の詳細だけを表示する", async ({ page }) => {
   await page.route("https://tile.openstreetmap.org/**", route => route.fulfill({ contentType: "image/png", body: png }));
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width: 390, height: 844 });
@@ -147,20 +148,23 @@ test("地図はビル・階ごとにまとめ、店舗選択は単独ポップ�
   expect(await popup.locator(".popup-cafe-button").count()).toBeGreaterThan(1);
   const name = (await popup.locator(".popup-cafe-button").first().textContent())!;
   await popup.locator(".popup-cafe-button").first().click();
-  await expect(popup.locator(".popup-cafe-button")).toHaveCount(1);
-  await expect(popup).toContainText(name);
+  await expect(popup).toHaveCount(0);
   const detail = page.getByRole("region", { name: "選択した店舗" });
   await expect(detail).toContainText(name);
   await expect.poll(async () => (await detail.boundingBox())?.y ?? -1000).toBeGreaterThanOrEqual(0);
-  await expect.poll(async () => (await detail.boundingBox())?.y ?? 1000).toBeLessThan(100);
+  await expect.poll(async () => {const box=await detail.boundingBox();return box?box.y+box.height:1000;}).toBeLessThanOrEqual(844);
   // Selecting a card returns to its map location, including the same store again.
+  await detail.getByRole("button",{name:"店舗詳細を閉じる"}).click();
   const card = page.locator(".cafe-cards .cafe-card").filter({ hasText: name }).first();
   await card.click();
-  await expect(popup.locator(".popup-cafe-button")).toHaveCount(1);
+  await expect(detail).toContainText(name);
+  await expect(popup).toHaveCount(0);
   await expect.poll(async () => (await page.locator(".map-canvas").boundingBox())?.y ?? -1000).toBeGreaterThanOrEqual(-1);
   await expect.poll(async () => (await page.locator(".map-canvas").boundingBox())?.y ?? 1000).toBeLessThan(100);
+  await detail.getByRole("button",{name:"店舗詳細を閉じる"}).click();
   const marker = page.locator(".leaflet-marker-icon").filter({ has: page.locator(".cafe-pin") }).and(page.locator(`[title*=${JSON.stringify(name)}]`)).first();
   await marker.click();
+  await expect(detail).toHaveCount(0);
   await expect(popup.locator(".popup-building h4").first()).toBeVisible();
   await expect(popup.locator(".popup-floor h5").first()).toBeVisible();
 });

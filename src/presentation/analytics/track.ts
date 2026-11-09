@@ -1,5 +1,5 @@
 type EventName = "page_view" | "area_select" | "detail_open" | "detail_close" | "outbound_click" | "building_select" | "map_reset" | "map_ready" | "map_error" | "search" | "contact_success" | "contact_error" | "contact_invalid";
-type Attributes = { area?: "susukino" | "tanukikoji"; cafeId?: string; source?: "map" | "list" | "detail" | "form" | "page"; medium?: "official" | "x" | "instagram" | "tiktok" | "facebook" | "youtube" | "line" | "other"; value?: number };
+type Attributes = { area?: "susukino" | "tanukikoji"; cafeId?: string; source?: "map" | "list" | "detail" | "form" | "page"; medium?: "official" | "google_maps" | "x" | "instagram" | "tiktok" | "facebook" | "youtube" | "line" | "other"; value?: number };
 
 let windowStarted = 0;
 let count = 0;
