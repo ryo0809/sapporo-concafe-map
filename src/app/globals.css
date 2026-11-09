@@ -15,7 +15,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, summary:focus-visibl
 .site-header .area-label { color: var(--muted); font-size: .7rem; white-space: nowrap; }
 .site-header-actions { display: flex; align-items: center; gap: 18px; font-size: .8rem; }
 .site-header-actions a { color: var(--accent); }
-.site-header-actions .header-login-button { display: inline-flex; align-items: center; justify-content: center; min-height: 38px; padding: 6px 14px; border: 1px solid var(--accent); border-radius: 8px; text-decoration: none; font-weight: 700; white-space: nowrap; }
+.site-header-actions .header-login-button { display: inline-flex; align-items: center; justify-content: center; min-height: 38px; padding: 6px 14px; border: 1px solid var(--accent); border-radius: 8px; background: transparent; color: var(--accent); text-decoration: none; font-weight: 700; white-space: nowrap; }
 .site-header-actions .header-login-button:hover { background: #edf5ee; }
 .event-banner { max-width: 1080px; margin: 22px auto; padding: 0 16px; }
 .event-banner p { margin: 0 0 8px; color: var(--accent); font-size: .8rem; font-weight: 700; }

@@ -16,7 +16,7 @@ export function MemberRegisterForm(){
   }
   async function confirm(event:React.FormEvent){
     event.preventDefault();setPending(true);setError("");
-    try{await postAccount("/api/account/register/confirm",{email,code});router.replace("/account");router.refresh();}
+    try{await postAccount("/api/account/register/confirm",{email,code});router.replace("/");router.refresh();}
     catch(error){setError(error instanceof Error?error.message:"確認に失敗しました。");setPending(false);}
   }
   return <>{stage==="details"?<form className="member-form" onSubmit={request}>

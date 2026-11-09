@@ -60,8 +60,10 @@ test("会員登録コードと再設定コードは使い捨てで、再設定�
     await db.prepare("UPDATE member_email_codes SET code_hash=? WHERE email=? AND purpose='register'").bind(passwordHash("123456"),email).run();
     await page.getByLabel("確認コード").fill("123456");
     await page.getByRole("button",{name:"登録を完了する"}).click();
-    await expect(page).toHaveURL(/\/account$/);
-    await expect(page.getByText("ニックネーム：テスト会員")).toBeVisible();
+    await expect(page).toHaveURL(/\/$/);
+    await expect(page.getByRole("button",{name:"ログアウト"})).toBeVisible();
+    await page.goto("/account");
+    await expect(page).toHaveURL(/\/$/);
     expect((await page.request.post("/api/account/register/confirm",{data:{email,code:"123456"}})).status()).toBe(400);
     await db.prepare("DELETE FROM member_login_limits WHERE email=?").bind(email).run();
     await page.goto("/account/reset");
@@ -77,7 +79,13 @@ test("会員登録コードと再設定コードは使い捨てで、再設定�
     expect((await page.request.get("/api/account/ratings")).status()).toBe(401);
     expect((await page.request.post("/api/account/reset/confirm",{data:{email,code:"654321",password:newPassword,passwordConfirmation:newPassword}})).status()).toBe(400);
     expect((await page.request.post("/api/account/login",{data:{email,password:oldPassword}})).status()).toBe(401);
-    expect((await page.request.post("/api/account/login",{data:{email,password:newPassword}})).ok()).toBe(true);
+    await page.goto("/account/login");
+    const login=page.getByRole("tabpanel",{name:"ログイン"});
+    await login.getByLabel("メールアドレス").fill(email);
+    await login.getByLabel("パスワード").fill(newPassword);
+    await login.getByRole("button",{name:"ログイン"}).click();
+    await expect(page).toHaveURL(/\/$/);
+    await expect(page.getByRole("button",{name:"ログアウト"})).toBeVisible();
   }finally{
     await db.prepare("DELETE FROM member_email_codes WHERE email=?").bind(email).run();
     await db.prepare("DELETE FROM member_login_limits WHERE email=?").bind(email).run();
