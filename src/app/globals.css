@@ -58,6 +58,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, summary:focus-visibl
 .member-form button, .private-rating .rating-save { width: fit-content; border: 0; border-radius: 7px; background: var(--accent); color: white; padding: 9px 16px; }
 .private-rating { border-top: 1px solid var(--line); margin-top: 18px; padding-top: 12px; font-size: .8rem; }
 .private-rating h4 { margin: 0 0 8px; font-size: .9rem; }
+.rating-disclosure { margin: 0 0 12px; padding: 8px 10px; border-left: 3px solid var(--accent); background: #edf5ee; line-height: 1.6; }
 .rating-fieldset { border: 0; padding: 0; margin: 12px 0; }
 .rating-fieldset legend { padding: 0; font-weight: 700; }
 .rating-stars { display: flex; align-items: center; gap: 3px; flex-wrap: wrap; }

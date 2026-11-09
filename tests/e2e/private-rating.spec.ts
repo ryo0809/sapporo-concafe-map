@@ -44,11 +44,12 @@ test("パスワードでログインし、店舗評価は本人だけが取得�
     await expect(detail.getByRole("link",{name:"Google マップで見る ↗"})).toBeVisible();
     await expect(detail.getByRole("radio",{name:"5つ星"})).toBeChecked();
     await expect(detail.getByLabel("メモ")).toHaveValue("自分だけの記録");
+    await expect(detail).toContainText("星評価は今後公開される可能性があります。メモは公開しません。");
     await detail.locator(".rating-stars label").nth(3).click();
     await detail.getByLabel("メモ").fill("モーダルで保存した記録");
     await detail.getByRole("button",{name:"保存",exact:true}).click();
     const saved=page.getByRole("dialog",{name:"自己評価を保存しました"});
-    await expect(saved).toContainText("※自分以外には公開されません");
+    await expect(saved).toContainText("星評価は今後公開される可能性があります。メモは公開しません。");
     await saved.getByRole("button",{name:"閉じる"}).click();
     const updated=await(await page.request.get("/api/account/ratings")).json();
     expect(updated.ratings).toContainEqual(expect.objectContaining({cafe_id:cafeId,rating:4,note:"モーダルで保存した記録"}));
@@ -81,7 +82,7 @@ test("パスワードでログインし、店舗評価は本人だけが取得�
 
 test("会員登録コードと再設定コードは使い捨てで、再設定後は旧セッションを失効する",async({page})=>{
   const proxy=await proxyForTest(),db=proxy.env.DB;
-  const email=`${randomUUID()}@example.com`,oldPassword="first long password 2026",newPassword="second long password 2026";
+  const email=`${randomUUID()}@example.com`,oldPassword="Passw0rd",newPassword="Newpass8";
   try{
     await page.goto("/");
     await page.getByRole("link",{name:"ログイン",exact:true}).click();

@@ -17,8 +17,8 @@ export function validateNickname(value: unknown): string {
 }
 
 export function validateMemberPassword(value: unknown): string {
-  if (typeof value !== "string" || value.length < 12 || value.length > 128 || new TextEncoder().encode(value).length > 256 || /[\u0000-\u001f\u007f]/.test(value) || !value.trim()) {
-    throw new CredentialError("パスワードは12～128文字で入力してください。");
+  if (typeof value !== "string" || value.length < 8 || value.length > 128 || new TextEncoder().encode(value).length > 256 || /[\u0000-\u001f\u007f]/.test(value) || !value.trim()) {
+    throw new CredentialError("パスワードは8～128文字で入力してください。");
   }
   return value;
 }
