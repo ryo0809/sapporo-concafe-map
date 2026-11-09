@@ -42,7 +42,7 @@ jobs:
       - run: npm run test:integration
       - name: Validate target before remote access
         run: npm run deploy:check -- --env "$TARGET_ENV" --confirm-domain sapporo-concafe-map.com
-      - name: Check mail delivery configuration
+      - name: Check email binding configuration
         run: node scripts/check-mail-config.mjs
       - run: npm run release:check
         if: env.TARGET_ENV == 'production'

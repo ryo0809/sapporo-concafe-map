@@ -33,7 +33,7 @@ export async function issueEmailCode(db:D1Database,input:{email:string;purpose:C
   await db.prepare("INSERT INTO member_email_codes(id,email,purpose,code_hash,nickname,password_hash,expires_at,attempts,sent_at) VALUES(?,?,?,?,?,?,?,?,?) ON CONFLICT(email,purpose) DO UPDATE SET id=excluded.id,code_hash=excluded.code_hash,nickname=excluded.nickname,password_hash=excluded.password_hash,expires_at=excluded.expires_at,attempts=0,sent_at=excluded.sent_at")
     .bind(id,input.email,input.purpose,codeHash,input.nickname??"",input.passwordHash??"",input.now+10*60000,0,input.now).run();
   try {
-    await sendEmail({to:input.email,key:`member-code/${input.purpose}/${id}`,subject:input.purpose==="register"?"コンカフェマップ 会員登録コード":"コンカフェマップ パスワード再設定コード",text:`確認コード: ${code}\n有効期限は10分です。${input.purpose==="reset"?"未登録のアドレスではパスワードを変更できません。":"登録済みの場合はログインまたはパスワード再設定をお試しください。"}心当たりがなければ、このメールを無視してください。`});
+    await sendEmail({to:input.email,subject:input.purpose==="register"?"コンカフェマップ 会員登録コード":"コンカフェマップ パスワード再設定コード",text:`確認コード: ${code}\n有効期限は10分です。${input.purpose==="reset"?"未登録のアドレスではパスワードを変更できません。":"登録済みの場合はログインまたはパスワード再設定をお試しください。"}心当たりがなければ、このメールを無視してください。`});
   } catch(error) {
     await db.batch([
       db.prepare("DELETE FROM member_email_codes WHERE id=?").bind(id),
