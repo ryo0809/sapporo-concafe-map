@@ -44,6 +44,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, summary:focus-visibl
 .member-auth-help-text strong { margin-bottom: 5px; color: var(--accent); font-size: .9rem; }
 .member-auth-help-text small { margin-top: 5px; color: var(--muted); font-size: .8rem; }
 .member-auth-help-text[data-visible="true"] { display: block; }
+@media(min-width:900px){.member-auth-help-text{top:0;right:auto;left:calc(100% + 14px);width:min(310px,calc(50vw - 250px))}.member-auth-help-text::before{top:9px;right:auto;left:-7px;border:0;border-left:1px solid #adc7b5;border-bottom:1px solid #adc7b5}}
 .member-auth-content .member-form, .member-auth-content .auth-tab-list { width: 100%; max-width: none; }
 .auth-tabs { margin-top: 28px; }
 .auth-tab-list { display: flex; gap: 6px; padding: 5px; max-width: 440px; border-radius: 10px; background: #e8eee9; }
