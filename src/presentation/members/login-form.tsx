@@ -1,12 +1,21 @@
 "use client";
-import { useState } from "react";
-export function MemberLoginForm(){
-  const [email,setEmail]=useState(""),[pending,setPending]=useState(false),[message,setMessage]=useState(""),[error,setError]=useState("");
+import Link from "next/link";
+import {useRouter} from "next/navigation";
+import {useState} from "react";
+import {postAccount} from "./post-account";
+
+export function MemberLoginForm({onRegister}:{onRegister:()=>void}){
+  const router=useRouter();
+  const [email,setEmail]=useState(""),[password,setPassword]=useState(""),[pending,setPending]=useState(false),[error,setError]=useState("");
   async function submit(event:React.FormEvent){
     event.preventDefault();setPending(true);setError("");
-    try{const response=await fetch("/api/account/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email})});const data=await response.json();if(!response.ok)throw new Error(data.error||"送信に失敗しました。");setMessage("ログイン用リンクをメールで送信しました。15分以内に開いてください。");}
-    catch(error){setError(error instanceof Error?error.message:"送信に失敗しました。");}
-    finally{setPending(false);}
+    try{await postAccount("/api/account/login",{email,password});router.replace("/account");router.refresh();}
+    catch(error){setError(error instanceof Error?error.message:"ログインに失敗しました。");setPending(false);}
   }
-  return <form className="member-form" onSubmit={submit}><label>メールアドレス<input type="email" required autoComplete="email" maxLength={254} value={email} onChange={event=>setEmail(event.target.value)}/></label><button disabled={pending}>{pending?"送信中…":"ログインリンクを送る"}</button>{message&&<p role="status">{message}</p>}{error&&<p role="alert" className="contact-error">{error}</p>}</form>;
+  return <><form className="member-form" onSubmit={submit}>
+    <label>メールアドレス<input type="email" required autoComplete="email" maxLength={254} value={email} onChange={event=>setEmail(event.target.value)}/></label>
+    <label>パスワード<input type="password" required maxLength={128} autoComplete="current-password" value={password} onChange={event=>setPassword(event.target.value)}/></label>
+    {error&&<p role="alert" className="contact-error">{error}</p>}
+    <button disabled={pending}>{pending?"ログイン中…":"ログイン"}</button>
+  </form><div className="member-links"><button type="button" onClick={onRegister}>新規会員登録へ</button><Link href="/account/reset">パスワードを忘れた方</Link></div></>;
 }

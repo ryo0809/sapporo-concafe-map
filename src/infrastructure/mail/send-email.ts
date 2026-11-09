@@ -4,7 +4,7 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 export async function sendEmail(input: { to: string; subject: string; text: string; key: string }) {
   const { env } = await getCloudflareContext({ async: true });
   const config = env as CloudflareEnv & { RESEND_API_KEY?: string; MAIL_FROM?: string; MAIL_TEST_MODE?: string; APP_ENV?: string };
-  if (config.APP_ENV === "development" && config.MAIL_TEST_MODE === "mock") return;
+  if ((config.APP_ENV === "development" && config.MAIL_TEST_MODE === "mock") || (process.env.NODE_ENV === "development" && process.env.MAIL_TEST_MODE === "mock")) return;
   if (!config.RESEND_API_KEY || !config.MAIL_FROM) throw new Error("メール送信の設定がありません");
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",

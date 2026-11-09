@@ -8,6 +8,7 @@ import { site } from "@/config/site";
 import { getD1 } from "@/infrastructure/database/d1";
 import type { EventBanner as Banner } from "@/domain/events/banner";
 import { EventBanner } from "@/presentation/events/event-banner";
+import { AccountHeaderLink } from "@/presentation/members/account-link";
 
 export const metadata = { alternates: { canonical: "/" }, openGraph: {url:site.url,type:"website",locale:"ja_JP",siteName:site.name,title:site.name,description:site.description,images:[{url:"/social-card.png",width:1200,height:630,alt:site.name}]} };
 
@@ -23,7 +24,7 @@ export default function Home() {
           </svg>
           <span className="brand-copy"><small>さっぽろ</small><strong>コンカフェマップ</strong></span>
         </Link>
-        <nav className="site-header-actions"><span className="area-label">狸小路・すすきの</span><Link href="/account">マイページ</Link></nav>
+        <nav className="site-header-actions"><span className="area-label">狸小路・すすきの</span><Suspense fallback={<Link href="/account/login" className="header-login-button">ログイン</Link>}><AccountHeaderLink/></Suspense></nav>
       </header>
       <Suspense fallback={<p role="status">最新の店舗データを読み込んでいます…</p>}><LatestCafeMap /></Suspense>
       <SiteFooter />
