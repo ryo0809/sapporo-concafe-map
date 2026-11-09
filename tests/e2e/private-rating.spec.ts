@@ -45,6 +45,15 @@ test("パスワードでログインし、店舗評価は本人だけが取得�
     await saved.getByRole("button",{name:"閉じる"}).click();
     const updated=await(await page.request.get("/api/account/ratings")).json();
     expect(updated.ratings).toContainEqual(expect.objectContaining({cafe_id:cafeId,rating:4,note:"モーダルで保存した記録"}));
+    await page.getByRole("button",{name:"ログアウト"}).click();
+    await expect(page.getByRole("link",{name:"ログイン",exact:true})).toBeVisible();
+    await expect(page.getByText("モーダルで保存した記録")).toHaveCount(0);
+    if(previous!.area==="tanukikoji")await page.getByRole("tab",{name:/^狸小路/}).click();
+    await page.getByRole("searchbox",{name:"店舗名・住所で検索"}).fill(String(previous!.name));
+    await page.locator(".cafe-card").filter({has:page.getByText(String(previous!.name),{exact:true})}).first().click();
+    await expect(detail.getByRole("link",{name:"ログインして自己評価を記録"})).toBeVisible();
+    await expect(detail.getByLabel("メモ")).toHaveCount(0);
+    expect((await page.request.get("/api/account/ratings")).status()).toBe(401);
     await page.context().addCookies([{name:"sapporo_member_session",value:tokenB,url:baseURL}]);
     const other=await(await page.request.get("/api/account/ratings")).json();
     expect(other.ratings).not.toContainEqual(expect.objectContaining({cafe_id:cafeId}));
