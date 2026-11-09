@@ -81,7 +81,7 @@ test("パスワードでログインし、店舗評価は本人だけが取得�
 
 test("会員登録コードと再設定コードは使い捨てで、再設定後は旧セッションを失効する",async({page})=>{
   const proxy=await proxyForTest(),db=proxy.env.DB;
-  const email=`${randomUUID()}@example.com`,oldPassword="first long password 2026",newPassword="second long password 2026";
+  const email=`${randomUUID()}@example.com`,oldPassword="Passw0rd",newPassword="Newpass8";
   try{
     await page.goto("/");
     await page.getByRole("link",{name:"ログイン",exact:true}).click();
