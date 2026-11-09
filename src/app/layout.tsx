@@ -4,6 +4,7 @@ import "./globals.css";
 import "leaflet/dist/leaflet.css";
 import { site } from "@/config/site";
 import {PageAnalytics} from "@/presentation/analytics/page-analytics";
+import { SessionChangeListener } from "@/presentation/session-change";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -15,5 +16,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  return <html lang="ja"><body><PageAnalytics/>{children}</body></html>;
+  return <html lang="ja"><body><SessionChangeListener/><PageAnalytics/>{children}</body></html>;
 }

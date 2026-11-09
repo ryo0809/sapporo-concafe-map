@@ -58,8 +58,13 @@ test("設定画面を店舗設定・お問い合わせのタブで切り替え�
   await expect(editor.getByLabel("店舗名",{exact:true})).toHaveValue("編集中の店舗名");
   await navigation.getByRole("tab",{name:"お問い合わせ",exact:true}).click();
   await expect(page.getByRole("button",{name:"対応済み",exact:true})).toHaveAttribute("aria-pressed","true");
+  const otherTab=await page.context().newPage();
+  await otherTab.goto("/admin?tab=contacts");
+  await expect(otherTab.getByRole("tab",{name:"お問い合わせ",exact:true})).toBeVisible();
   await page.getByRole("button",{name:"ログアウト",exact:true}).click();
   await expect(page).toHaveURL(/\/admin\/login$/);
+  await expect(otherTab).toHaveURL(/\/admin\/login$/);
+  expect((await otherTab.request.get("/api/admin/contacts")).status()).toBe(401);
 });
 
 test("削除APIは認証・送信元・バージョンを検証し、同名の別店舗を残す",async({request})=>{

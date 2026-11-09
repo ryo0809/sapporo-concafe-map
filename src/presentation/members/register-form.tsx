@@ -1,10 +1,9 @@
 "use client";
-import {useRouter} from "next/navigation";
 import {useState} from "react";
 import {postAccount} from "./post-account";
+import {announceSessionChange} from "@/presentation/session-change";
 
 export function MemberRegisterForm(){
-  const router=useRouter();
   const [stage,setStage]=useState<"details"|"code">("details"),[nickname,setNickname]=useState(""),[email,setEmail]=useState(""),[password,setPassword]=useState(""),[passwordConfirmation,setPasswordConfirmation]=useState(""),[code,setCode]=useState(""),[pending,setPending]=useState(false),[error,setError]=useState("");
   async function request(event:React.FormEvent){
     event.preventDefault();setError("");
@@ -16,7 +15,7 @@ export function MemberRegisterForm(){
   }
   async function confirm(event:React.FormEvent){
     event.preventDefault();setPending(true);setError("");
-    try{await postAccount("/api/account/register/confirm",{email,code});router.replace("/");router.refresh();}
+    try{await postAccount("/api/account/register/confirm",{email,code});announceSessionChange();window.location.replace("/");}
     catch(error){setError(error instanceof Error?error.message:"確認に失敗しました。");setPending(false);}
   }
   return <>{stage==="details"?<form className="member-form" onSubmit={request}>
@@ -27,7 +26,7 @@ export function MemberRegisterForm(){
     <label>パスワード（確認）<input type="password" required minLength={12} maxLength={128} autoComplete="new-password" value={passwordConfirmation} onChange={event=>setPasswordConfirmation(event.target.value)}/></label>
     {error&&<p role="alert" className="contact-error">{error}</p>}<button disabled={pending}>{pending?"送信中…":"確認コードを送る"}</button>
   </form>:<form className="member-form" onSubmit={confirm}>
-    <p role="status">{email} に6桁の確認コードを送りました。有効期限は10分です。</p>
+    <p role="status">{email} に6桁の確認コードを送信しました。有効期限は10分です。登録済みの場合はログインまたはパスワード再設定をお試しください。</p>
     <label>確認コード<input required inputMode="numeric" pattern="[0-9]{6}" minLength={6} maxLength={6} autoComplete="one-time-code" value={code} onChange={event=>setCode(event.target.value)}/></label>
     {error&&<p role="alert" className="contact-error">{error}</p>}<button disabled={pending}>{pending?"確認中…":"登録を完了する"}</button>
     <button type="button" className="member-secondary" onClick={()=>{setStage("details");setError("");}}>入力に戻る</button>

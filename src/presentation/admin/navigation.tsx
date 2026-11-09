@@ -1,14 +1,13 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {readAdminResponse} from "./api-response";
+import {announceSessionChange} from "@/presentation/session-change";
 
 export type AdminTab = "stores" | "buildings" | "contacts" | "banners";
 const tabs:AdminTab[]=["stores","buildings","banners","contacts"];
 const labels={stores:"店舗設定",buildings:"ビル管理",banners:"イベント",contacts:"お問い合わせ"};
 export function AdminNavigation({ current, onChange }: { current: AdminTab; onChange: (tab: AdminTab) => void }) {
-  const router = useRouter();
   const [busy, setBusy] = useState(false), [error, setError] = useState("");
   async function signOut() {
     if (busy) return;
@@ -16,7 +15,7 @@ export function AdminNavigation({ current, onChange }: { current: AdminTab; onCh
     try {
       const response = await fetch("/api/admin/logout", { method: "POST" });
       await readAdminResponse(response);
-      router.replace("/admin/login"); router.refresh();
+      announceSessionChange(); window.location.replace("/admin/login");
     } catch (error) { setError(error instanceof Error ? error.message : "ログアウトに失敗しました。"); setBusy(false); }
   }
   return <>

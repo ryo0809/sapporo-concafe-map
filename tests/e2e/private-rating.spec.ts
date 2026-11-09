@@ -10,7 +10,7 @@ async function proxyForTest(){const persist=process.env.PLAYWRIGHT_D1_PATH;expec
 
 test("パスワードでログインし、店舗評価は本人だけが取得できる",async({page,playwright})=>{
   const proxy=await proxyForTest(),db=proxy.env.DB;
-  const memberA=randomUUID(),memberB=randomUUID(),email=`${memberA}@example.com`,password="my strong passphrase 2026",tokenB=randomBytes(32).toString("hex");
+  const memberA=randomUUID(),memberB=randomUUID(),email=`${memberA}@example.com`,unregisteredEmail=`${randomUUID()}@example.com`,password="my strong passphrase 2026",tokenB=randomBytes(32).toString("hex");
   let cafeId="",previous:Record<string,unknown>|null=null;
   try{
     expect((await page.request.post("/api/admin/login",{data:{username:"admin",password:"admin"}})).ok()).toBe(true);
@@ -21,6 +21,13 @@ test("パスワードでログインし、店舗評価は本人だけが取得�
     await db.prepare("INSERT INTO members(id,email,created_at,nickname,password_hash,email_verified_at) VALUES(?,?,?,?,?,?)").bind(memberA,email,now,"本人",passwordHash(password),now).run();
     await db.prepare("INSERT INTO members(id,email,created_at,nickname,password_hash,email_verified_at) VALUES(?,?,?,?,?,?)").bind(memberB,`${memberB}@example.com`,now,"別の人",passwordHash(password),now).run();
     await db.prepare("INSERT INTO member_sessions(token_hash,member_id,expires_at) VALUES(?,?,?)").bind(tokenHash(tokenB),memberB,expires).run();
+    expect((await page.request.post("/api/account/register",{data:{email,nickname:"第三者",password,passwordConfirmation:password}})).status()).toBe(202);
+    await db.prepare("DELETE FROM member_email_codes WHERE email=?").bind(email).run();
+    expect((await page.request.post("/api/account/reset/request",{data:{email:unregisteredEmail}})).status()).toBe(202);
+    expect(await db.prepare("SELECT id FROM member_email_codes WHERE email=? AND purpose='reset'").bind(unregisteredEmail).first()).toBeTruthy();
+    await db.prepare("UPDATE member_email_codes SET code_hash=? WHERE email=? AND purpose='reset'").bind(passwordHash("123456"),unregisteredEmail).run();
+    expect((await page.request.post("/api/account/reset/confirm",{data:{email:unregisteredEmail,code:"123456",password,passwordConfirmation:password}})).status()).toBe(404);
+    await db.prepare("DELETE FROM member_email_codes WHERE email=?").bind(unregisteredEmail).run();
     const anonymous=await playwright.request.newContext({baseURL});
     try{expect((await anonymous.get("/api/account/ratings")).status()).toBe(401);}finally{await anonymous.dispose();}
     expect((await page.request.post("/api/account/login",{data:{email,password:"incorrect password"}})).status()).toBe(401);
@@ -45,8 +52,16 @@ test("パスワードでログインし、店舗評価は本人だけが取得�
     await saved.getByRole("button",{name:"閉じる"}).click();
     const updated=await(await page.request.get("/api/account/ratings")).json();
     expect(updated.ratings).toContainEqual(expect.objectContaining({cafe_id:cafeId,rating:4,note:"モーダルで保存した記録"}));
+    const otherTab=await page.context().newPage();
+    await otherTab.goto("/");
+    if(previous!.area==="tanukikoji")await otherTab.getByRole("tab",{name:/^狸小路/}).click();
+    await otherTab.getByRole("searchbox",{name:"店舗名・住所で検索"}).fill(String(previous!.name));
+    await otherTab.locator(".cafe-card").filter({has:otherTab.getByText(String(previous!.name),{exact:true})}).first().click();
+    await expect(otherTab.locator(".map-panel .selected-cafe").getByLabel("メモ")).toHaveValue("モーダルで保存した記録");
     await page.getByRole("button",{name:"ログアウト"}).click();
     await expect(page.getByRole("link",{name:"ログイン",exact:true})).toBeVisible();
+    await expect(otherTab.getByRole("link",{name:"ログイン",exact:true})).toBeVisible();
+    await expect(otherTab.getByText("モーダルで保存した記録")).toHaveCount(0);
     await expect(page.getByText("モーダルで保存した記録")).toHaveCount(0);
     if(previous!.area==="tanukikoji")await page.getByRole("tab",{name:/^狸小路/}).click();
     await page.getByRole("searchbox",{name:"店舗名・住所で検索"}).fill(String(previous!.name));

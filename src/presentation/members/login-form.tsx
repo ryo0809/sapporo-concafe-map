@@ -1,15 +1,14 @@
 "use client";
 import Link from "next/link";
-import {useRouter} from "next/navigation";
 import {useState} from "react";
 import {postAccount} from "./post-account";
+import {announceSessionChange} from "@/presentation/session-change";
 
 export function MemberLoginForm(){
-  const router=useRouter();
   const [email,setEmail]=useState(""),[password,setPassword]=useState(""),[pending,setPending]=useState(false),[error,setError]=useState("");
   async function submit(event:React.FormEvent){
     event.preventDefault();setPending(true);setError("");
-    try{await postAccount("/api/account/login",{email,password});router.replace("/");router.refresh();}
+    try{await postAccount("/api/account/login",{email,password});announceSessionChange();window.location.replace("/");}
     catch(error){setError(error instanceof Error?error.message:"ログインに失敗しました。");setPending(false);}
   }
   return <><form className="member-form" onSubmit={submit}>

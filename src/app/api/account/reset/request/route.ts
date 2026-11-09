@@ -10,8 +10,7 @@ export async function POST(request:Request) {
     const db=await getD1(),now=Date.now();
     await consumeAccountIpLimit(request,db,now);
     if(!await consumeEmailSendLimit(db,email,now))return accepted();
-    const member=await db.prepare("SELECT id FROM members WHERE email=?").bind(email).first();
-    if(member)await issueEmailCode(db,{email,purpose:"reset",now});
+    await issueEmailCode(db,{email,purpose:"reset",now});
     return accepted();
   } catch(error) { return memberApiError(error); }
 }
