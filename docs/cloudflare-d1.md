@@ -56,7 +56,7 @@ npm run db:sync -- --snapshot reports/snapshots/local-review.json
 
 この段階ではローカルD1の読み取りと同期SQLの生成だけを行います。リモートへの適用は新規の空DBに限定し、環境と `--confirm-domain sapporo-concafe-map.com` を明示します。`db:setup:remote` は旧SQLite／JSON向けの従来インポートであり、最新のローカルD1の編集を移す用途には使いません。
 
-レビュー後の配置コマンドは `npm run deploy -- --env production --confirm-domain sapporo-concafe-map.com` です。D1・問い合わせ先・本番SEO設定が未入力なら停止します。GitHubの手動配置ワークフローは別途Environmentの承認とDEPLOY_ENABLEDの有効化が必要です。
+レビュー後の配置コマンドは `npm run deploy -- --env production --confirm-domain sapporo-concafe-map.com` です。D1・問い合わせ先・本番SEO設定が未入力なら停止します。GitHubでは `DEPLOY_ENABLED=true` のときmainへのpushで本番配置が自動起動します。手動のstaging／production配置も利用でき、production Environmentの設定を使用します。
 
 本番の `SESSION_COOKIE_SECURE` は `wrangler.jsonc` で `true` に設定済みです。ローカルの `.dev.vars` では `false` を使用します。`.env.local` の初期アカウント設定をWorkerへ配布する必要はありません。管理者はD1に保存されています。
 
