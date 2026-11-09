@@ -3,5 +3,5 @@ import {SiteFooter} from "@/presentation/site/footer";
 
 export const metadata={title:"掲載情報について",alternates:{canonical:"/listing-information"}};
 export default function ListingInformation(){
-  return <><main className="information-page"><Link href="/">← マップに戻る</Link><h1>掲載情報について</h1><p>掲載情報の修正・削除・追加依頼は、<Link href="/contact">お問い合わせ</Link>からお願いします。</p><p>店舗名と、公式サイトやSNSなどの確認できるURL、ご依頼の内容をお知らせください。</p></main><SiteFooter/></>;
+  return <><main className="information-page"><Link href="/">← マップに戻る</Link><h1>掲載情報について</h1><p>掲載情報の修正・削除・追加依頼は、<Link href="/contact">お問い合わせ</Link>からお願いします。</p><p>店舗名と、公式サイトやSNSなどの確認できるURL、ご依頼の内容をお知らせください。</p><p>ログイン後、地図上の店舗詳細で自己評価とメモを保存できます。これらは掲載情報には含まれず、本人以外には公開されません。</p></main><SiteFooter/></>;
 }
