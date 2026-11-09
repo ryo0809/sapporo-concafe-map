@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     const saved = await db.prepare("SELECT id,name,email,category,store_name,reference_url,details_json,message,mail_sent_at FROM contact_messages WHERE id=?").bind(input.id).first<{id:string;name:string;email:string;category:keyof typeof contactCategories;store_name:string;reference_url:string;details_json:string;message:string;mail_sent_at:string|null}>();
     if (saved && !saved.mail_sent_at) {
       await sendEmail({
-        to: "ryo.tanagp1@gmail.com", key: `contact/${saved.id}`, subject: `【コンカフェマップ】お問い合わせ：${contactCategories[saved.category] ?? "その他"}`,
+        to: "ryo.tanagp1@gmail.com", subject: `【コンカフェマップ】お問い合わせ：${contactCategories[saved.category] ?? "その他"}`,
         text: `お問い合わせが届きました。\n種類: ${contactCategories[saved.category] ?? saved.category}\n管理画面で確認: ${new URL("/admin?tab=contacts", request.url)}`,
       });
       await db.prepare("UPDATE contact_messages SET mail_sent_at=? WHERE id=? AND mail_sent_at IS NULL").bind(new Date().toISOString(), saved.id).run();

@@ -60,14 +60,7 @@ npm run db:sync -- --snapshot reports/snapshots/local-review.json
 
 本番の `SESSION_COOKIE_SECURE` は `wrangler.jsonc` で `true` に設定済みです。ローカルの `.dev.vars` では `false` を使用します。`.env.local` の初期アカウント設定をWorkerへ配布する必要はありません。管理者はD1に保存されています。
 
-問い合わせメール通知と会員登録・パスワード再設定コードの送信にはResendの認証済み送信ドメインが必要です。`MAIL_FROM` にはそのドメインの送信アドレスを設定し、`RESEND_API_KEY` はWranglerのsecretとしてstagingとproductionにそれぞれ登録してください。ローカル開発では `.dev.vars` に同じ2変数を設定します。通知先は `ryo.tanagp1@gmail.com` です。メール設定がない環境では問い合わせ・確認コード送信は失敗します。E2E専用の開発Workerだけがモック送信を使用します。
-
-```bash
-npx wrangler secret put RESEND_API_KEY --env staging
-npx wrangler secret put MAIL_FROM --env staging
-npx wrangler secret put RESEND_API_KEY --env production
-npx wrangler secret put MAIL_FROM --env production
-```
+問い合わせメール通知と会員登録・パスワード再設定コードの送信にはCloudflare Email Serviceを使います。Cloudflareの Email Service > Email Sending で `sapporo-concafe-map.com` を送信ドメインとして有効化し、DNSの認証状態を確認してください。`wrangler.jsonc` の `EMAIL` binding と `MAIL_FROM=noreply@sapporo-concafe-map.com` を使い、ResendのAPIキーは不要です。通知先は `ryo.tanagp1@gmail.com` です。送信ドメインが未設定の場合は問い合わせ通知と確認コード送信が失敗します。E2E専用の開発Workerだけがモック送信を使用します。
 
 `0011`～`0014` のマイグレーションを公開前に適用してください。`0014` は既存のメールリンク会員にパスワード用列を追加します。同じメールアドレスで登録コードを確認すると、会員IDと非公開評価を引き継いでパスワードを設定できます。新規登録と再設定の確認コードは10分有効・使い捨てです。イベントバナーの画像は管理画面にHTTPSの画像URLを入力します。詳細ページを選ぶと登録した本文をサイト内で表示し、掲載期間外はバナーも詳細ページも公開されません。会員の店舗評価・メモはログイン中の本人にだけ返します。
 
