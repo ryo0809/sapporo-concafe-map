@@ -48,6 +48,7 @@ export function PrivateRating({cafeId}:{cafeId:string}){
   return <section className="private-rating" aria-label="自己評価">
     <h4>自己評価</h4>
     {state==="guest"?<p><Link href="/account/login">ログインして自己評価を記録</Link></p>:state==="error"?<p role="alert">自己評価を読み込めませんでした。店舗詳細を開き直してください。</p>:state==="loading"?<p>自己評価を確認中…</p>:<>
+      <p className="rating-disclosure">現在は自分だけに表示されます。星評価は今後公開される可能性があります。メモは公開しません。</p>
       <fieldset className="rating-fieldset"><legend>星評価</legend><div className="rating-stars">
         {stars.map(value=><label key={value} className={value<=rating?"selected":""} title={`${value}つ星`}>
           <input type="radio" name={`cafe-rating-${cafeId}`} value={value} checked={rating===value} disabled={busy} onChange={()=>setRating(value)} aria-label={`${value}つ星`}/>
@@ -62,7 +63,7 @@ export function PrivateRating({cafeId}:{cafeId:string}){
     <dialog ref={dialog} className="rating-dialog" aria-labelledby="rating-saved-title" aria-describedby="rating-saved-description">
       <span className="rating-dialog-check" aria-hidden="true">✓</span>
       <h2 id="rating-saved-title">自己評価を保存しました</h2>
-      <p id="rating-saved-description">※自分以外には公開されません</p>
+      <p id="rating-saved-description">現在は自分だけに表示されます。星評価は今後公開される可能性があります。メモは公開しません。</p>
       <button type="button" autoFocus onClick={()=>dialog.current?.close()}>閉じる</button>
     </dialog>
   </section>;
